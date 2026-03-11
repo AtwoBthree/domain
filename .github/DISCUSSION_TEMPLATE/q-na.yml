@@ -51,21 +51,6 @@ body:
     validations:
       required: false
 
-  - type: dropdown
-    id: related_project
-    attributes:
-      label: "📂 관련 프로젝트"
-      description: |
-        어떤 프로젝트와 관련된 질문인가요?
-      options:
-        - "Common (공통/기타)"
-        - "FIGMENT"
-        - "timepyo"
-        - "Meal Ticket"
-        - "Infra/Server (Windows/Mac Mini)"
-    validations:
-      required: true
-
   - type: textarea
     id: expected_outcome
     attributes:
