@@ -1,0 +1,26 @@
+# .github/DISCUSSION_TEMPLATE/ideas.yml
+title: "[아이디어] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 멋진 아이디어를 제안해 주세요!
+        자유롭게 의견을 나누고 프로젝트를 함께 발전시켜 보아요.
+
+  - type: textarea
+    id: idea-description
+    attributes:
+      label: 🚀 어떤 아이디어인가요?
+      description: 제안하고 싶은 새로운 기능이나 개선 사항을 구체적으로 적어주세요.
+      placeholder: ex) 이런 기능이 추가되면 사용자 경험이 훨씬 좋아질 것 같아요!
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-benefit
+    attributes:
+      label: 🤔 왜 이 아이디어가 필요한가요? (기대 효과)
+      description: 이 아이디어가 도입되면 어떤 점이 좋아지는지, 혹은 기존의 어떤 불편함을 해결할 수 있는지 적어주세요.
+    validations:
+      required: false
