@@ -1,4 +1,5 @@
 # .github/DISCUSSION_TEMPLATE/ideas.yml
+![Ideas](https://img.shields.io/badge/Ideas-F5A623?style=for-the-badge&logo=github&logoColor=white)
 title: "[아이디어] "
 labels: ["enhancement"]
 body:
