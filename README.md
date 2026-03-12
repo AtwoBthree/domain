@@ -1,6 +1,11 @@
-# 📝 LMS (Learning Management System)
+<div align="center">
+
+# 🎓 
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=900&size=70&pause=1000&color=007EC6&center=true&vCenter=true&width=800&height=150&lines=LMS+PROJECT;Learning+Management+System" alt="LMS PROJECT" />
+
 <p align="center">
-  <img src="https://capsule-render.vercel.app/render?type=waving&color=auto&height=250&section=header&text=LMS%20PROJECT&fontSize=90&animation=fadeIn&fontAlignY=38" />
+  <strong>JAVA와 JDBC를 활용한 안정적인 학사 관리 시스템</strong><br>
+  데이터베이스 설계부터 효율적인 CRUD 구현까지 집중한 프로젝트입니다.
 </p>
 
 <p align="center">
@@ -9,10 +14,8 @@
   <img src="https://img.shields.io/badge/JDBC-007396?style=for-the-badge&logo=java&logoColor=white">
 </p>
 
-<p align="center">
-  <strong>JAVA와 JDBC를 활용한 안정적인 학사 관리 시스템</strong><br>
-  데이터베이스 설계부터 효율적인 CRUD 구현까지 집중한 프로젝트입니다.
-</p>
+<br>
+</div>
 
 ---
 
