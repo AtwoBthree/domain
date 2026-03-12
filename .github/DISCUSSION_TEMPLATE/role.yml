@@ -5,21 +5,42 @@ body:
       value: |
         ## 👥 팀원 역할 정의
         프로젝트에서 각자 담당하고 있는 파트와 세부 역할을 작성해 주세요.
+        
   - type: textarea
-    id: role-assignment
+    id: member-1
     attributes:
-      label: "역할 및 담당자"
-      description: "아래 양식에 맞춰 4명의 이름과 담당 파트를 작성해 주세요."
+      label: "팀원 1"
       value: |
         이름
         - [ ] 
-        
+    validations:
+      required: true
+
+  - type: textarea
+    id: member-2
+    attributes:
+      label: "팀원 2"
+      value: |
         이름
         - [ ] 
-        
+    validations:
+      required: true
+
+  - type: textarea
+    id: member-3
+    attributes:
+      label: "팀원 3"
+      value: |
         이름
         - [ ] 
-        
+    validations:
+      required: true
+
+  - type: textarea
+    id: member-4
+    attributes:
+      label: "팀원 4"
+      value: |
         이름
         - [ ] 
     validations:
