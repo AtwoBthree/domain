@@ -5,39 +5,39 @@ body:
       value: |
         ## 👥 팀원 역할 정의
         프로젝트에서 각자 담당하고 있는 파트와 세부 역할을 작성해 주세요.
-        
+
   - type: textarea
     id: member-1
     attributes:
-      label: "김진도"
+      label: "여기에 첫 번째 팀원 이름 입력"
       value: |
-        - [ ] 역할내용
+        - [ ] 
     validations:
       required: true
 
   - type: textarea
     id: member-2
     attributes:
-      label: "백승재"
+      label: "여기에 두 번째 팀원 이름 입력"
       value: |
-        - [ ] 역할내용
+        - [ ] 
     validations:
       required: true
 
   - type: textarea
     id: member-3
     attributes:
-      label: "이채연"
+      label: "여기에 세 번째 팀원 이름 입력"
       value: |
-        - [ ] 역할내용
+        - [ ] 
     validations:
       required: true
 
   - type: textarea
     id: member-4
     attributes:
-      label: "이하연"
+      label: "여기에 네 번째 팀원 이름 입력"
       value: |
-        - [ ] 역할내용
+        - [ ] 
     validations:
       required: true
