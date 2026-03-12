@@ -9,7 +9,7 @@ body:
   - type: textarea
     id: member-1
     attributes:
-      label: "여기에 첫 번째 팀원 이름 입력"
+      label: "김진도"
       value: |
         - [ ] 
     validations:
@@ -18,7 +18,7 @@ body:
   - type: textarea
     id: member-2
     attributes:
-      label: "여기에 두 번째 팀원 이름 입력"
+      label: "백승재"
       value: |
         - [ ] 
     validations:
@@ -27,7 +27,7 @@ body:
   - type: textarea
     id: member-3
     attributes:
-      label: "여기에 세 번째 팀원 이름 입력"
+      label: "이채연"
       value: |
         - [ ] 
     validations:
@@ -36,7 +36,7 @@ body:
   - type: textarea
     id: member-4
     attributes:
-      label: "여기에 네 번째 팀원 이름 입력"
+      label: "이하연"
       value: |
         - [ ] 
     validations:
