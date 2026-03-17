@@ -11,6 +11,10 @@ public class UserInputView {
     private final UserOutputView outputView;
     private final Scanner sc = new Scanner(System.in);
 
+    //사용자 역할
+    String role;
+
+
     public UserInputView(UserController controller, UserOutputView outputView) {
         this.controller = controller;
         this.outputView = outputView;
@@ -20,18 +24,26 @@ public class UserInputView {
         while (true) {
             System.out.println();
             System.out.println("======================================");
-            System.out.println("              쿼리테스트 환경            ");
+            System.out.println("              로그인화면                ");
             System.out.println("======================================");
-            System.out.println("1. User Select All");
-            System.out.println("2. User Select All where ID");
-            System.out.println("3. add User");
-            System.out.println("4. delete User");
+            System.out.print("아이디: ");
+            String id = sc.nextLine();
+            System.out.print("비밀번호: ");
+            String password = sc.nextLine();
 
-            int menu = inputInt();
+            //받아오는 함수 구현해야함
+            role = "student";
 
-            switch (menu) {
-                case 1:
-                    UserSelect();
+
+            switch (role) {
+                case "student":
+                    //메소드 구현필요
+                    break;
+                case "instructor":
+                    //메소드 구현필요
+                    break;
+                case "admin":
+                    //메소드 구현필요
                     break;
                 default:
                     outputView.printError("다시선택해주세요");
