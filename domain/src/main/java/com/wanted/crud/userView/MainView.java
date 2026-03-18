@@ -14,9 +14,6 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MainView {
-    public static void loginScreen() {
-
-    }
 
     //로그인 화면
 

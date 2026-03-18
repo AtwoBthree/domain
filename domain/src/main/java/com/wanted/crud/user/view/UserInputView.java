@@ -68,19 +68,7 @@ public class UserInputView {
             return role;
 
             // 로그인시 내정보 조회가 가능하게끔 매개변수로 loginUser 전달
-            switch (role) {
-                case "STUDENT":
-                    studentInputView.studentMenu(loginUser);
-                    break;
-                case "INSTRUCTOR":
-                    instructorInputView.instructorMenu(loginUser);
-                    break;
-                case "ADMIN":
-                    adminInputView.adminMenu();
-                    break;
-                default:
-                    outputView.printError("다시 선택해주세요");
-            }
+
         }
     }
 
