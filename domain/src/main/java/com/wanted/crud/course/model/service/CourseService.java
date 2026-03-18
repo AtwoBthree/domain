@@ -39,38 +39,22 @@ public class CourseService {
 
     public List<CourseDTO> findAllCourses() {
 
-        try {
-            return courseDAO.findAll();
-        } catch (SQLException e) {
-            throw new RuntimeException("강의 전체 조회 중 Error 발생!! 🚨🚨" + e);
-        }
+        return courseDAO.findAll();
     }
 
     public Long saveCourse(CourseDTO newCourse) {
 
-        try {
-            return courseDAO.save(newCourse);
-        } catch (SQLException e) {
-            throw new RuntimeException("강좌 등록 중 Error 발생!!! 🚨");
-        }
+        return courseDAO.save(newCourse);
     }
 
     public int deleteCourse(long id) {
 
-        try {
-            return courseDAO.delete(id);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return courseDAO.delete(id);
     }
 
     public CourseDTO findById(long id){
 
-        try {
-            return courseDAO.find(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("강좌 상세 조회 중 오류 발생!! 🚨");
-        }
+        return courseDAO.find(id);
     }
 
     public CourseSectionDTO findCourseWithSections(long courseId) {

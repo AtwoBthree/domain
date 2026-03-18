@@ -1,7 +1,6 @@
-package com.wanted.crud.course.view;
+package com.wanted.crud.user.view;
 
-import com.wanted.crud.course.model.dao.UserDAO;
-import com.wanted.crud.course.model.dto.UserDTO;
+import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
-package com.wanted.crud.course.model.dto;
+package com.wanted.crud.user.model.dto;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class UserDTO {
@@ -111,5 +110,12 @@ public class UserDTO {
         this.userRole = userRole;
         this.createdAt = createdAt;
         this.status = status;
+    }
+
+    // 로그인 전용 생성자입니다.
+    public UserDTO(String userId, String password, String role) {
+        this.userId = userId;
+        this.userPassword = password;
+        this.userRole = role;
     }
 }

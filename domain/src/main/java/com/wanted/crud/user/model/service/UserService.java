@@ -1,12 +1,11 @@
-package com.wanted.crud.course.model.service;
+package com.wanted.crud.user.model.service;
 
-import com.wanted.crud.course.model.dao.UserDAO;
-import com.wanted.crud.course.model.dto.UserDTO;
+import com.wanted.crud.user.model.dao.UserDAO;
+import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-
 
 
 public class UserService {
@@ -25,5 +24,11 @@ public class UserService {
     }
 
 
-
+    public UserDTO login(String id, String password) {
+        try {
+            return userDAO.login(id, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+}

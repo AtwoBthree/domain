@@ -1,21 +1,25 @@
 package com.wanted.crud.course.model.dto;
 
+import java.util.Date;
+
 public class CourseDTO {
 
     private Long courseId;
-    private Long authorId;
     private String title;
     private String description;
+    private Long price;
     private String status;
+    private Date createdAt;
+    private Long instructorId;
 
-    public CourseDTO() {}
-
-    public CourseDTO(Long courseId, Long authorId, String title, String description, String status) {
+    public CourseDTO(Long courseId, String title, String description, Long price, String status, Date createdAt, Long instructorId) {
         this.courseId = courseId;
-        this.authorId = authorId;
         this.title = title;
         this.description = description;
+        this.price = price;
         this.status = status;
+        this.createdAt = createdAt;
+        this.instructorId = instructorId;
     }
 
     public Long getCourseId() {
@@ -24,14 +28,6 @@ public class CourseDTO {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
     }
 
     public String getTitle() {
@@ -50,6 +46,14 @@ public class CourseDTO {
         this.description = description;
     }
 
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -58,14 +62,32 @@ public class CourseDTO {
         this.status = status;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Long getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(Long instructorId) {
+        this.instructorId = instructorId;
+    }
+
     @Override
     public String toString() {
         return "CourseDTO{" +
                 "courseId=" + courseId +
-                ", authorId=" + authorId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", price=" + price +
                 ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                ", instructorId=" + instructorId +
                 '}';
     }
 }

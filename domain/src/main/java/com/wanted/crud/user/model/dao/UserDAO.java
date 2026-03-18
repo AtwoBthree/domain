@@ -1,8 +1,8 @@
-package com.wanted.crud.course.model.dao;
+package com.wanted.crud.user.model.dao;
 
 import com.wanted.crud.course.model.dto.CourseDTO;
-import com.wanted.crud.course.model.dto.UserDTO;
 import com.wanted.crud.global.utils.QueryUtil;
+import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,4 +47,27 @@ public class UserDAO {
 
         return null;
     }
+
+    public UserDTO login(String id, String password) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.login");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, id);
+            pstmt.setString(2, password);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new UserDTO(
+                        rs.getString("user_id"),
+                        rs.getString("user_password"),
+                        rs.getString("user_role")
+                );
+            }
+        }
+        return null;
+    }
 }
+

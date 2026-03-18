@@ -1,7 +1,7 @@
-package com.wanted.crud.course.controller;
+package com.wanted.crud.user.controller;
 
-import com.wanted.crud.course.model.dto.UserDTO;
-import com.wanted.crud.course.model.service.UserService;
+import com.wanted.crud.user.model.dto.UserDTO;
+import com.wanted.crud.user.model.service.UserService;
 
 import java.util.List;
 
@@ -14,5 +14,9 @@ public class UserController {
 
     public List<UserDTO> selectAllUsers() {
         return service.selectAllUsers();
+    }
+
+    public UserDTO login(String id, String password) {
+        return service.login(id, password);
     }
 }

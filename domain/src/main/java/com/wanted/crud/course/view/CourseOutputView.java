@@ -44,7 +44,7 @@ public class CourseOutputView {
 
         System.out.println("===========강좌+섹션 Join 결과 확인!=============");
         System.out.println("강좌 ID : " + courseDetail.getCourseId());
-        System.out.println("작성자 ID : " + courseDetail.getAuthorId());
+//        System.out.println("작성자 ID : " + courseDetail.getAuthorId());
         System.out.println("강좌명 : " + courseDetail.getTitle());
         System.out.println("강좌 설명 : " + courseDetail.getDescription());
         System.out.println("상태 : " + courseDetail.getStatus());
@@ -59,9 +59,9 @@ public class CourseOutputView {
 
         for (SectionDTO section : sections) {
             System.out.println(
-                    section.getSectionOrder() + ". "
-                            + section.getTitle()
-                            + " (섹션 ID: " + section.getSectionId() + ")"
+//                    section.getSectionOrder() + ". "
+//                            + section.getTitle()
+//                            + " (섹션 ID: " + section.getSectionId() + ")"
             );
         }
 

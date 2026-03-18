@@ -1,19 +1,25 @@
 package com.wanted.crud.course.model.dto;
 
+import java.util.Date;
+
 public class SectionDTO {
 
     private Long sectionId;
-    private Long courseId;
     private String title;
-    private int sectionOrder;
+    private String videoUrl;
+    private String materialUrl;
+    private Date createdAt;
+    private Long courseId;
 
     public SectionDTO() {}
 
-    public SectionDTO(Long sectionId, Long courseId, String title, int sectionOrder) {
+    public SectionDTO(Long sectionId, String title, String videoUrl, String materialUrl, Date createdAt, Long courseId) {
         this.sectionId = sectionId;
-        this.courseId = courseId;
         this.title = title;
-        this.sectionOrder = sectionOrder;
+        this.videoUrl = videoUrl;
+        this.materialUrl = materialUrl;
+        this.createdAt = createdAt;
+        this.courseId = courseId;
     }
 
     public Long getSectionId() {
@@ -24,14 +30,6 @@ public class SectionDTO {
         this.sectionId = sectionId;
     }
 
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -40,21 +38,47 @@ public class SectionDTO {
         this.title = title;
     }
 
-    public int getSectionOrder() {
-        return sectionOrder;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public void setSectionOrder(int sectionOrder) {
-        this.sectionOrder = sectionOrder;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getMaterialUrl() {
+        return materialUrl;
+    }
+
+    public void setMaterialUrl(String materialUrl) {
+        this.materialUrl = materialUrl;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     @Override
     public String toString() {
         return "SectionDTO{" +
                 "sectionId=" + sectionId +
-                ", courseId=" + courseId +
                 ", title='" + title + '\'' +
-                ", sectionOrder=" + sectionOrder +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", materialUrl='" + materialUrl + '\'' +
+                ", createdAt=" + createdAt +
+                ", courseId=" + courseId +
                 '}';
     }
 }

@@ -55,4 +55,44 @@
         from user
     </query>
 
+    <query key="payment.selectAll">
+        select
+        *
+        from payment
+    </query>
+
+    <query key="refund.selectAll">
+        select
+        *
+        from refund
+    </query>
+
+    <query key="settlement.findById">
+        select
+        *
+        from settlement
+        where instructor_id = ?
+    </query>
+
+
+    <query key="student.selectAll">
+        select
+        *
+        from student
+    </query>
+
+    <query key="instructor.selectAll">
+        select
+        *
+        from instructor
+    </query>
+
+    <query key="users.login">
+        SELECT user_id, user_password, user_role
+        FROM user
+        WHERE user_id = ? AND user_password = ?
+    </query>
+
+
+
 </properties>
