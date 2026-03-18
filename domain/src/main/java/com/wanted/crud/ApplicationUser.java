@@ -1,15 +1,8 @@
-package com.wanted.crud;
+/*package com.wanted.crud;
 
 
 
 import com.wanted.crud.global.config.JDBCTemplate;
-import com.wanted.crud.user.controller.InstructorController;
-import com.wanted.crud.user.controller.StudentController;
-import com.wanted.crud.user.controller.UserController;
-import com.wanted.crud.user.model.service.InstructorService;
-import com.wanted.crud.user.model.service.StudentService;
-import com.wanted.crud.user.model.service.UserService;
-import com.wanted.crud.user.view.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -57,10 +50,11 @@ public class ApplicationUser {
             );
 
 
-            userInput.displayMainMenu();
+//            userInput.displayMainMenu();
         } catch (SQLException e) {
             throw new RuntimeException("🚨데이터베이스 연결 실패");
         }
 
     }
 }
+*/

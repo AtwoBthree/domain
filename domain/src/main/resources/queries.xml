@@ -55,6 +55,13 @@
         from user
     </query>
 
+    <query key="users.findById">
+        select
+            *
+        from user
+        where user_id = ?
+    </query>
+
     <query key="payment.selectAll">
         select
         *
@@ -81,6 +88,13 @@
         from student
     </query>
 
+    <query key="student.findById">
+        select
+        *
+        from student
+        where student_id = ?
+    </query>
+
     <query key="instructor.selectAll">
         select
         *
@@ -91,6 +105,11 @@
         SELECT user_id, user_password, user_role
         FROM user
         WHERE user_id = ? AND user_password = ?
+    </query>
+
+    <query key="users.insert">
+        INSERT INTO user (user_id, user_password, user_name, user_phone_number, user_role)
+        VALUES (?, ?, ?, ?, ?);
     </query>
 
 
