@@ -33,6 +33,20 @@ public class UserInputView {
         return role;
     }
 
+    public Long loginGetNo(String id, String password) {
+        UserDTO loginUser = controller.login(id, password);
+
+        if (loginUser == null) {
+            outputView.printError("user_no가 없습니다.");
+        }
+
+        Long user_no = null;
+        if (loginUser != null) {
+            user_no = loginUser.getUserNo();
+        }
+        return user_no;
+    }
+
 
     public void displayRegister() {
         while (true) {

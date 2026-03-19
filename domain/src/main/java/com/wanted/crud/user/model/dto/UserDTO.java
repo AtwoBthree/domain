@@ -120,7 +120,8 @@ public class UserDTO {
     }
 
     //
-    public UserDTO(String userId, String password, String role, String userPhoneNumber) {
+    public UserDTO(Long userNo, String userId, String password, String role, String userPhoneNumber) {
+        this.userNo = userNo;
         this.userId = userId;
         this.userPassword = password;
         this.userRole = role;
