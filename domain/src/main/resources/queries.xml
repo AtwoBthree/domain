@@ -69,6 +69,11 @@
         where user_id = ? and user_phone_number = ?
     </query>
 
+    <query key="users.drop">
+        UPDATE `user` SET status = false
+        WHERE user_id = ? AND user_password = ? AND status = true
+    </query>
+
     <query key="instructor.findId">
         select instructor_id
         from instructor
@@ -109,6 +114,20 @@
         where student_id = ?
     </query>
 
+    <query key="student.update">
+        update user
+        set user_name = ?,
+        user_password = ?,
+        user_phone_number = ?
+        where user_no = ?
+    </query>
+
+    <query key="users.findNo">
+        select
+            *
+        from user
+        where user_no = ?
+    </query>
 
 
     <query key="instructor.selectAll">
@@ -120,7 +139,7 @@
     <query key="users.login">
         SELECT user_no, user_id, user_password, user_role
         FROM user
-        WHERE user_id = ? AND user_password = ?
+        WHERE user_id = ? AND user_password = ? AND status = true
     </query>
 
     <query key="users.insert">

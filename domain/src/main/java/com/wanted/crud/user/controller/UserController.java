@@ -28,7 +28,7 @@ public class UserController {
 
     public Long createUser(String id, String password, String name, String phoneNumber, String role) {
 
-        UserDTO newUser = new UserDTO(1L, id, password, name, phoneNumber, null, role, null, true);
+        UserDTO newUser = new UserDTO(null, id, password, name, phoneNumber, null, role, null, true);
         return service.saveUser(newUser);
     }
 
@@ -37,6 +37,11 @@ public class UserController {
         return service.selectAllStudents();
     }
 
+    // 회원탈퇴
+    public boolean dropUser(String id, String password) {
+
+        return service.dropUser(id, password);
+    }
 
 
 
@@ -57,5 +62,14 @@ public class UserController {
     public Long instructorFindId(Long userno) {
         return service.findInstructorId(userno);
     }
+
+    public boolean updateStudent(UserDTO userDTO) {
+        return service.updateStudent(userDTO);
+    }
+
+    public UserDTO findNo(Long userNo) {
+        return service.findNo(userNo);
+    }
+
 
 }
