@@ -37,16 +37,25 @@ public class UserController {
         return service.selectAllStudents();
     }
 
-    public StudentDTO findCourseById(long id) {
-        try {
-            return service.findById(id);
-        } catch (SQLException e) {
-            throw new RuntimeException("강좌 상세 조회 중 오류 발생!! 🚨");
-        }
+
+
+
+    // 비번 찾기 메서드
+    public String findPassword(String userid, String phoneNumber) {
+        return service.findPassord(userid, phoneNumber);
+    }
+
+    public String findId(String name, String phoneNumber) {
+        return service.findId(name, phoneNumber);
     }
 
     // ===== Instructor =====
     public List<InstructorDTO> selectAllInstructors() {
         return service.selectAllInstructors();
     }
+
+    public Long instructorFindId(Long userno) {
+        return service.findInstructorId(userno);
+    }
+
 }

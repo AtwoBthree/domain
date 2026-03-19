@@ -35,6 +35,24 @@ public class UserService {
         }
     }
 
+
+
+    public String findId(String name, String phone_number) {
+        try {
+            return userDAO.findId(name, phone_number);
+        } catch (SQLException e) {
+            throw new RuntimeException("유저 아이디를 찾는 중 Error 발생!!");
+        }
+    }
+
+    public String findPassord(String userid, String userphonenumber ) {
+        try {
+            return userDAO.findPassword(userid, userphonenumber);
+        } catch (SQLException e) {
+            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!");
+        }
+    }
+
     public UserDTO login(String id, String password) {
         try {
             return userDAO.login(id, password);
@@ -61,7 +79,7 @@ public class UserService {
         }
     }
 
-    public StudentDTO findById(long id) throws SQLException {
+    public StudentDTO findPassword(long id) throws SQLException {
         return studentDAO.findById(id);
     }
 
@@ -72,5 +90,17 @@ public class UserService {
         } catch (SQLException e) {
             throw new RuntimeException("강사 전체 조회 중 Error 발생!! /UserService2");
         }
+    }
+
+    // 강사 번호 리턴
+    public Long findInstructorId(Long userno) {
+        try {
+            if(instructorDAO.findId(userno) != null) {
+                return instructorDAO.findId(userno);
+            } else System.out.println("조회된 강사번호가 없음");
+        } catch (SQLException e) {
+            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!!");
+        }
+        return null;
     }
 }

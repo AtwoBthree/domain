@@ -55,12 +55,26 @@
         from user
     </query>
 
-    <query key="users.findById">
+    <query key="users.findId">
         select
-            *
+        user_id
         from user
-        where user_id = ?
+        where user_name = ? and user_phone_number = ?
     </query>
+
+    <query key="users.findPassword">
+        select
+         user_password
+        from user
+        where user_id = ? and user_phone_number = ?
+    </query>
+
+    <query key="instructor.findId">
+        select instructor_id
+        from instructor
+        where user_no = ?
+    </query>
+
 
     <query key="payment.selectAll">
         select
@@ -94,6 +108,8 @@
         from student
         where student_id = ?
     </query>
+
+
 
     <query key="instructor.selectAll">
         select

@@ -119,11 +119,25 @@ public class UserDTO {
         this.userRole = role;
     }
 
-    //
+
     public UserDTO(Long userNo, String userId, String password, String role, String userPhoneNumber) {
         this.userNo = userNo;
         this.userId = userId;
         this.userPassword = password;
         this.userRole = role;
     }
+
+    // 아이디, 비번 찾기 생성자
+    public UserDTO(String userId, String password) {
+        this.userId = userId;
+        this.userPassword = password;
+    }
+
+
+
+    // 아이디 찾기 전용 생성자입니다.
+
+
+
+
 }

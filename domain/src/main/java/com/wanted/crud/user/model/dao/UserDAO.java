@@ -44,28 +44,33 @@ public class UserDAO {
         return userList;
     }
 
-    //마이페이지에 쓰일 정보.
-    public UserDTO findById(long id) throws SQLException {
-        String query = QueryUtil.getQuery("users.findById");
+    // 아이디 찾기
+    public String findId(String name, String phone_number) throws SQLException {
+        String query = QueryUtil.getQuery("users.findId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1, id);
+            pstmt.setString(1, name);
+            pstmt.setString(2, phone_number);
 
-            //select 결과는 ResultSet 객체로 변환!!
             ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return rset.getString("user_id"); // 비밀번호 리턴
+            }
+        }
+        return null;
+    }
 
-            if(rset.next()) {
-                return new UserDTO(
-                        rset.getLong("user_no"),
-                        rset.getString("user_id"),
-                        rset.getString("user_password"),
-                        rset.getString("user_name"),
-                        rset.getString("user_phone_number"),
-                        rset.getLong("user_price"),
-                        rset.getString("user_role"),
-                        rset.getDate("created_at"),
-                        rset.getBoolean("status")
-                );
+    // 비번 찾기
+    public String findPassword(String userid, String phone_number) throws SQLException {
+        String query = QueryUtil.getQuery("users.findPassword");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, userid);
+            pstmt.setString(2, phone_number);
+
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return rset.getString("user_password"); // 비밀번호 리턴
             }
         }
         return null;
