@@ -88,9 +88,11 @@ public class UserDAO {
             if (rs.next()) {
                 return new UserDTO(
                         //  여기에 user_no 도 getString
+                        rs.getLong("user_no"),
                         rs.getString("user_id"),
                         rs.getString("user_password"),
-                        rs.getString("user_role")
+                        rs.getString("user_role"),
+                        rs.getString("user_phone_number")
                 );
             }
         }
