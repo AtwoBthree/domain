@@ -146,9 +146,10 @@ public class InstructorMenu {
                 case 2:
                     System.out.println("\n--- 강좌 삭제 ---");
                     viewMyCourse();
-                    System.out.print("강좌번호 혹은 제목을 입력해주세요: ");
-                    String input = sc.nextLine();
-                    System.out.println("[Inst-02] 입력받은 강좌[" + input + "] 삭제 로직 연결 자리");
+                    if (Application.courseInputView != null) {
+//                        Long myId = Application.userNo;
+//                        Application.courseInputView.deleteCourse(myId);
+                    }
                     break;
                 case 3:
                     editCourseMenu();

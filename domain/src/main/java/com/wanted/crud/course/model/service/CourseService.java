@@ -78,11 +78,14 @@ public class CourseService {
     }
 
     // 내 강좌 삭제
-    public int deleteCourse(long id){
-        try{
-            return courseDAO.delete(id);
+    public boolean deleteCourseById(Long courseId, Long instructorId) {
+        try {
+            // DB 단에서 CASCADE가 걸려있으므로, 부모 강좌 하나만 지우라고 DAO에 시키면 끝!
+            return courseDAO.deleteCourse(courseId, instructorId);
+
         } catch (SQLException e) {
-            throw new RuntimeException("강좌 삭제 중 Error 발생!! 🚨");
+            System.out.println("🚨 강좌 삭제 중 Error 발생: " + e.getMessage());
+            return false;
         }
     }
 

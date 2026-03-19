@@ -79,24 +79,26 @@ public class CourseInputView {
     }
 
     // 내 강좌 삭제
-     private void deleteCourse(Long id) {
-         System.out.print("삭제할 강좌 번호를 입력해주세요 : ");
+    public void deleteCourse(Long instructorId) {
+        outputView.printMessage("\n--- 🗑️ 강좌 삭제 ---");
+        System.out.print("삭제할 본인의 강좌 번호를 정확히 입력해주세요 : ");
 
-         boolean result = controller.deleteCourseById(id);
+        long targetCourseId;
 
-         if (result) {
-             outputView.printSuccess("과정 삭제 성공!");
-             //CourseDTO deleteCourse = controller.findCourseById(id);
+        try {
+            targetCourseId = Long.parseLong(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            outputView.printError("[오류] 문자가 아닌 숫자로 된 강좌 번호를 입력해주세요.");
+            return;
+        }
 
-//            if (deleteCourse == null){
-//                outputView.printMessage("🚮 확인" + id + "번 과정이 정상 삭제 되었습니다.");
-//            } else {
-//                outputView.printError("🚨 삭제 확인 중 문제 발생!!");
-//            }
 
-         } else {
-             outputView.printError("과정 삭제 실패 : 해당 ID의 과정이 없습니다.");
-         }
+        boolean result = controller.deleteCourseById(targetCourseId, instructorId);
 
-     }
+        if (result) {
+            outputView.printSuccess("✅ " + targetCourseId + "번 강좌와 강의가 삭제되었습니다!");
+        } else {
+            outputView.printError("❌ 강좌 삭제 실패 : 해당 번호의 강좌가 없거나, 본인의 강좌가 아닙니다.");
+        }
+    }
 }

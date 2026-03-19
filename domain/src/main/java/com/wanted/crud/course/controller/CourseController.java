@@ -33,8 +33,8 @@ public class CourseController {
         return service.saveSection(newSection);
     }
 
-    public boolean deleteCourseById(long id) {
-        return service.deleteCourse(id) > 0; // 0보다 크면 true
+    public boolean deleteCourseById(Long courseId, Long instructorId) {
+        return service.deleteCourseById(courseId, instructorId);
     }
 
     public List<Long> findCoursesId(Long instructorId) {

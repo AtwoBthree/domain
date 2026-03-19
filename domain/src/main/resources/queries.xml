@@ -39,6 +39,11 @@
         from payment
     </query>
 
+    <query key="payment.save">
+        update
+        set
+    </query>
+
     <query key="refund.selectAll">
         select
         *
@@ -140,12 +145,7 @@
 
     <query key = "course.deleteCourse">
         DELETE FROM course
-        WHERE course_id = ?
-    </query>
-
-    <query key="course.deleteSectionsByCourseId">
-        DELETE FROM section
-        WHERE course_id = ?
+        WHERE course_id = ? AND instructor_id = ?
     </query>
 
     <query key="course.findId">
@@ -154,6 +154,12 @@
         where instructor_id = ?
     </query>
 
+    <query key="instructor.findId">
+        select
+            instructor_id
+        from instructor
+        where user_no = ?
+    </query>
 
 
 </properties>

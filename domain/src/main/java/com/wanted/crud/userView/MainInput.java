@@ -22,7 +22,7 @@ public class MainInput {
     public void startApp() {
         while(true) {
             if (userNo == null) {
-                System.out.println("유저노는 눌이야!!");
+                System.out.println("userNo = null");
             }
             System.out.println("1. 로그인 2. 회원가입 3.ID/password 찾기 4. 프로그램 종료");
             System.out.print("메뉴 선택: ");
@@ -82,8 +82,6 @@ public class MainInput {
         role = userInputView.loginSession(id, password);
         userNo = userInputView.loginGetNo(id, password);
         instructorId = userInputView.instructorId(userNo);
-        findcourseid = courseInputView.findCourseId(instructorId);
-        System.out.println("강좌번호: " + findcourseid);
 
         // [Main-03] 실제 DB 조회 후 role을 판단하는 로그인 인증 로직이 들어갈 자리입니다.
         System.out.println("[Main-03] 로그인 인증 및 세션 처리 로직 구현 예정");

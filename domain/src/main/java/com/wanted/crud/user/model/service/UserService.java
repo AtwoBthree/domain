@@ -128,7 +128,7 @@ public class UserService {
                 return instructorDAO.findId(userNo);
             } else System.out.println("조회된 강사번호가 없음");
         } catch (SQLException e) {
-            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!!");
+            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!! +", e);
         }
         return null;
     }

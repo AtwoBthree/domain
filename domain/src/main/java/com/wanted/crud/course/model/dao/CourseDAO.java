@@ -45,26 +45,22 @@ public class CourseDAO {
     }
 
 
+    // CourseDAO.java 내부 수정
     public List<Long> findcourseid(Long instructorId) throws SQLException {
-        // 쿼리 이름 변경 (강사 번호로 강좌 번호들 찾기)
         String query = QueryUtil.getQuery("course.findId");
-
-        // 번호들을 담을 빈 바구니(List) 준비
         List<Long> courseIdList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            // 1. 파라미터로 '강사 번호'를 세팅합니다.
             pstmt.setLong(1, instructorId);
 
             try (ResultSet rset = pstmt.executeQuery()) {
-                // 2. 강좌가 여러 개일 수 있으니 if 대신 ★while★을 사용합니다!
                 while (rset.next()) {
-                    // 3. DB에서 찾은 강좌 번호를 바구니에 차곡차곡 담습니다.
-                    courseIdList.add(rset.getLong("instructor_id"));
+                    // ✅ 수정 완료: DB가 가져온 'course_id'를 그대로 꺼내서 담습니다.
+                    courseIdList.add(rset.getLong("course_id"));
                 }
             }
         }
-        return courseIdList; // 4. 다 담은 바구니를 Service로 리턴!
+        return courseIdList;
     }
 
 
@@ -124,14 +120,17 @@ public class CourseDAO {
 
 
     // 내 강좌 삭제
-    public int delete(long id) throws SQLException {
-
+    // CourseDAO.java 내부
+    public boolean deleteCourse(Long courseId, Long instructorId) throws SQLException {
         String query = QueryUtil.getQuery("course.deleteCourse");
 
-        try (
-            PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1, id);
-            return pstmt.executeUpdate();
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, courseId);
+            pstmt.setLong(2, instructorId);
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0;
         }
     }
 
