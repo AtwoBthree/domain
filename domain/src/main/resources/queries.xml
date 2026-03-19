@@ -1,54 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
 
-    <query key="course.findAll">
-        select
-            *
-        from courses
-    </query>
-
-    <query key="course.save">
-        insert into courses (author_id , title , description , status)
-        values (? , ? , ? , ?)
-    </query>
-
-    <query key="course.delete">
-        delete from courses
-        where course_id = ?
-    </query>
-
-    <query key="course.findById">
-        select
-            *
-        from courses
-        where course_id = ?
-    </query>
-
-    <query key="course.findCourseWithSections">
-        select
-            c.course_id,
-            c.author_id,
-            c.title,
-            c.description,
-            c.status,
-            s.section_id,
-            s.course_id AS section_course_id,
-            s.title AS section_title,
-            s.section_order
-        from courses c
-        left join course_sections s
-        on c.course_id = s.course_id
-        where c.course_id = ?
-        order by s.section_order ASC
-    </query>
-
-    <query key="courseSection.save">
-        insert into course_sections
-        (course_id , title , section_order)
-        values
-        (? , ? , ?)
-    </query>
-
     <query key="users.selectAll">
         select
             *
@@ -146,6 +98,38 @@
         INSERT INTO user (user_id, user_password, user_name, user_phone_number, user_role)
         VALUES (?, ?, ?, ?, ?);
     </query>
+
+
+
+
+
+
+    <query key="course.findAllCourse">
+        select * from course
+    </query>
+
+    <query key="course.selectMyCourse">
+        SELECT *
+        FROM course c
+        JOIN instructor u ON c.instructor_id = u.instructor_id
+        WHERE u.instructor_id = ?
+    </query>
+
+    <query key="course.insertCourse">
+        INSERT INTO course (title, description, price, created_at, instructor_id)
+        VALUES (?, ?, ?, NOW(), ?);
+    </query>
+
+    <query key="course.insertSection">
+        INSERT INTO section (title, video_url, material_url, created_at, course_id)
+        VALUES (?, ?, ?, NOW(), ?);
+    </query>
+
+    <query key = "course.deleteCourse">
+        DELETE FROM course
+        WHERE course_id = ? AND instructor_id = ?
+    </query>
+
 
 
 
