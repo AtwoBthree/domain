@@ -36,4 +36,27 @@ public class StudentDAO {
         return studentList;
     }
 
+
+    //student_id 값으로 학생찾기. 혹은 user_no로 변경할수도 있음.
+    public StudentDTO findById(long id) throws SQLException {
+        String query = QueryUtil.getQuery("student.findById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, id);
+
+            //select 결과는 ResultSet 객체로 변환!!
+            ResultSet rset = pstmt.executeQuery();
+
+            if(rset.next()) {
+                return new StudentDTO(
+                        rset.getLong("student_id"),
+                        rset.getLong("user_no")
+                );
+            }
+        }
+        return null;
+    }
+
+
+
 }

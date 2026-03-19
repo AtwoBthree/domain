@@ -118,4 +118,11 @@ public class UserDTO {
         this.userPassword = password;
         this.userRole = role;
     }
+
+    //
+    public UserDTO(String userId, String password, String role, String userPhoneNumber) {
+        this.userId = userId;
+        this.userPassword = password;
+        this.userRole = role;
+    }
 }

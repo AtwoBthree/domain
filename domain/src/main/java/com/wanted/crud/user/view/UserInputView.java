@@ -1,75 +1,138 @@
 package com.wanted.crud.user.view;
 
-import com.wanted.crud.user.controller.InstructorController;
-import com.wanted.crud.user.controller.StudentController;
 import com.wanted.crud.user.controller.UserController;
 import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.util.Scanner;
 
 public class UserInputView {
+
     private final UserController controller;
-    private final StudentController studentController;
-    private final InstructorController instructorController;
-
-
-
-
     private final UserOutputView outputView;
-    private final StudentOutputView studentOutputView;
-    private final InstructorOutputView instructorOutputView;
-    private final AdminOutputView adminOutputView;
-
-    private final AdminInputView adminInputView;
-    private final StudentInputView studentInputView;
-    private final InstructorInputView instructorInputView;
-
 
     private final Scanner sc = new Scanner(System.in);
 
-
-    public UserInputView(UserController controller, StudentController studentController,
-                         InstructorController instructorController, UserOutputView outputView,
-                         StudentOutputView studentOutputView, InstructorOutputView instructorOutputView,
-                         AdminOutputView adminOutputView, AdminInputView adminInputView,
-                         StudentInputView studentInputView, InstructorInputView instructorInputView) {
+    public UserInputView(UserController controller,
+                         UserOutputView outputView) {
         this.controller = controller;
         this.outputView = outputView;
-        this.studentOutputView = studentOutputView;
-        this.instructorOutputView = instructorOutputView;
-        this.instructorController = instructorController;
-        this.studentController = studentController;
-        this.adminOutputView = adminOutputView;
-        this.adminInputView = adminInputView;
-        this.studentInputView = studentInputView;
-        this.instructorInputView = instructorInputView;
     }
 
 
-    public String displayMainMenu() {
+    public String loginSession(String id, String password) {
+        UserDTO loginUser = controller.login(id, password);
+
+        if (loginUser == null) {
+            outputView.printError("아이디 또는 비밀번호가 틀렸습니다.");
+        }
+
+        String role = null;
+        if (loginUser != null) {
+            role = loginUser.getUserRole();
+        }
+        return role;
+    }
+
+
+    public void displayRegister() {
         while (true) {
             System.out.println();
-            System.out.println("======================================");
-            System.out.println("              로그인화면                ");
-            System.out.println("======================================");
-            System.out.print("아이디: ");
-            String id = sc.nextLine();
-            System.out.print("비밀번호: ");
-            String password = sc.nextLine();
-            UserDTO loginUser = controller.login(id, password);
+            System.out.println("=================[회원 가입]==============");
+            System.out.print("사용할 아이디를 입력해주세요: ");
+            String id = inputString();
+            System.out.print("사용할 비밀번호 입력해주세요: ");
+            String password = inputString();
+            System.out.print("사용할 이름을 입력해주세요: ");
+            String name = inputString();
+            System.out.print("사용할 전화번호를 입력해주세요: ");
+            String phone_number = inputString();
+            System.out.print("역할을 입력해주세요: ");
+            String role = inputString();
 
-            if (loginUser == null) {
-                outputView.printError("아이디 또는 비밀번호가 틀렸습니다.");
-                continue;
+            Long result = controller.createUser(id, password, name, phone_number, role);
+
+            if (result != null && result > 0) {
+                outputView.printSuccess("회원가입 성공! 생성된 계정 ID : " + result);
+            } else {
+                outputView.printError("회원가입 실패");
             }
-
-            // TODO: 실제 로그인 로직으로 교체
-            String role = loginUser.getUserRole();
-            return role;
-
-            // 로그인시 내정보 조회가 가능하게끔 매개변수로 loginUser 전달
-
         }
     }
 
+
+    public void studentMenu(UserDTO loginUser) {
+        while (true) {
+            outputView.printMenu();
+            int choice = inputInt();
+
+            switch (choice) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 0:
+                    return;
+                default:
+                    outputView.printError("잘못된 입력입니다.");
+            }
+        }
+    }
+
+
+    public void instructorMenu(UserDTO loginUser) {
+        while (true) {
+            outputView.printInstructorMenu();
+            int choice = inputInt();
+
+            switch (choice) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 0:
+                    return;
+                default:
+                    outputView.printError("잘못된 입력입니다.");
+            }
+        }
+    }
+
+
+    public void adminMenu() {
+        while (true) {
+            outputView.printAdminMenu();
+            int choice = inputInt();
+
+            switch (choice) {
+                case 1:
+                    outputView.printUsers(controller.selectAllUsers());
+                    break;
+                case 2:
+                    outputView.printStudents(controller.selectAllStudents());
+                    break;
+                case 3:
+                    outputView.printInstructors(controller.selectAllInstructors());
+                    break;
+                case 0:
+                    return;
+                default:
+                    outputView.printError("잘못된 입력입니다.");
+            }
+        }
+    }
+
+    // ===== 입력 =====
+    private String inputString() {
+        return sc.nextLine();
+    }
+
+    private int inputInt() {
+        while (true) {
+            try {
+                return Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("숫자만 입력해주세요.");
+            }
+        }
+    }
 }
