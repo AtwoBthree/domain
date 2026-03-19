@@ -37,15 +37,16 @@ public class InstructorDAO {
         return instructorList;
     }
 
-    public Long findId(Long userno) throws SQLException {
+    public Long findId(Long userNo) throws SQLException {
         String query = QueryUtil.getQuery("instructor.findId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1, userno);
+            pstmt.setLong(1, userNo);
 
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
-                return rset.getLong("instructor_id"); // 비밀번호 리턴
+                return rset.getLong("instructor_id");
+
             }
         }
         return null;

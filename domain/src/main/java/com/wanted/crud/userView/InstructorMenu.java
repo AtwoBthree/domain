@@ -1,9 +1,16 @@
 package com.wanted.crud.userView;
+import com.wanted.crud.Application;
+
+import static com.wanted.crud.Application.userInputView;
+import static com.wanted.crud.userView.MainInput.instructorId;
 
 import java.util.Scanner;
 
 public class InstructorMenu {
-    private Scanner sc;
+    private Scanner sc = new Scanner(System.in);
+    public String role;
+    public Long userNo;
+
 
     public InstructorMenu(Scanner sc) {
         this.sc = sc;
@@ -14,7 +21,7 @@ public class InstructorMenu {
 
         while (isInstructorLoggedIn) {
             System.out.println("\n========== 강사 화면 ==========");
-            System.out.println("1. 강좌 조회하기 | 2. 강좌 등록 및 관리 | 3. 마이페이지 | 4. 수강생 현황 | 5. 정산 확인 | 6. 탈퇴하기 | 0. 로그아웃");
+            System.out.println("1. 강좌 조회하기 | 2. 강좌 등록 및 관리 | 3. 마이페이지 | 4. 수강생 현황 | 5. 정산 확인 | 6. 탈퇴하기 | 7. 강좌 전체 조회| 0. 로그아웃");
             System.out.print("메뉴를 선택해주세요: ");
 
             int menu = -1;
@@ -27,7 +34,7 @@ public class InstructorMenu {
 
             switch (menu) {
                 case 1:
-                    viewMyCourse(); //강사의 강의 조회해야함
+                    viewMyCourse(); //강사의 강의 조회해야함              // [완]
                     break;
                 case 2:
                     courseManagementMenu();
@@ -42,8 +49,12 @@ public class InstructorMenu {
                     settlementCheckScreen(); // [Inst-07]
                     break;
                 case 6:
-                    deleteAccountScreen(); // [Inst-08]
+                    userInputView.deleteUser();
+                    // [Inst-08]
                     isInstructorLoggedIn = false;
+                    break;
+                case 7:
+                    viewAllCourses();
                     break;
                 case 0:
                     System.out.println("로그아웃 되었습니다.");
@@ -56,14 +67,33 @@ public class InstructorMenu {
         }
     }
 
+    /* hi. 추가한 코드_시작 */
     private void viewMyCourse() {
+
+            if (Application.courseInputView != null) {
+                Application.courseInputView.viewMyCourse(instructorId);
+            } else {
+                System.out.println("[시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
+            }
+
+    }
+
+    private void viewAllCourses() {
+        System.out.println("\n--- 전체 강좌 조회 로직 실행 ---");
+
+        // ★ Application 보관해둔 뷰를 꺼내서 전체 조회 메서드를 실행합니다!
+        if (Application.courseInputView != null) {
+            Application.courseInputView.viewAllCourses(); // CourseInputView에 만든 메서드 이름
+        } else {
+            System.out.println("[시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
+        }
     }
 
     private void courseManagementMenu() {
         boolean isMenuOpen = true;
 
         while (isMenuOpen) {
-            System.out.println("\n--- 1. 강좌 등록 및 관리 ---");
+            System.out.println("\n--- 22. 강좌 등록 및 관리 ---");
             System.out.println("1. 강좌 등록하기 | 2. 강좌 삭제하기 | 3. 강좌 수정하기 | 0. 뒤로가기");
             System.out.print("메뉴를 선택해주세요: ");
 
@@ -77,10 +107,45 @@ public class InstructorMenu {
 
             switch (menu) {
                 case 1:
-                    System.out.println("\n[Inst-01] 새로운 강좌 등록 로직 연결 자리");
+                    System.out.println("\n=========================새로운 강좌 등록=========================");
+                    if (Application.courseInputView != null) {
+                        Application.courseInputView.createCourse(instructorId);
+
+                    } else {
+                        System.out.println("시스템 오류: 뷰가 초기화되지 않았습니다.");
+                    }
+                    // createSection
+                    System.out.println("\n=========================새로운 강의 등록=========================");
+                    System.out.println("\n강의를 등록하시겠습니까?");
+                    System.out.println("\n1. 예 | 2. 아니오");
+                    int subMenu = -1;
+                    try {
+                        subMenu = Integer.parseInt(sc.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("[오류] 숫자로 입력해주세요. 강의 등록을 건너뜁니다.");
+                        break; // 입력 오류 시 바깥쪽 switch문을 빠져나감
+                    }
+
+                    // 새로 입력받은 subMenu 값으로 중첩 switch 실행
+                    switch (subMenu) {
+                        case 1:
+                            if (Application.courseInputView != null) {
+                                Application.courseInputView.createSection(instructorId);
+                            } else {
+                                System.out.println("시스템 오류: 뷰가 초기화되지 않았습니다.");
+                            }
+                            break;
+                        case 2:
+                            System.out.println("강의 등록을 하지 않고 이전 메뉴로 돌아갑니다.");
+                            break;
+                        default:
+                            System.out.println("잘못된 메뉴 번호입니다. 이전 메뉴로 돌아갑니다.");
+                            break;
+                    }
                     break;
                 case 2:
                     System.out.println("\n--- 강좌 삭제 ---");
+                    viewMyCourse();
                     System.out.print("강좌번호 혹은 제목을 입력해주세요: ");
                     String input = sc.nextLine();
                     System.out.println("[Inst-02] 입력받은 강좌[" + input + "] 삭제 로직 연결 자리");
@@ -97,6 +162,7 @@ public class InstructorMenu {
             }
         }
     }
+    /* hi. 추가한 코드_끝 */
 
     private void editCourseMenu() {
         boolean isEditMenuOpen = true;
@@ -146,8 +212,5 @@ public class InstructorMenu {
         System.out.println("[Inst-07] 강사 본인의 정산된 수익 확인 로직 연결 자리");
     }
 
-    private void deleteAccountScreen() {
-        System.out.println("\n--- 5. 탈퇴하기 ---");
-        System.out.println("[Inst-08] 강사 회원 탈퇴(상태 변경 등) 처리 로직 연결 자리");
-    }
+
 }

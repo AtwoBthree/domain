@@ -11,14 +11,17 @@ public class PaymentDTO {
     private long studentId;
     private long courseId;
 
-    public PaymentDTO(long paymentId, long paymentAmount, String paymentMethod, boolean status, Date paidAt, long studentId, long courseId) {
-        this.paymentId = paymentId;
-        this.paymentAmount = paymentAmount;
-        this.paymentMethod = paymentMethod;
-        this.status = status;
-        this.paidAt = paidAt;
-        this.studentId = studentId;
-        this.courseId = courseId;
+    @Override
+    public String toString() {
+        return "PaymentDTO{" +
+                "paymentId=" + paymentId +
+                ", paymentAmount=" + paymentAmount +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", status=" + status +
+                ", paidAt=" + paidAt +
+                ", studentId=" + studentId +
+                ", courseId=" + courseId +
+                '}';
     }
 
     public long getPaymentId() {
@@ -74,6 +77,16 @@ public class PaymentDTO {
     }
 
     public void setCourseId(long courseId) {
+        this.courseId = courseId;
+    }
+
+    public PaymentDTO(long paymentId, long paymentAmount, String paymentMethod, boolean status, Date paidAt, long studentId, long courseId) {
+        this.paymentId = paymentId;
+        this.paymentAmount = paymentAmount;
+        this.paymentMethod = paymentMethod;
+        this.status = status;
+        this.paidAt = paidAt;
+        this.studentId = studentId;
         this.courseId = courseId;
     }
 }

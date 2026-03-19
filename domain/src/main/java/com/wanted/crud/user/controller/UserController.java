@@ -72,4 +72,10 @@ public class UserController {
     }
 
 
+    /*
+    // 관리자의 강좌별 수강생 조회
+    public void viewStudentBycourseId() {
+        service.viewStudentBycourseId();
+    }*/
+
 }

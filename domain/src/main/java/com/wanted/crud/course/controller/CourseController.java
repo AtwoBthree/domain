@@ -34,13 +34,10 @@ public class CourseController {
     }
 
     public boolean deleteCourseById(long id) {
-        // 문자열로 가장 쉽게 바꾸는 방법?
-        // + ""
-        // 문자를 숫자로 가장 쉽게 바꾸는 방법?
-        // + 0 (문자는 유니코드로 되어있어서 0 더하면 숫자로 변환됨)
         return service.deleteCourse(id) > 0; // 0보다 크면 true
-        // 서비스에서 int로 바꾸고 다시 문자로 바꿈
     }
 
-
+    public List<Long> findCoursesId(Long instructorId) {
+        return service.findCoursesId(instructorId);
+    }
 }

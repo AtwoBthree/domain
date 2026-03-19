@@ -45,6 +45,29 @@ public class CourseDAO {
     }
 
 
+    public List<Long> findcourseid(Long instructorId) throws SQLException {
+        // 쿼리 이름 변경 (강사 번호로 강좌 번호들 찾기)
+        String query = QueryUtil.getQuery("course.findId");
+
+        // 번호들을 담을 빈 바구니(List) 준비
+        List<Long> courseIdList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            // 1. 파라미터로 '강사 번호'를 세팅합니다.
+            pstmt.setLong(1, instructorId);
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+                // 2. 강좌가 여러 개일 수 있으니 if 대신 ★while★을 사용합니다!
+                while (rset.next()) {
+                    // 3. DB에서 찾은 강좌 번호를 바구니에 차곡차곡 담습니다.
+                    courseIdList.add(rset.getLong("instructor_id"));
+                }
+            }
+        }
+        return courseIdList; // 4. 다 담은 바구니를 Service로 리턴!
+    }
+
+
 
 
     // 내 강좌 조회
@@ -106,7 +129,7 @@ public class CourseDAO {
         String query = QueryUtil.getQuery("course.deleteCourse");
 
         try (
-                PreparedStatement pstmt = connection.prepareStatement(query)) {
+            PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, id);
             return pstmt.executeUpdate();
         }

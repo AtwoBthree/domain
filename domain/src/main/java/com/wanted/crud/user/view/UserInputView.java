@@ -120,8 +120,8 @@ public class UserInputView {
     }
 
     //user no를 입력하면 강사번호가 나온다.
-    public Long instructorId(Long userno) {
-        return controller.instructorFindId(userno);
+    public Long instructorId(Long userNo) {
+        return controller.instructorFindId(userNo);
     }
 
     public void displayFindPassword() {
@@ -156,7 +156,7 @@ public class UserInputView {
             outputView.printError("학생 정보 업데이트 중 오류 발생");
         }
     }
-    // 유저 정보 삭제
+    // 회원탈퇴
     public void deleteUser() {
         System.out.println("회원 탈퇴를 진행합니다.");
 
@@ -180,7 +180,10 @@ public class UserInputView {
     }
     // 관리자 메서드
     // 유저 정보 수정(주체 : 관리자)
-
+  /*  public void viewStudentBycourseId(){
+        controller.viewStudentBycourseId();
+    }
+*/
 
     // 유저 정보 삭제
 
