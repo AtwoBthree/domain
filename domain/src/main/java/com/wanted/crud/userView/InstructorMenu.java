@@ -14,7 +14,7 @@ public class InstructorMenu {
 
         while (isInstructorLoggedIn) {
             System.out.println("\n========== 강사 화면 ==========");
-            System.out.println("1. 강좌 등록 및 관리 | 2. 마이페이지 | 3. 수강생 현황 | 4. 정산 확인 | 5. 탈퇴하기 | 0. 로그아웃");
+            System.out.println("1. 강좌 조회하기 | 2. 강좌 등록 및 관리 | 3. 마이페이지 | 4. 수강생 현황 | 5. 정산 확인 | 6. 탈퇴하기 | 0. 로그아웃");
             System.out.print("메뉴를 선택해주세요: ");
 
             int menu = -1;
@@ -27,18 +27,21 @@ public class InstructorMenu {
 
             switch (menu) {
                 case 1:
-                    courseManagementMenu();
+                    viewMyCourse(); //강사의 강의 조회해야함
                     break;
                 case 2:
-                    myPageScreen(); // [Inst-05]
+                    courseManagementMenu();
                     break;
                 case 3:
-                    studentStatusScreen(); // [Inst-06]
+                    myPageScreen(); // [Inst-05]
                     break;
                 case 4:
-                    settlementCheckScreen(); // [Inst-07]
+                    studentStatusScreen(); // [Inst-06]
                     break;
                 case 5:
+                    settlementCheckScreen(); // [Inst-07]
+                    break;
+                case 6:
                     deleteAccountScreen(); // [Inst-08]
                     isInstructorLoggedIn = false;
                     break;
@@ -51,6 +54,9 @@ public class InstructorMenu {
                     break;
             }
         }
+    }
+
+    private void viewMyCourse() {
     }
 
     private void courseManagementMenu() {
