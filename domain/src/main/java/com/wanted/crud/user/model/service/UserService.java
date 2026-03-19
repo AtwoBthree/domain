@@ -122,16 +122,27 @@ public class UserService {
     }
 
     // 강사 번호 리턴
-    public Long findInstructorId(Long userno) {
+    public Long findInstructorId(Long userNo) {
         try {
-            if(instructorDAO.findId(userno) != null) {
-                return instructorDAO.findId(userno);
+            if(instructorDAO.findId(userNo) != null) {
+                return instructorDAO.findId(userNo);
             } else System.out.println("조회된 강사번호가 없음");
         } catch (SQLException e) {
-            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!!");
+            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!! +", e);
         }
         return null;
     }
 
 
+    // ===== Admin =====
+    // 관리자의 강좌별 수강생 조회
+    //
+    /*
+    public List<StudentDTO> viewStudentBycourseId() {
+        try {
+            return studentDAO.selectStudentByCourseid();
+        } catch (SQLException e) {
+            throw new RuntimeException("수강생 전체 조회 중 Error 발생!! ");
+        }
+    } */
 }

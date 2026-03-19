@@ -12,4 +12,7 @@ public class PaymentController {
 
     public List<PaymentDTO> selectAllUsers() { return service.selectAllPayment();}
 
+
+
+
 }

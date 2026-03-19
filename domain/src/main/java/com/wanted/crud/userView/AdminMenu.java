@@ -67,7 +67,7 @@ public class AdminMenu {
                 continue;
             }
 
-            if (menu == 1) System.out.println("[Admin-01] 강좌별 수강생 목록 출력 로직 연결 자리");
+            if (menu == 1) { } // 강좌별 수강생 조회
             else if (menu == 2) System.out.println("[Admin-02] 수강생 정보 수정/삭제 로직 연결 자리");
             else if (menu == 0) isMenuOpen = false;
             else System.out.println("잘못된 입력입니다.");

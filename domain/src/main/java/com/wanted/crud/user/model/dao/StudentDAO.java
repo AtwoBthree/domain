@@ -97,4 +97,8 @@ public class StudentDAO {
         }
     }
 
+    // 강좌별 수강생 조회
+    /*public List<StudentDTO> selectStudentByCourseid() {
+
+    }*/
 }

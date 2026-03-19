@@ -1,6 +1,7 @@
 package com.wanted.crud.userView;
 
 import java.util.Scanner;
+import static com.wanted.crud.Application.userInputView;
 
 public class StudentMenu {
     private Scanner sc;
@@ -36,7 +37,8 @@ public class StudentMenu {
                     reviewScreen(); // [Student-04]
                     break;
                 case 4:
-                    deleteAccountScreen(); // [Student-05]
+                     // [Student-05]
+                    userInputView.deleteUser();
                     isStudentLoggedIn = false;
                     break;
                 case 0:
@@ -82,6 +84,7 @@ public class StudentMenu {
         }
     }
 
+
     private void courseApplyMenu() {
         System.out.println("\n--- 1.1 강좌 신청 ---");
         System.out.println("해당 강좌를 신청하시겠습니까?");
@@ -107,6 +110,7 @@ public class StudentMenu {
 
     private void myPageScreen() {
         System.out.println("\n--- 2. 마이페이지 ---");
+
         System.out.println("[Student-03] 마이페이지(학생 정보) 조회/수정 로직 연결 자리");
     }
 

@@ -45,6 +45,25 @@ public class CourseDAO {
     }
 
 
+    // CourseDAO.java 내부 수정
+    public List<Long> findcourseid(Long instructorId) throws SQLException {
+        String query = QueryUtil.getQuery("course.findId");
+        List<Long> courseIdList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, instructorId);
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+                while (rset.next()) {
+                    // ✅ 수정 완료: DB가 가져온 'course_id'를 그대로 꺼내서 담습니다.
+                    courseIdList.add(rset.getLong("course_id"));
+                }
+            }
+        }
+        return courseIdList;
+    }
+
+
 
 
     // 내 강좌 조회
@@ -101,14 +120,17 @@ public class CourseDAO {
 
 
     // 내 강좌 삭제
-    public int delete(long id) throws SQLException {
-
+    // CourseDAO.java 내부
+    public boolean deleteCourse(Long courseId, Long instructorId) throws SQLException {
         String query = QueryUtil.getQuery("course.deleteCourse");
 
-        try (
-                PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1, id);
-            return pstmt.executeUpdate();
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, courseId);
+            pstmt.setLong(2, instructorId);
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0;
         }
     }
 
