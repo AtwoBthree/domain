@@ -60,6 +60,33 @@ public class UserDAO {
         return null;
     }
 
+    //마이페이지 조회
+    public UserDTO findNo(long userNo) throws SQLException {
+        String query = QueryUtil.getQuery("users.findNo");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userNo);
+
+            //select 결과는 ResultSet 객체로 변환!!
+            ResultSet rset = pstmt.executeQuery();
+
+            if(rset.next()) {
+                return new UserDTO(
+                        rset.getLong("user_no"),
+                        rset.getString("user_id"),
+                        rset.getString("user_password"),
+                        rset.getString("user_name"),
+                        rset.getString("user_phone_number"),
+                        rset.getLong("user_price"),
+                        rset.getString("role"),
+                        rset.getDate("created_at"),
+                        rset.getBoolean("status")
+                );
+            }
+        }
+        return null;
+    }
+
     // 비번 찾기
     public String findPassword(String userid, String phone_number) throws SQLException {
         String query = QueryUtil.getQuery("users.findPassword");
@@ -96,8 +123,8 @@ public class UserDAO {
                         rs.getLong("user_no"),
                         rs.getString("user_id"),
                         rs.getString("user_password"),
-                        rs.getString("user_role"),
-                        rs.getString("user_phone_number")
+                        rs.getString("user_role")
+
                 );
             }
         }
@@ -136,6 +163,22 @@ public class UserDAO {
         }
 
         return generatedId; // 성공 시 생성된 유저번호 반환, 실패 시 null 반환
+    }
+
+    //  회원탈퇴 update문
+    public boolean dropUser(String userId, String password) throws SQLException {
+        // 1. status 컬럼을 false로 변경
+        String query = QueryUtil.getQuery("users.drop");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, userId);
+            pstmt.setString(2, password);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            // 3. 1개 이상 행이 변경되었으면 탈퇴 성공
+            return affectedRows > 0;
+        }
     }
 }
 

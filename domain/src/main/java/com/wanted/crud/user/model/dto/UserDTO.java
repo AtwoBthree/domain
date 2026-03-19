@@ -113,7 +113,8 @@ public class UserDTO {
     }
 
     // 로그인 전용 생성자입니다.
-    public UserDTO(String userId, String password, String role) {
+    public UserDTO(Long userNo, String userId, String password, String role) {
+        this.userNo = userNo;
         this.userId = userId;
         this.userPassword = password;
         this.userRole = role;
@@ -131,11 +132,11 @@ public class UserDTO {
     public UserDTO(String userId, String password) {
         this.userId = userId;
         this.userPassword = password;
+        //this.userRole = role;
     }
 
 
 
-    // 아이디 찾기 전용 생성자입니다.
 
 
 

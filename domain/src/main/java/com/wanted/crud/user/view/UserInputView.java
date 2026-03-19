@@ -18,7 +18,7 @@ public class UserInputView {
         this.outputView = outputView;
     }
 
-
+    // 로그인
     public String loginSession(String id, String password) {
         UserDTO loginUser = controller.login(id, password);
 
@@ -32,7 +32,7 @@ public class UserInputView {
         }
         return role;
     }
-
+    // 로그인해서 유저번호 리턴
     public Long loginGetNo(String id, String password) {
         UserDTO loginUser = controller.login(id, password);
 
@@ -47,7 +47,7 @@ public class UserInputView {
         return user_no;
     }
 
-
+    // 회원가입
     public void displayRegister() {
         while (true) {
             System.out.println();
@@ -72,7 +72,36 @@ public class UserInputView {
             }
         }
     }
+    // 아이디, 비번 찾기
+    public void findIdPassword() {
+        while (true) {
+            System.out.println();
+            System.out.println("===== 아이디/비밀번호 찾기 메뉴 =====");
+            System.out.println("1. 아이디 찾기");
+            System.out.println("2. 비밀번호 찾기");
+            System.out.println("0. 뒤로가기");
+            System.out.print("선택: ");
 
+            int choice = inputInt(); // 기존에 만든 inputInt() 사용
+
+            switch (choice) {
+                case 1:
+                    // 아이디 찾기
+                    displayFindId();
+                    break;
+                case 2:
+                    // 비밀번호 찾기
+                    displayFindPassword();
+                    break;
+                case 0:
+                    // 메뉴 종료
+                    return;
+                default:
+                    outputView.printError("잘못된 입력입니다. 0~2 사이로 입력해주세요.");
+            }
+        }
+    }
+    // 아이디 찾기
     public void displayFindId() {
         System.out.println("이름을 입력하세요");
         String name = inputString();
@@ -90,7 +119,7 @@ public class UserInputView {
 
     }
 
-    //user no를 입력하면 나온다.
+    //user no를 입력하면 강사번호가 나온다.
     public Long instructorId(Long userno) {
         return controller.instructorFindId(userno);
     }
@@ -110,6 +139,52 @@ public class UserInputView {
         }
 
     }
+    // 유저(수강생) 정보 수정(주체: 수강생)
+    public void updateStudent(Long userNo) {
+        System.out.println("변경할 이름을 입력하세요: ");
+        String name = inputString();
+
+        System.out.println("변경할 비밀번호를 입력하세요");
+        String password = inputString();
+        System.out.println("변경할 휴대폰번호를 입력하세요");
+        String phoneNumber = inputString();
+        if(controller.updateStudent(new UserDTO(
+                userNo, null, password, name, phoneNumber, null, null, null, true
+        ))) {
+            outputView.printMessage("학생 정보 업데이트 완료");;
+        } else {
+            outputView.printError("학생 정보 업데이트 중 오류 발생");
+        }
+    }
+    // 유저 정보 삭제
+    public void deleteUser() {
+        System.out.println("회원 탈퇴를 진행합니다.");
+
+        // 1. 아이디 입력
+        System.out.print("아이디를 입력하세요: ");
+        String id = inputString();
+
+        // 2. 비밀번호 입력
+        System.out.print("비밀번호를 입력하세요: ");
+        String password = inputString();
+
+        // 3. Controller 호출
+        boolean result = controller.dropUser(id, password); // Controller에서 boolean 반환
+
+        // 4. 결과 출력
+        if (result) {
+            System.out.println("✅ 회원 탈퇴가 완료되었습니다.");
+        } else {
+            outputView.printError("회원 탈퇴 실패: 아이디 또는 비밀번호가 틀렸거나, 이미 탈퇴한 계정일 수 있습니다.");
+        }
+    }
+    // 관리자 메서드
+    // 유저 정보 수정(주체 : 관리자)
+
+
+    // 유저 정보 삭제
+
+    //
 
 
     public void studentMenu(UserDTO loginUser) {

@@ -2,6 +2,7 @@ package com.wanted.crud.user.model.dao;
 
 import com.wanted.crud.global.utils.QueryUtil;
 import com.wanted.crud.user.model.dto.StudentDTO;
+import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,6 +58,43 @@ public class StudentDAO {
         return null;
     }
 
+    //마이페이지 수정/삭제
+    public int updateStudent(UserDTO user) throws SQLException {
+        String query = QueryUtil.getQuery("student.update");
 
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            /* comment.
+             * 수정할 컬럼(title, description, status)을 먼저 세팅하고,
+             * 마지막에 WHERE 조건에 들어갈 course_id를 세팅합니다.
+             * (실제 properties나 xml의 쿼리문 ? 순서에 맞춰야 합니다)
+             * */
+            pstmt.setString(1, user.getUserName());
+            pstmt.setString(2, user.getUserPassword());
+            pstmt.setString(3, user.getUserPhoneNumber());
+            pstmt.setLong(4, user.getUserNo());
+
+            // 수정한 행(row)의 갯수를 반환
+            return pstmt.executeUpdate();
+        }
+    }
+
+
+
+    // 회원 탙퇴
+    public boolean dropStudent(String userId, String password) throws SQLException {
+        // 1. status 컬럼을 false로 변경
+        String query = "UPDATE `user` SET status = false WHERE user_id = ? AND user_password = ? AND status = true";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, userId);
+            pstmt.setString(2, password);
+
+            // 2. 영향받은 행(row) 확인
+            int affectedRows = pstmt.executeUpdate();
+
+            // 3. 1개 이상 행이 변경되었으면 탈퇴 성공
+            return affectedRows > 0;
+        }
+    }
 
 }

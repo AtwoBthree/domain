@@ -79,9 +79,38 @@ public class UserService {
         }
     }
 
+    public UserDTO findNo(Long userNo) {
+        try {
+            return userDAO.findNo(userNo);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public StudentDTO findPassword(long id) throws SQLException {
         return studentDAO.findById(id);
     }
+
+
+
+    // 회원 탈퇴
+    public boolean dropUser(String id, String password) {
+        try {
+            // DAO에서 boolean 반환
+            return userDAO.dropUser(id, password);
+        } catch (SQLException e) {
+            throw new RuntimeException("회원 탈퇴 중 오류 발생", e);
+        }
+    }
+
+    public boolean updateStudent(UserDTO userDTO) {
+        try {
+            return studentDAO.updateStudent(userDTO) > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     // ===== Instructor =====
     public List<InstructorDTO> selectAllInstructors() {
@@ -103,4 +132,6 @@ public class UserService {
         }
         return null;
     }
+
+
 }
