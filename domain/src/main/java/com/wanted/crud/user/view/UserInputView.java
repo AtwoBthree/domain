@@ -73,6 +73,44 @@ public class UserInputView {
         }
     }
 
+    public void displayFindId() {
+        System.out.println("이름을 입력하세요");
+        String name = inputString();
+        System.out.println("휴대폰 번호를 입력하세요 ex) 010-0000-0000");
+        String phonenumber = inputString();
+
+
+        String userid = controller.findId(name, phonenumber);
+
+        if (userid != null) {
+            System.out.println("아이디: " + userid); // 아이디 출력
+        } else {
+            outputView.printError("아이디와 전화번호가 일치하는 사용자가 없습니다.");
+        }
+
+    }
+
+    //user no를 입력하면 나온다.
+    public Long instructorId(Long userno) {
+        return controller.instructorFindId(userno);
+    }
+
+    public void displayFindPassword() {
+        System.out.println("아이디를 입력하세요");
+        String userid = inputString();
+        System.out.println("전화번호를 입력하세요");
+        String phonenumber = inputString();
+
+        String password = controller.findPassword(userid, phonenumber);
+
+        if (password != null) {
+            System.out.println("비밀번호: " + password); // 비밀번호 출력
+        } else {
+            outputView.printError("아이디와 전화번호가 일치하는 사용자가 없습니다.");
+        }
+
+    }
+
 
     public void studentMenu(UserDTO loginUser) {
         while (true) {
@@ -149,4 +187,6 @@ public class UserInputView {
             }
         }
     }
+
+
 }
