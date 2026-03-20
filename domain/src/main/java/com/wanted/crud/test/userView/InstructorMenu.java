@@ -1,7 +1,9 @@
-package com.wanted.crud.userView;
+package com.wanted.crud.test.userView;
 import com.wanted.crud.Application;
 
+
 import static com.wanted.crud.Application.userInputView;
+import static com.wanted.crud.userView.MainInput.findcourseid;
 import static com.wanted.crud.userView.MainInput.instructorId;
 
 import java.util.Scanner;
@@ -93,7 +95,7 @@ public class InstructorMenu {
         boolean isMenuOpen = true;
 
         while (isMenuOpen) {
-            System.out.println("\n--- 22. 강좌 등록 및 관리 ---");
+            System.out.println("\n--- 2. 강좌 등록 및 관리 ---");
             System.out.println("1. 강좌 등록하기 | 2. 강좌 삭제하기 | 3. 강좌 수정하기 | 0. 뒤로가기");
             System.out.print("메뉴를 선택해주세요: ");
 
@@ -123,7 +125,7 @@ public class InstructorMenu {
                         subMenu = Integer.parseInt(sc.nextLine().trim());
                     } catch (NumberFormatException e) {
                         System.out.println("[오류] 숫자로 입력해주세요. 강의 등록을 건너뜁니다.");
-                        break; // 입력 오류 시 바깥쪽 switch문을 빠져나감
+                        break;
                     }
 
                     // 새로 입력받은 subMenu 값으로 중첩 switch 실행
@@ -143,14 +145,34 @@ public class InstructorMenu {
                             break;
                     }
                     break;
+
+                // 강좌 삭제
                 case 2:
-                    System.out.println("\n--- 강좌 삭제 ---");
+                    System.out.println("\n--- 2. 강좌 삭제 ---");
                     viewMyCourse();
+
+                    System.out.print("\n--- 삭제할 강좌 번호를 입력하세요. (뒤로가기: 0)--- \n ");
+
+                    long courseIdToDelete = -1;
+                    try {
+                        courseIdToDelete = Long.parseLong(sc.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("[오류] 숫자로 된 강좌 번호를 입력해주세요.");
+                        break;
+                    }
+
+                    if (courseIdToDelete == 0) {
+                        System.out.println("강좌 삭제를 취소합니다.");
+                        break;
+                    }
+
                     if (Application.courseInputView != null) {
-//                        Long myId = Application.userNo;
-//                        Application.courseInputView.deleteCourse(myId);
+                        Application.courseInputView.deleteCourse(courseIdToDelete, instructorId);
+                    } else {
+                        System.out.println("[시스템 오류] 강좌 관리 화면을 불러올 수 없습니다.");
                     }
                     break;
+
                 case 3:
                     editCourseMenu();
                     break;
@@ -183,15 +205,16 @@ public class InstructorMenu {
 
             switch (menu) {
                 case 1:
-
-                    System.out.println("\n[Inst-03] 강좌 기본 정보 수정");
+                    System.out.println("\n 강좌 기본 정보 수정");
                     if (Application.courseInputView != null) {
                         Application.courseInputView.updateCourseView(instructorId);
                     }
                     break;
-
                 case 2:
-                    System.out.println("\n[Inst-04] 강좌에 속한 세부 '강의' 내용 수정 로직 연결 자리");
+                    System.out.println("\n강의 세부 내용 수정");
+                    if (Application.courseInputView != null) {
+                        Application.courseInputView.updateSectionView(instructorId);
+                    }
                     break;
                 case 0:
                     isEditMenuOpen = false;
