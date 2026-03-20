@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+    <query key="users.selectAll">
+        select
+            *
+        from user
+    </query>
+
+    <query key="users.findId">
+        select
+        user_id
+        from user
+        where user_name = ? and user_phone_number = ?
+    </query>
+
+    <query key="users.findPassword">
+        select
+         user_password
+        from user
+        where user_id = ? and user_phone_number = ?
+    </query>
+
+    <query key="users.drop">
+        UPDATE `user` SET status = false
+        WHERE user_id = ? AND user_password = ? AND status = true
+    </query>
+
+    <query key="course.findId">
+        select course_id
+        from course
+        where instructor_id = ?
+    </query>
+
+
+    <query key="payment.selectAll">
+        select
+        *
+        from payment
+    </query>
+
+    <query key="payment.save">
+        update
+        set
+    </query>
+
+    <query key="refund.selectAll">
+        select
+        *
+        from refund
+    </query>
+
+    <query key="settlement.findById">
+        select
+        *
+        from settlement
+        where instructor_id = ?
+    </query>
+
+
+    <query key="student.selectAll">
+        select
+        *
+        from student
+    </query>
+
+    <query key="student.findById">
+        select
+        *
+        from student
+        where student_id = ?
+    </query>
+
+    <query key="student.update">
+        update user
+        set user_name = ?,
+        user_password = ?,
+        user_phone_number = ?
+        where user_no = ?
+    </query>
+
+    <query key="users.findNo">
+        select
+            *
+        from user
+        where user_no = ?
+    </query>
+
+
+    <query key="instructor.selectAll">
+        select
+        *
+        from instructor
+    </query>
+
+    <query key="users.login">
+        SELECT user_no, user_id, user_password, user_role
+        FROM user
+        WHERE user_id = ? AND user_password = ? AND status = 1
+    </query>
+
+    <query key="users.insert">
+        INSERT INTO user (user_id, user_password, user_name, user_phone_number, user_role)
+        VALUES (?, ?, ?, ?, ?);
+    </query>
+
+
+    <!--관리자가 강좌별 수강생 전체 조회-->
+    <query key="view.student.bycourseid">
+    SELECT
+    c.course_id,
+    c.title,
+    u.user_no,
+    u.user_id,
+    u.user_name,
+    u.user_phone_number
+    FROM course c
+    JOIN enrollment e ON c.course_id = e.course_id
+    JOIN student s ON e.student_id = s.student_id
+    JOIN user u ON s.user_no = u.user_no
+    WHERE u.status = true
+    ORDER BY c.course_id;
+    </query>
+
+    <query key="course.findAllCourse">
+        select * from course
+    </query>
+
+    <query key="course.selectMyCourse">
+        SELECT *
+        FROM course c
+        JOIN instructor u ON c.instructor_id = u.instructor_id
+        WHERE u.instructor_id = ?
+    </query>
+
+    <query key="course.insertCourse">
+        INSERT INTO course (title, description, price, created_at, instructor_id)
+        VALUES (?, ?, ?, NOW(), ?)
+    </query>
+
+    <query key="course.insertSection">
+        INSERT INTO section (title, video_url, material_url, created_at, course_id)
+        VALUES (?, ?, ?, NOW(), ?)
+    </query>
+
+    <query key = "course.deleteCourse">
+        DELETE FROM course
+        WHERE course_id = ? AND instructor_id = ?
+    </query>
+
+    <query key="course.findId">
+        select course_id
+        from course
+        where instructor_id = ?
+    </query>
+
+    <query key="instructor.findId">
+        select
+            instructor_id
+        from instructor
+        where user_no = ?
+    </query>
+
+
+</properties>

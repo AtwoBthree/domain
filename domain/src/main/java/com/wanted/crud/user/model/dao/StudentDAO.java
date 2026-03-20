@@ -1,6 +1,6 @@
 package com.wanted.crud.user.model.dao;
 
-import com.wanted.crud.global.utils.QueryUtil;
+import com.wanted.crud.global.utils.UserQueryUtil;
 import com.wanted.crud.user.model.dto.StudentDTO;
 import com.wanted.crud.user.model.dto.UserDTO;
 
@@ -18,7 +18,7 @@ public class StudentDAO {
     public StudentDAO(Connection connection) {this.connection = connection;}
     public List<StudentDTO> selectAll() throws SQLException {
 
-        String query = QueryUtil.getQuery("student.selectAll");
+        String query = UserQueryUtil.getQuery("student.selectAll");
         List<StudentDTO> studentList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -40,7 +40,7 @@ public class StudentDAO {
 
     //student_id 값으로 학생찾기. 혹은 user_no로 변경할수도 있음.
     public StudentDTO findById(long id) throws SQLException {
-        String query = QueryUtil.getQuery("student.findById");
+        String query = UserQueryUtil.getQuery("student.findById");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, id);
@@ -60,7 +60,7 @@ public class StudentDAO {
 
     //마이페이지 수정/삭제
     public int updateStudent(UserDTO user) throws SQLException {
-        String query = QueryUtil.getQuery("student.update");
+        String query = UserQueryUtil.getQuery("student.update");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             /* comment.

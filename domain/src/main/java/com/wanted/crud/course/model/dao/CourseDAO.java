@@ -2,7 +2,7 @@ package com.wanted.crud.course.model.dao;
 
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
-import com.wanted.crud.global.utils.QueryUtil;
+import com.wanted.crud.global.utils.CourseQueryUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,10 +21,9 @@ public class CourseDAO {
 
     // 전체 강좌 조회
     public List<CourseDTO> selectAllCourses() throws SQLException {
-        String query = QueryUtil.getQuery("course.findAllCourse");
+        String query = CourseQueryUtil.getQuery("course.findAllCourse");
         List<CourseDTO> courseList = new ArrayList<>();
 
-        // 파라미터(?)가 없으므로 setString, setLong 등이 필요 없습니다.
         try (PreparedStatement pstmt = connection.prepareStatement(query);
              ResultSet rset = pstmt.executeQuery()) {
 
@@ -47,7 +46,7 @@ public class CourseDAO {
 
     // CourseDAO.java 내부 수정
     public List<Long> findcourseid(Long instructorId) throws SQLException {
-        String query = QueryUtil.getQuery("course.findId");
+        String query = CourseQueryUtil.getQuery("course.findId");
         List<Long> courseIdList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -68,7 +67,7 @@ public class CourseDAO {
 
     // 내 강좌 조회
     public List<CourseDTO> selectCourse(long id) throws SQLException {
-        String query = QueryUtil.getQuery("course.selectMyCourse");
+        String query = CourseQueryUtil.getQuery("course.selectMyCourse");
         List<CourseDTO> courseMyList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)){
@@ -95,9 +94,9 @@ public class CourseDAO {
 
 
     // 내 강좌 등록
-    // DAO 수정 (ResultSet 부분만 살짝 변경)
+    // DAO 수정
     public Long save(CourseDTO newCourse) throws SQLException {
-        String query = QueryUtil.getQuery("course.insertCourse");
+        String query = CourseQueryUtil.getQuery("course.insertCourse");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, newCourse.getTitle());
@@ -122,7 +121,7 @@ public class CourseDAO {
     // 내 강좌 삭제
     // CourseDAO.java 내부
     public boolean deleteCourse(Long courseId, Long instructorId) throws SQLException {
-        String query = QueryUtil.getQuery("course.deleteCourse");
+        String query = CourseQueryUtil.getQuery("course.deleteCourse");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, courseId);

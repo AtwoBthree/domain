@@ -1,6 +1,6 @@
 package com.wanted.crud.user.model.dao;
 
-import com.wanted.crud.global.utils.QueryUtil;
+import com.wanted.crud.global.utils.UserQueryUtil;
 import com.wanted.crud.user.model.dto.InstructorDTO;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ public class InstructorDAO {
     public InstructorDAO(Connection connection) {this.connection = connection;}
     public List<InstructorDTO> selectAll() throws SQLException {
 
-        String query = QueryUtil.getQuery("instructor.selectAll");
+        String query = UserQueryUtil.getQuery("instructor.selectAll");
         List<InstructorDTO> instructorList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -38,7 +38,7 @@ public class InstructorDAO {
     }
 
     public Long findId(Long userNo) throws SQLException {
-        String query = QueryUtil.getQuery("instructor.findId");
+        String query = UserQueryUtil.getQuery("instructor.findId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, userNo);

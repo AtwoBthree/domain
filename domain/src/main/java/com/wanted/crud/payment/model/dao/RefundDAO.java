@@ -1,7 +1,7 @@
 package com.wanted.crud.payment.model.dao;
 
+import com.wanted.crud.global.utils.PaymentQueryUtil;
 import com.wanted.crud.payment.model.dto.RefundDTO;
-import com.wanted.crud.global.utils.QueryUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ public class RefundDAO {
     public RefundDAO(Connection connection) { this.connection = connection;}
 
     public List<RefundDTO> selectAll() throws SQLException {
-        String query = QueryUtil.getQuery("refund.selectAll");
+        String query = PaymentQueryUtil.getQuery("refund.selectAll");
         List<RefundDTO> refundList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {

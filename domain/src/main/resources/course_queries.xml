@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    <query key="course.findAllCourse">
+        select * from course
+    </query>
+
+    <query key="course.selectMyCourse">
+        SELECT *
+        FROM course c
+        JOIN instructor u ON c.instructor_id = u.instructor_id
+        WHERE u.instructor_id = ?
+    </query>
+
+    <query key="course.findId">
+        select course_id
+        from course
+        where instructor_id = ?
+    </query>
+
+    <query key="course.insertCourse">
+        INSERT INTO course (title, description, price, created_at, instructor_id)
+        VALUES (?, ?, ?, NOW(), ?)
+    </query>
+
+    <query key="course.insertSection">
+        INSERT INTO section (title, video_url, material_url, created_at, course_id)
+        VALUES (?, ?, ?, NOW(), ?)
+    </query>
+
+    <query key="course.deleteCourse">
+        DELETE FROM course
+        WHERE course_id = ? AND instructor_id = ?
+    </query>
+</properties>

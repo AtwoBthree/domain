@@ -1,7 +1,7 @@
 package com.wanted.crud.payment.model.dao;
 
+import com.wanted.crud.global.utils.PaymentQueryUtil;
 import com.wanted.crud.payment.model.dto.PaymentDTO;
-import com.wanted.crud.global.utils.QueryUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class PaymentDAO {
     public PaymentDAO(Connection connection) { this.connection = connection;}
 
     public List<PaymentDTO> selectAll() throws SQLException {
-        String query = QueryUtil.getQuery("payment.selectAll");
+        String query = PaymentQueryUtil.getQuery("payment.selectAll");
         List<PaymentDTO> paymentList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -37,7 +37,7 @@ public class PaymentDAO {
 
     //세이브
     public Long save(PaymentDTO newPayment) throws SQLException {
-        String query = QueryUtil.getQuery("payment.save");
+        String query = PaymentQueryUtil.getQuery("payment.save");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query , PreparedStatement.RETURN_GENERATED_KEYS)) {
             pstmt.setLong(1, newPayment.getPaymentId());
