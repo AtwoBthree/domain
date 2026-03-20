@@ -1,5 +1,6 @@
 package com.wanted.crud.payment.model.service;
 
+import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.payment.model.dao.PaymentDAO;
 import com.wanted.crud.payment.model.dto.PaymentDTO;
 
@@ -19,7 +20,15 @@ public class PaymentService {
         try {
             return paymentDAO.selectAll();
         } catch (SQLException e) {
-            throw new RuntimeException("결제 전제 조회 중 Error 발생!! /UserService");
+            throw new RuntimeException("결제 전체 조회 중 Error 발생!! /PaymentService" + e);
+        }
+    }
+
+    public Long savePayment(PaymentDTO newPayment) {
+        try {
+            return paymentDAO.save(newPayment);
+        } catch (SQLException e) {
+            throw new RuntimeException("결제 내역 등록 중 Error 발생!!! 🚨" + e);
         }
     }
 }

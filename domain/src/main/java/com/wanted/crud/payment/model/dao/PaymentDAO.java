@@ -1,5 +1,6 @@
 package com.wanted.crud.payment.model.dao;
 
+import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.global.utils.PaymentQueryUtil;
 import com.wanted.crud.payment.model.dto.PaymentDTO;
 
@@ -35,7 +36,8 @@ public class PaymentDAO {
         }
     }
 
-    //세이브
+
+    //세이브 (새로운 결제추가)
     public Long save(PaymentDTO newPayment) throws SQLException {
         String query = PaymentQueryUtil.getQuery("payment.save");
 
@@ -46,6 +48,7 @@ public class PaymentDAO {
             pstmt.setBoolean(4, newPayment.isStatus());
             pstmt.setDate(5, (Date)newPayment.getPaidAt());
             pstmt.setLong(6, newPayment.getStudentId());
+            pstmt.setLong(7, newPayment.getCourseId());
 
             // dml 구문은 executeUpdate 를 통해 query 를 실행한다.
             // 결과 값은 정수 자료형 즉 영향을 받은 행의 갯수가 리턴된다.
