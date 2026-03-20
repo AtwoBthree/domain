@@ -1,5 +1,6 @@
 package com.wanted.crud.user.view;
 
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 import com.wanted.crud.user.model.dto.InstructorDTO;
 import com.wanted.crud.user.model.dto.StudentDTO;
 import com.wanted.crud.user.model.dto.UserDTO;
@@ -76,9 +77,22 @@ public class UserOutputView {
         System.out.println("0. 종료");
     }
 
+
     public void printStudents(List<StudentDTO> studentList) {
         for (StudentDTO student : studentList) {
             System.out.println(student);
+        }
+    }
+
+    // 강좌별 수강생 조회
+    public void printEnrollmentStudents(List<EnrollmentStudentDTO> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("조회된 수강생이 없습니다.");
+            return;
+        }
+
+        for (EnrollmentStudentDTO dto : list) {
+            System.out.println(dto);
         }
     }
 }

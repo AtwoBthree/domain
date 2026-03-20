@@ -11,6 +11,7 @@ public class EnrollmentDTO {
     private Long studentId;
     private Long courseId;
 
+
     public EnrollmentDTO(Long enrollmentId, Long progressRate, Date startDate, Date endDate, String status, Long studentId, Long courseId) {
         this.enrollmentId = enrollmentId;
         this.progressRate = progressRate;

@@ -1,5 +1,7 @@
 package com.wanted.crud.user.model.service;
 
+import com.wanted.crud.enrollment.model.dao.EnrollmentDAO;
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 import com.wanted.crud.user.model.dao.UserDAO;
 import com.wanted.crud.user.model.dao.StudentDAO;
 import com.wanted.crud.user.model.dao.InstructorDAO;
@@ -18,12 +20,14 @@ public class UserService {
     private final StudentDAO studentDAO;
     private final InstructorDAO instructorDAO;
     private final Connection connection;
+    private final EnrollmentDAO enrollmentDAO;
 
     public UserService(Connection connection) {
         this.connection = connection;
         this.userDAO = new UserDAO(connection);
         this.studentDAO = new StudentDAO(connection);
         this.instructorDAO = new InstructorDAO(connection);
+        this.enrollmentDAO = new EnrollmentDAO(connection);
     }
 
     // ===== User =====
@@ -31,7 +35,7 @@ public class UserService {
         try {
             return userDAO.selectAll();
         } catch (SQLException e) {
-            throw new RuntimeException("유저 전체 조회 중 Error 발생!! /UserService2");
+            throw new RuntimeException("유저 전체 조회 중 Error 발생!! /UserService2"+e);
         }
     }
 
@@ -41,15 +45,15 @@ public class UserService {
         try {
             return userDAO.findId(name, phone_number);
         } catch (SQLException e) {
-            throw new RuntimeException("유저 아이디를 찾는 중 Error 발생!!");
+            throw new RuntimeException("유저 아이디를 찾는 중 Error 발생!!" +e);
         }
     }
 
-    public String findPassord(String userid, String userphonenumber ) {
+    public String findPassword(String userid, String userphonenumber ) {
         try {
             return userDAO.findPassword(userid, userphonenumber);
         } catch (SQLException e) {
-            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!");
+            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!" + e);
         }
     }
 
@@ -57,7 +61,7 @@ public class UserService {
         try {
             return userDAO.login(id, password);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("DB 오류 발생", e); // ✔ 이렇게
         }
     }
 
@@ -66,7 +70,7 @@ public class UserService {
             return userDAO.save(newUser);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("회원가입 중 Error 발생!!! 🚨");
+            throw new RuntimeException("회원가입 중 Error 발생!!! 🚨" + e);
         }
     }
 
@@ -75,7 +79,7 @@ public class UserService {
         try {
             return studentDAO.selectAll();
         } catch (SQLException e) {
-            throw new RuntimeException("학생 전체 조회 중 Error 발생!! /UserService2");
+            throw new RuntimeException("학생 전체 조회 중 Error 발생!! /UserService2" + e);
         }
     }
 
@@ -117,7 +121,7 @@ public class UserService {
         try {
             return instructorDAO.selectAll();
         } catch (SQLException e) {
-            throw new RuntimeException("강사 전체 조회 중 Error 발생!! /UserService2");
+            throw new RuntimeException("강사 전체 조회 중 Error 발생!! /UserService2", e);
         }
     }
 
@@ -133,16 +137,28 @@ public class UserService {
         return null;
     }
 
+    public Long findStudentId(Long userNo) {
+        try {
+            if(studentDAO.findId(userNo) != null) {
+                return studentDAO.findId(userNo);
+            } else System.out.println("조회된 강사번호가 없음");
+        } catch (SQLException e) {
+            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!! +", e);
+        }
+        return null;
+    }
 
     // ===== Admin =====
     // 관리자의 강좌별 수강생 조회
-    //
-    /*
-    public List<StudentDTO> viewStudentBycourseId() {
+
+
+    public List<EnrollmentStudentDTO> viewStudentBycourseId() {
         try {
-            return studentDAO.selectStudentByCourseid();
+            return enrollmentDAO.selectStudentByCourseid();
         } catch (SQLException e) {
-            throw new RuntimeException("수강생 전체 조회 중 Error 발생!! ");
+            throw new RuntimeException("수강생 전체 조회 중 Error 발생!! ", e);
         }
-    } */
+    }
+
+
 }
