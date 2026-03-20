@@ -89,4 +89,13 @@ public class PaymentDTO {
         this.studentId = studentId;
         this.courseId = courseId;
     }
+
+    // 업데이트 DTO
+    public PaymentDTO(long paymentAmount, String paymentMethod, long studentId, long courseId) {
+
+        this.paymentAmount = paymentAmount;
+        this.paymentMethod = paymentMethod;
+        this.studentId = studentId;
+        this.courseId = courseId;
+    }
 }

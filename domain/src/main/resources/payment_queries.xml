@@ -5,8 +5,8 @@
     </query>
 
     <query key="payment.save">
-        update
-        set
+        INSERT INTO PAYMENT (payment_amount, payment_method, student_id, course_id)
+        VALUES (?, ?, ?, ?);
     </query>
 
     <query key="refund.selectAll">
