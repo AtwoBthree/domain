@@ -28,7 +28,27 @@
     </query>
 
     <query key="course.deleteCourse">
-        DELETE FROM course
+        DELETE FROM course c
         WHERE course_id = ? AND instructor_id = ?
     </query>
+
+    <query key="course.updateCourse">
+        UPDATE COURSE
+        SET title = ?,
+        description = ?,
+        price = ?
+        WHERE course_id = ?
+        AND instructor_id = ?
+    </query>
+
+    <query key="section.updateSection">
+        UPDATE SECTION s
+        JOIN COURSE c ON s.course_id = c.course_id
+        SET s.title = ?,
+        s.video_url = ?,
+        s.material_url = ?
+        WHERE s.section_id = ?
+        AND c.instructor_id = ?
+    </query>
+
 </properties>

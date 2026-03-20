@@ -58,6 +58,14 @@ public class CourseService {
         }
     }
 
+    public List<SectionDTO> findSectionsByCourseId(Long courseId) {
+        try {
+            return sectionDAO.selectSectionsByCourseId(courseId);
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 강의 목록 조회 중 Error 발생: " + e.getMessage());
+        }
+    }
+
     public Long saveCourse(CourseDTO newCourse) {
         // save를 throw 해둠. 그래서 try-catch로 감쌈.
         try {
@@ -84,6 +92,24 @@ public class CourseService {
         } catch (SQLException e) {
             System.out.println("🚨 강좌 삭제 중 Error 발생: " + e.getMessage());
             return false;
+        }
+    }
+
+    // 내 강좌 수정
+    public boolean updateCourse(CourseDTO course) {
+        try {
+            return courseDAO.updateCourse(course) > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 강좌 수정 중 Error 발생: " + e.getMessage());
+        }
+    }
+
+    // 내 강의 수정
+    public boolean updateSection(SectionDTO section, Long instructorId) {
+        try {
+            return sectionDAO.updateSection(section, instructorId) > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 강의 수정 중 Error 발생: " + e.getMessage());
         }
     }
 

@@ -37,7 +37,25 @@ public class CourseController {
         return service.deleteCourseById(courseId, instructorId);
     }
 
+    // 특정 강좌에 속한 강의(Section) 목록 조회
+    public List<SectionDTO> selectSectionsByCourseId(Long courseId) {
+        // 컨트롤러는 서비스에게 일을 시킵니다.
+        return service.findSectionsByCourseId(courseId);
+    }
+
     public List<Long> findCoursesId(Long instructorId) {
         return service.findCoursesId(instructorId);
+    }
+
+    public boolean updateCourse(Long courseId, String title, String description, Long price, Long instructorId) {
+        CourseDTO updateCourse = new CourseDTO(courseId, title, description, price, null, null, instructorId);
+        return service.updateCourse(updateCourse);
+    }
+
+    // 내 강의 수정
+    public boolean updateSection(Long sectionId, String title, String videoUrl, String materialUrl, Long instructorId) {
+        // SectionDTO에는 courseId를 굳이 안 넣어도 됩니다 (DAO에서 JOIN으로 체크하니까요)
+        SectionDTO section = new SectionDTO(sectionId, title, videoUrl, materialUrl, null, null);
+        return service.updateSection(section, instructorId);
     }
 }

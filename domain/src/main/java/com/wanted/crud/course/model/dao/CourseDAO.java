@@ -44,7 +44,7 @@ public class CourseDAO {
     }
 
 
-    // CourseDAO.java 내부 수정
+    // courseId 사용
     public List<Long> findcourseid(Long instructorId) throws SQLException {
         String query = CourseQueryUtil.getQuery("course.findId");
         List<Long> courseIdList = new ArrayList<>();
@@ -54,7 +54,6 @@ public class CourseDAO {
 
             try (ResultSet rset = pstmt.executeQuery()) {
                 while (rset.next()) {
-                    // ✅ 수정 완료: DB가 가져온 'course_id'를 그대로 꺼내서 담습니다.
                     courseIdList.add(rset.getLong("course_id"));
                 }
             }
@@ -94,7 +93,6 @@ public class CourseDAO {
 
 
     // 내 강좌 등록
-    // DAO 수정
     public Long save(CourseDTO newCourse) throws SQLException {
         String query = CourseQueryUtil.getQuery("course.insertCourse");
 
@@ -106,7 +104,6 @@ public class CourseDAO {
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
-                // ★ 수정: ResultSet도 try 괄호 안에서 열어주어 자동으로 닫히게 만듭니다.
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
                     if (rs.next()) {
                         return rs.getLong(1);
@@ -132,6 +129,23 @@ public class CourseDAO {
             return result > 0;
         }
     }
+
+    // 내 강좌 수정
+    public int updateCourse(CourseDTO course) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.updateCourse");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, course.getTitle());
+            pstmt.setString(2, course.getDescription());
+            pstmt.setLong(3, course.getPrice());
+            pstmt.setLong(4, course.getCourseId());
+            pstmt.setLong(5, course.getInstructorId());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+
 
 
 }

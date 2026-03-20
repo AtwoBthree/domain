@@ -2,6 +2,7 @@ package com.wanted.crud.course.view;
 
 import com.wanted.crud.course.controller.CourseController;
 import com.wanted.crud.course.model.dto.CourseDTO;
+import com.wanted.crud.course.model.dto.SectionDTO;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class CourseInputView {
         this.outputView = outputView;
     }
 
-    public List<Long> findCourseId(Long instructorId){
+    public List<Long> findCourseId(Long instructorId) {
         return controller.findCoursesId(instructorId);
     }
 
@@ -47,14 +48,22 @@ public class CourseInputView {
         System.out.print("과정 설명을 입력해주세요 : ");
         String description = sc.nextLine();
 
-        System.out.print("강좌 가격을 입력해주세요 : ");
-        int price = Integer.parseInt(sc.nextLine());
+        int price = 0;
+        while (true){
+            System.out.print("강좌 가격을 입력해주세요 : ");
+            try {
+                price = Integer.parseInt(sc.nextLine().trim());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("[오류] 가격은 숫자로 입력해주세요.");
+            }
+        }
         Long result = controller.createCourse(title, description, price, id);
 
         if (result != null && result > 0) {
-            outputView.printSuccess("과정 등록 성공! 생성된 과정 ID : " + result);
+            outputView.printSuccess("강좌 등록 성공! 생성된 과정 ID : " + result);
         } else {
-            outputView.printError("과정 등록 실패");
+            outputView.printError("강좌 등록 실패");
         }
     }
 
@@ -79,26 +88,98 @@ public class CourseInputView {
     }
 
     // 내 강좌 삭제
-    public void deleteCourse(Long instructorId) {
+    public void deleteCourse(Long courseIdToDelete, Long instructorId) {
         outputView.printMessage("\n--- 🗑️ 강좌 삭제 ---");
-        System.out.print("삭제할 본인의 강좌 번호를 정확히 입력해주세요 : ");
+        boolean result = controller.deleteCourseById(courseIdToDelete, instructorId);
+        if (result) {
+            outputView.printSuccess("✅ " + courseIdToDelete + "번 강좌와 하위 강의가 모두 삭제되었습니다");
+        } else {
+            outputView.printError("❌ 강좌 삭제 실패");
+        }
+    }
 
-        long targetCourseId;
 
-        try {
-            targetCourseId = Long.parseLong(sc.nextLine().trim());
-        } catch (NumberFormatException e) {
-            outputView.printError("[오류] 문자가 아닌 숫자로 된 강좌 번호를 입력해주세요.");
+    public void updateCourseView(Long instructorId) { // ✨ throws 삭제
+        outputView.printMessage("\n--- 📝 내 강좌 정보 수정 ---");
+        viewMyCourse(instructorId);
+
+        long courseId = 0L;
+        while (true) {
+            System.out.print("수정할 강좌 번호를 입력하세요 : ");
+            try {
+                courseId = Long.parseLong(sc.nextLine().trim());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("[오류] 강좌번호는 숫자로 입력해주세요.");
+            }
+        }
+
+        System.out.print("새로운 강좌 제목 : ");
+        String title = sc.nextLine();
+
+        System.out.print("새로운 강좌 설명 : ");
+        String description = sc.nextLine();
+
+        Long price = 0L;
+        while (true) {
+            System.out.print("새로운 가격 : ");
+            try {
+                price = Long.parseLong(sc.nextLine().trim());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("[오류] 가격은 숫자로 입력해주세요.");
+            }
+        }
+
+        boolean isSuccess = controller.updateCourse(courseId, title, description, price, instructorId);
+
+        if (isSuccess) {
+            outputView.printSuccess("✅ " + courseId + "번 강좌가 수정되었습니다.");
+        } else {
+            outputView.printError("❌ 수정 실패");
+        }
+    }
+
+    // 내 강의 수정
+    public void updateSectionView(Long instructorId) {
+        outputView.printMessage("\n--- 📺 강의 내용 수정 (2단계 선택) ---");
+
+        // [1단계] 내 강좌 목록 조회 및 선택
+        viewMyCourse(instructorId);
+        System.out.print("수정할 강의가 포함된 [강좌 번호]를 입력하세요: ");
+        long courseId = Long.parseLong(sc.nextLine().trim());
+
+        // [2단계] 선택한 강좌의 상세 강의 목록 조회 (새로 추가될 로직)
+        List<SectionDTO> sections = controller.selectSectionsByCourseId(courseId);
+
+        if (sections == null || sections.isEmpty()) {
+            outputView.printError("해당 강좌에 등록된 강의가 없습니다.");
             return;
         }
 
+        outputView.printMessage("\n--- [" + courseId + "]번 강좌의 상세 강의 목록 ---");
+        for (SectionDTO s : sections) {
+            System.out.println("강의번호: " + s.getSectionId() + " | 제목: " + s.getTitle());
+        }
 
-        boolean result = controller.deleteCourseById(targetCourseId, instructorId);
+        // [3단계] 실제 수정할 강의 번호 선택 및 데이터 입력
+        System.out.print("\n수정할 [강의 번호]를 입력하세요: ");
+        long sectionId = Long.parseLong(sc.nextLine().trim());
 
-        if (result) {
-            outputView.printSuccess("✅ " + targetCourseId + "번 강좌와 강의가 삭제되었습니다!");
+        System.out.print("새로운 강의 제목: ");
+        String title = sc.nextLine();
+        System.out.print("새로운 영상 URL: ");
+        String videoUrl = sc.nextLine();
+        System.out.print("새로운 자료 URL: ");
+        String materialUrl = sc.nextLine();
+
+        // 컨트롤러 호출 (instructorId를 같이 보내서 본인 확인)
+        boolean isSuccess = controller.updateSection(sectionId, title, videoUrl, materialUrl, instructorId);
+
+        if (isSuccess) {
+            outputView.printSuccess("✅ 강의 수정 완료!");
         } else {
-            outputView.printError("❌ 강좌 삭제 실패 : 해당 번호의 강좌가 없거나, 본인의 강좌가 아닙니다.");
+            outputView.printError("❌ 수정 실패: 권한이 없거나 번호가 잘못되었습니다.");
         }
     }
 }
