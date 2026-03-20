@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    <query key="payment.selectAll">
+        select * from payment
+    </query>
+
+    <query key="payment.save">
+        update
+        set
+    </query>
+
+    <query key="refund.selectAll">
+        select * from refund
+    </query>
+
+</properties>

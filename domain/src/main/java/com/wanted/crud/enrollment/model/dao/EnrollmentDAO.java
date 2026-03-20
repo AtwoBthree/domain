@@ -1,7 +1,7 @@
 package com.wanted.crud.enrollment.model.dao;
 
 import com.wanted.crud.enrollment.model.dto.EnrollmentDTO;
-import com.wanted.crud.global.utils.QueryUtil;
+import com.wanted.crud.global.utils.EnrollmentQueryUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class EnrollmentDAO {
      * 신규 수강 신청 기록 저장
      */
     public Long save(EnrollmentDTO enrollment) throws SQLException {
-        String query = QueryUtil.getQuery("enrollment.save");
+        String query = EnrollmentQueryUtil.getQuery("enrollment.save");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             // progress_rate, start_date, end_date, status, student_id, course_id
@@ -47,7 +47,7 @@ public class EnrollmentDAO {
      * 특정 수강 신청 내역 조회
      */
     public EnrollmentDTO findById(long id) throws SQLException {
-        String query = QueryUtil.getQuery("enrollment.findById");
+        String query = EnrollmentQueryUtil.getQuery("enrollment.findById");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, id);
@@ -72,7 +72,7 @@ public class EnrollmentDAO {
      * 특정 학생의 전체 수강 목록 조회
      */
     public List<EnrollmentDTO> findByStudentId(long studentId) throws SQLException {
-        String query = QueryUtil.getQuery("enrollment.findByStudentId");
+        String query = EnrollmentQueryUtil.getQuery("enrollment.findByStudentId");
         List<EnrollmentDTO> list = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -98,7 +98,7 @@ public class EnrollmentDAO {
      * 수강 상태 및 진도율 업데이트
      */
     public int updateProgress(long id, long progressRate, String status) throws SQLException {
-        String query = QueryUtil.getQuery("enrollment.updateProgress");
+        String query = EnrollmentQueryUtil.getQuery("enrollment.updateProgress");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, progressRate);

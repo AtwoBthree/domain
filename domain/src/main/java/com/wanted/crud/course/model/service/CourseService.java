@@ -18,12 +18,11 @@ public class CourseService {
     // 강좌 번호 리턴
     public List<Long> findCoursesId(Long instructorId) {
         try {
-            // ★ 2. 바구니 모양 맞추기: DAO가 List<Long>을 주니까, 받는 변수도 List<Long>으로 맞춰줍니다.
-            // (DB 조회를 try 블록 안으로 넣어서 에러 처리도 깔끔하게 묶었습니다.)
+            // DAO가 List<Long> 줌.
             List<Long> courseList = courseDAO.findcourseid(instructorId);
 
             if (courseList != null && !courseList.isEmpty()) {
-                return courseList; // 강좌 번호들이 담긴 리스트를 통째로 반환!
+                return courseList; // 강좌 번호들 담긴 리스트 반환
             } else {
                 System.out.println("등록된 강좌가 없습니다.");
                 return null; // 없으면 null 반환
@@ -80,7 +79,6 @@ public class CourseService {
     // 내 강좌 삭제
     public boolean deleteCourseById(Long courseId, Long instructorId) {
         try {
-            // DB 단에서 CASCADE가 걸려있으므로, 부모 강좌 하나만 지우라고 DAO에 시키면 끝!
             return courseDAO.deleteCourse(courseId, instructorId);
 
         } catch (SQLException e) {

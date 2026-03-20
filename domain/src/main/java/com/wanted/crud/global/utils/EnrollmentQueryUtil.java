@@ -14,7 +14,7 @@ import java.util.Map;
 *   queries.xml 파일에서 쿼리를 읽어와 관리하는
 *   유틸 클래스
 *  */
-public class QueryUtil {
+public class EnrollmentQueryUtil {
 
     private static final Map<String, String> queries = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class QueryUtil {
     private static void loadQueries() {
         try {
             // 클래스 로더를 통해 "queries.xml" 파일을 InputStream으로 가져옴
-            InputStream inputStream = QueryUtil.class.getClassLoader().getResourceAsStream("queries.xml");
+            InputStream inputStream = EnrollmentQueryUtil.class.getClassLoader().getResourceAsStream("enrollment_queries.xml");
 
             // InputStream이 null인 경우, 즉 파일을 찾지 못한 경우 예외 발생
             if (inputStream == null) {

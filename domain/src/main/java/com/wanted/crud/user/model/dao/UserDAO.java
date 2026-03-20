@@ -1,7 +1,6 @@
 package com.wanted.crud.user.model.dao;
 
-import com.wanted.crud.course.model.dto.CourseDTO;
-import com.wanted.crud.global.utils.QueryUtil;
+import com.wanted.crud.global.utils.UserQueryUtil;
 import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.sql.Connection;
@@ -19,7 +18,7 @@ public class UserDAO {
 
     //selectAll
     public List<UserDTO> selectAll() throws SQLException {
-        String query = QueryUtil.getQuery("users.selectAll");
+        String query = UserQueryUtil.getQuery("users.selectAll");
         List<UserDTO> userList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -46,7 +45,7 @@ public class UserDAO {
 
     // 아이디 찾기
     public String findId(String name, String phone_number) throws SQLException {
-        String query = QueryUtil.getQuery("users.findId");
+        String query = UserQueryUtil.getQuery("users.findId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, name);
@@ -62,7 +61,7 @@ public class UserDAO {
 
     //마이페이지 조회
     public UserDTO findNo(long userNo) throws SQLException {
-        String query = QueryUtil.getQuery("users.findNo");
+        String query = UserQueryUtil.getQuery("users.findNo");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, userNo);
@@ -89,7 +88,7 @@ public class UserDAO {
 
     // 비번 찾기
     public String findPassword(String userid, String phone_number) throws SQLException {
-        String query = QueryUtil.getQuery("users.findPassword");
+        String query = UserQueryUtil.getQuery("users.findPassword");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, userid);
@@ -108,7 +107,7 @@ public class UserDAO {
 
     public UserDTO login(String id, String password) throws SQLException {
 
-        String query = QueryUtil.getQuery("users.login");
+        String query = UserQueryUtil.getQuery("users.login");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
@@ -135,7 +134,7 @@ public class UserDAO {
     public Long save(UserDTO newUser) throws SQLException {
         // 1. properties 등에서 INSERT 쿼리를 가져옵니다.
         // 예상 쿼리: INSERT INTO `USER` (user_id, user_password, user_name, user_phone_number, user_role) VALUES (?, ?, ?, ?, ?)
-        String query = QueryUtil.getQuery("users.insert");
+        String query = UserQueryUtil.getQuery("users.insert");
         Long generatedId = null;
 
         // 2. INSERT 실행 후 생성된 PK값을 가져오기 위해 RETURN_GENERATED_KEYS 옵션을 추가합니다.
@@ -168,7 +167,7 @@ public class UserDAO {
     //  회원탈퇴 update문
     public boolean dropUser(String userId, String password) throws SQLException {
         // 1. status 컬럼을 false로 변경
-        String query = QueryUtil.getQuery("users.drop");
+        String query = UserQueryUtil.getQuery("users.drop");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, userId);

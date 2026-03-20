@@ -1,7 +1,7 @@
 package com.wanted.crud.settlement.model.dao;
 
+import com.wanted.crud.global.utils.SettlementQueryUtil;
 import com.wanted.crud.settlement.model.dto.SettlementDTO;
-import com.wanted.crud.global.utils.QueryUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class SettlementDAO {
 
     public SettlementDTO find(long id) throws SQLException {
 
-        String query = QueryUtil.getQuery("settlement.findById");
+        String query = SettlementQueryUtil.getQuery("settlement.findById");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
