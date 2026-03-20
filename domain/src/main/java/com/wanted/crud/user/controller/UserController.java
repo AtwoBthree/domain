@@ -1,5 +1,6 @@
 package com.wanted.crud.user.controller;
 
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 import com.wanted.crud.user.model.dto.UserDTO;
 import com.wanted.crud.user.model.dto.StudentDTO;
 import com.wanted.crud.user.model.dto.InstructorDTO;
@@ -47,7 +48,7 @@ public class UserController {
 
     // 비번 찾기 메서드
     public String findPassword(String userid, String phoneNumber) {
-        return service.findPassord(userid, phoneNumber);
+        return service.findPassword(userid, phoneNumber);
     }
 
     public String findId(String name, String phoneNumber) {
@@ -62,6 +63,9 @@ public class UserController {
     public Long instructorFindId(Long userno) {
         return service.findInstructorId(userno);
     }
+    public Long studentFindId(Long userno) {
+        return service.findStudentId(userno);
+    }
 
     public boolean updateStudent(UserDTO userDTO) {
         return service.updateStudent(userDTO);
@@ -72,10 +76,10 @@ public class UserController {
     }
 
 
-    /*
     // 관리자의 강좌별 수강생 조회
-    public void viewStudentBycourseId() {
-        service.viewStudentBycourseId();
-    }*/
+    public  List<EnrollmentStudentDTO>  viewStudentBycourseId() {
+
+        return service.viewStudentBycourseId();
+    }
 
 }

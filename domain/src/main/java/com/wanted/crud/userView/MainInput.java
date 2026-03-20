@@ -21,9 +21,7 @@ public class MainInput {
 
     public void startApp() {
         while(true) {
-            if (userNo == null) {
-                System.out.println("userNo = null");
-            }
+
             System.out.println("1. 로그인 2. 회원가입 3.ID/password 찾기 4. 프로그램 종료");
             System.out.print("메뉴 선택: ");
 
@@ -79,6 +77,10 @@ public class MainInput {
         String id = sc.nextLine().trim();
         System.out.println("비밀번호를 입력해주세요:");
         String password = sc.nextLine().trim();
+        Long userNo = userInputView.loginGetNo(id, password);
+        if (userNo == null) {
+            return;
+        }
         role = userInputView.loginSession(id, password);
         userNo = userInputView.loginGetNo(id, password);
         instructorId = userInputView.instructorId(userNo);
@@ -88,16 +90,16 @@ public class MainInput {
 
         switch (role) {
             case "STUDENT":
-                StudentMenu studentMenu = new StudentMenu(sc);
-                studentMenu.showMenu();
+                StudentMenu studentMenu2 = new StudentMenu(sc);
+                studentMenu2.showMenu();
                 break;
             case "INSTRUCTOR":
-                InstructorMenu instructorMenu = new InstructorMenu(sc);
-                instructorMenu.showMenu();
+                InstructorMenu instructorMenu2 = new InstructorMenu(sc);
+                instructorMenu2.showMenu();
                 break;
             case "ADMIN":
-                AdminMenu adminMenu = new AdminMenu(sc);
-                adminMenu.showMenu();
+                AdminMenu adminMenu2 = new AdminMenu(sc);
+                adminMenu2.showMenu();
                 break;
             default:
                 System.out.println("존재하지 않는 역할이거나 잘못된 입력입니다.\n");

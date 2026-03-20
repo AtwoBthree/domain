@@ -78,27 +78,22 @@ public class StudentDAO {
         }
     }
 
-
-
-    // 회원 탙퇴
-    public boolean dropStudent(String userId, String password) throws SQLException {
-        // 1. status 컬럼을 false로 변경
-        String query = "UPDATE `user` SET status = false WHERE user_id = ? AND user_password = ? AND status = true";
+    public Long findId(Long userNo) throws SQLException {
+        String query = UserQueryUtil.getQuery("student.findId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, userId);
-            pstmt.setString(2, password);
+            pstmt.setLong(1, userNo);
 
-            // 2. 영향받은 행(row) 확인
-            int affectedRows = pstmt.executeUpdate();
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return rset.getLong("student_id");
 
-            // 3. 1개 이상 행이 변경되었으면 탈퇴 성공
-            return affectedRows > 0;
+            }
         }
+        return null;
     }
 
-    // 강좌별 수강생 조회
-    /*public List<StudentDTO> selectStudentByCourseid() {
 
-    }*/
+
+
 }

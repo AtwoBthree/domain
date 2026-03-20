@@ -1,7 +1,10 @@
 package com.wanted.crud.enrollment.model.dao;
 
 import com.wanted.crud.enrollment.model.dto.EnrollmentDTO;
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 import com.wanted.crud.global.utils.EnrollmentQueryUtil;
+import com.wanted.crud.global.utils.UserQueryUtil;
+import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -107,5 +110,33 @@ public class EnrollmentDAO {
 
             return pstmt.executeUpdate();
         }
+    }
+
+    // 강좌별 수강생 조회
+    public List<EnrollmentStudentDTO> selectStudentByCourseid() throws SQLException {
+
+        String query = UserQueryUtil.getQuery("view.student.bycourseid");
+        List<EnrollmentStudentDTO> list = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+
+                EnrollmentStudentDTO user = new EnrollmentStudentDTO(
+                        rs.getLong("course_id"),
+                        rs.getString("title"),
+                        rs.getLong("user_no"),
+                        rs.getString("user_id"),
+                        rs.getString("user_name"),
+                        rs.getString("user_phone_number")
+                );
+
+                list.add(user);
+            }
+        }
+
+        return list;
     }
 }

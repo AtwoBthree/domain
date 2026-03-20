@@ -13,6 +13,7 @@ public class UserDTO {
     private Date createdAt;
     private boolean status;
 
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -100,6 +101,7 @@ public class UserDTO {
         this.status = status;
     }
 
+
     public UserDTO(Long userNo, String userId, String userPassword, String userName, String userPhoneNumber, Long userPrice, String userRole, Date createdAt, boolean status) {
         this.userNo = userNo;
         this.userId = userId;
@@ -135,10 +137,19 @@ public class UserDTO {
         //this.userRole = role;
     }
 
+    /*
+    // 강좌별 수강생 조회 전용 생성자
+    public UserDTO(Long courseId, String courseTitle,
+                   Long userNo, String userId,
+                   String userName, String userPhoneNumber) {
 
-
-
-
-
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.userNo = userNo;
+        this.userId = userId;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+    }
+*/
 
 }

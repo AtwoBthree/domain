@@ -35,13 +35,23 @@
         WHERE user_id = ? AND user_password = ? AND status = true
     </query>
 
+
     <query key="student.selectAll">
         select * from student
     </query>
 
     <query key="student.findById">
-        select * from student
+        select *
+        from student
         where student_id = ?
+    </query>
+
+    <query key="student.findId">
+        select
+            student_id
+        from student
+        where user_no = ?
+
     </query>
 
     <query key="student.update">

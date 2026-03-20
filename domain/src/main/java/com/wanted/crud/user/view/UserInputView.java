@@ -1,8 +1,10 @@
 package com.wanted.crud.user.view;
 
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 import com.wanted.crud.user.controller.UserController;
 import com.wanted.crud.user.model.dto.UserDTO;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInputView {
@@ -19,6 +21,8 @@ public class UserInputView {
     }
 
     // 로그인
+    //
+
     public String loginSession(String id, String password) {
         UserDTO loginUser = controller.login(id, password);
 
@@ -32,6 +36,10 @@ public class UserInputView {
         }
         return role;
     }
+
+
+
+
     // 로그인해서 유저번호 리턴
     public Long loginGetNo(String id, String password) {
         UserDTO loginUser = controller.login(id, password);
@@ -71,6 +79,24 @@ public class UserInputView {
                 outputView.printError("회원가입 실패");
             }
         }
+    }
+    //마이페이지 보기
+    public void myPage(Long userNo) {
+        System.out.println("1. 내 정보 보기 2. 내 정보 수정하기");
+        int menu = inputInt();
+        switch (menu) {
+            case 1:
+                findNo(userNo);
+                break;
+            case 2:
+                updateStudent(userNo);
+                break;
+        }
+    }
+    // 사용자님의 정보찾기
+    public void findNo(Long userNo) {
+        System.out.println("사용자님의 정보입니다.");
+        System.out.println(controller.findNo(userNo));
     }
     // 아이디, 비번 찾기
     public void findIdPassword() {
@@ -124,6 +150,7 @@ public class UserInputView {
         return controller.instructorFindId(userNo);
     }
 
+    // 비밀번호 찾기
     public void displayFindPassword() {
         System.out.println("아이디를 입력하세요");
         String userid = inputString();
@@ -179,11 +206,14 @@ public class UserInputView {
         }
     }
     // 관리자 메서드
-    // 유저 정보 수정(주체 : 관리자)
-  /*  public void viewStudentBycourseId(){
-        controller.viewStudentBycourseId();
+    // 강좌별 수강생 조회
+
+    public void viewStudentBycourseId(){
+
+        List<EnrollmentStudentDTO> list = controller.viewStudentBycourseId();
+
+        outputView.printEnrollmentStudents(list);
     }
-*/
 
     // 유저 정보 삭제
 
