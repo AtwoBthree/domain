@@ -1,11 +1,13 @@
 package com.wanted.crud.userView;
 
+import com.wanted.crud.Application;
 import com.wanted.crud.user.view.UserInputView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
+import static com.wanted.crud.Application.enrollmentController;
 import static com.wanted.crud.Application.userInputView;
 
 public class MainInput {
@@ -14,7 +16,7 @@ public class MainInput {
     public String role;
     public Long userNo;
     public Long instructorId;
-
+    public Long studentId;
     public void startApp() {
         while (true) {
             System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -69,14 +71,14 @@ public class MainInput {
 
         role = userInputView.loginSession(id, password);
         instructorId = userInputView.instructorId(userNo);
-
+        studentId = userInputView.studentFindId(userNo);
         System.out.println("\n  ✨ [인증성공] " + id + "님, 환영합니다!");
         System.out.println("  📡 권한 확인: " + role);
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
         switch (role) {
             case "STUDENT":
-                new StudentMenu(sc, role, userNo, instructorId).showMenu();
+                new StudentMenu(sc, role, userNo, studentId).showMenu();
                 break;
             case "INSTRUCTOR":
                 new InstructorMenu(sc, role, userNo, instructorId).showMenu();

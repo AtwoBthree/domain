@@ -9,6 +9,8 @@ import com.wanted.crud.enrollment.model.service.EnrollmentService;
 import com.wanted.crud.enrollment.view.EnrollmentInputView;
 import com.wanted.crud.enrollment.view.EnrollmentOutputView;
 import com.wanted.crud.global.config.JDBCTemplate;
+import com.wanted.crud.payment.controller.PaymentController;
+import com.wanted.crud.payment.model.service.PaymentService;
 import com.wanted.crud.payment.view.PaymentInputView;
 import com.wanted.crud.payment.view.PaymentOutputView;
 import com.wanted.crud.settlement.controller.SettlementController;
@@ -38,7 +40,7 @@ public class Application {
     public static UserInputView userInputView;
     public static AdminInputView adminInputView;
     public static PaymentInputView paymentInputView;
-
+    public static EnrollmentController enrollmentController;
 
 
     public static void main(String[] args) {
@@ -52,10 +54,10 @@ public class Application {
             CourseOutputView courseOutputView = new CourseOutputView();
             CourseInputView courseinputView = new CourseInputView(courseController, courseOutputView);
 
-//            EnrollmentInputView enrollmentService = new EnrollmentService(con);
-//            EnrollmentController enrollmentController = new EnrollmentController(enrollmentService);
-//            EnrollmentOutputView enrollmentOutputView = new EnrollmentOutputView();
-//            EnrollmentInputView enrollmentinputView = new EnrollmentInputView(enrollmentController, enrollmentOutputView);
+            EnrollmentService enrollmentService = new EnrollmentService(con);
+            EnrollmentController enrollmentController = new EnrollmentController(enrollmentService);
+            EnrollmentOutputView enrollmentOutputView = new EnrollmentOutputView();
+            EnrollmentInputView enrollmentinputview = new EnrollmentInputView(enrollmentController, enrollmentOutputView);
 
 
 
@@ -64,6 +66,10 @@ public class Application {
             SettlementOutputView settlementOutputView = new  SettlementOutputView();
             SettlementInputView settlementinputView = new  SettlementInputView(settlementController, settlementOutputView);
 
+            PaymentService paymentService = new PaymentService(con);
+            PaymentController paymentController = new PaymentController(paymentService);
+            PaymentOutputView paymentOutputView = new PaymentOutputView();
+            PaymentInputView paymentinputview = new PaymentInputView(paymentController, paymentOutputView);
 
             UserService userService = new UserService(con);
             UserController userController = new UserController(userService);
@@ -75,11 +81,11 @@ public class Application {
 
             // 조립이 끝난 뷰를 전역 변수에 저장
             courseInputView = courseinputView;
-//            enrollmentInputView = enrollmentinputview;
+            enrollmentInputView = enrollmentinputview;
             settlementInputView = settlementinputView;
             userInputView = userinputView;
+            paymentInputView = paymentinputview;
             Application.adminInputView = adminInputViewLocal;
-
 
             // ❌ 삭제: 프로그램 켜지자마자 강좌 조회하던 테스트 코드는 지웁니다.
             // inputView.viewMyCourse();
@@ -92,6 +98,6 @@ public class Application {
             System.err.println("🚨 데이터베이스 연결 실패...");
         } finally {
             JDBCTemplate.close();
-        }
+        } //
     }
 }

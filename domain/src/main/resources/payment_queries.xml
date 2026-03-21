@@ -13,4 +13,31 @@
         select * from refund
     </query>
 
+    <query key="payment.getRevenueByCourse">
+        SELECT
+        c.course_id,
+        c.title AS course_title,
+        SUM(p.payment_amount) AS total_revenue
+        FROM COURSE c
+        JOIN PAYMENT p ON c.course_id = p.course_id
+        WHERE p.status = true
+        GROUP BY c.course_id, c.title
+        ORDER BY total_revenue DESC
+    </query>
+
+    <query key="payment.selectForSettlement">
+        SELECT
+        payment_id,
+        payment_amount,
+        payment_method,
+        status,
+        paid_at,
+        student_id,
+        course_id
+        FROM payment
+        WHERE status = ?
+        AND paid_at > ?
+        AND paid_at <= ?
+    </query>
+
 </properties>

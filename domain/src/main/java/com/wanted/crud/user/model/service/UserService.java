@@ -181,8 +181,6 @@ public class UserService {
 
     // ===== Admin =====
     // 관리자의 강좌별 수강생 조회
-
-
     public List<EnrollmentStudentDTO> viewStudentBycourseId() {
         try {
             return enrollmentDAO.selectStudentByCourseid();
@@ -197,9 +195,10 @@ public class UserService {
         try {
             return userDAO.findInstructorByName(name);
         } catch (SQLException e) {
-            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!" + e);
+            throw new RuntimeException("강사 이름 조회 중 에러 발생 !!" + e);
         }
     }
+
 
 
     public List<UserDTO> findAllStudents() {
@@ -210,11 +209,78 @@ public class UserService {
         }
     }
 
+    // 관리자의 수강생 정보 수정
     public boolean updateStudentinfo(Long userNo, String newName, boolean status) {
         try {
             return userDAO.updateStudentinfo(userNo, newName, status);
         } catch (SQLException e) {
-            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!" + e);
+            throw new RuntimeException("수강생 찾는 중 에러 발생 !!" + e);
         }
     }
+
+    public boolean updateAmount(Long userNo, Long amount) {
+        try {
+            return userDAO.updateAmount(userNo, amount);
+        } catch (SQLException e) {
+            throw new RuntimeException("사용자 보유금액 업데이트 중 오류!" + e);
+        }
+    }
+
+
+    // 관리자 비활성화 수강생 조회
+    public List<UserDTO> findInactiveStudents() {
+        try {
+            return userDAO.findInactiveStudents();
+        } catch (SQLException e) {
+            throw new RuntimeException("비활성 수강생 조회 중 오류 발생!!", e);
+        }
+    }
+
+    // 관리자의 비활성화 수강생 삭제
+    public boolean deleteStudent(Long userNo) {
+
+        try {
+            // DAO에서 boolean 반환
+            return userDAO.deleteUser(userNo);
+        } catch (SQLException e) {
+            throw new RuntimeException("수강생 삭제 중 오류 발생", e);
+        }
+    }
+
+    // 관리자의 강사 전체 조회
+    public List<UserDTO> findAllInstructor() {
+        try {
+            return userDAO.findAllInstructor();
+        } catch (SQLException e) {
+            throw new RuntimeException("강사 전체 조회 중 Error 발생!! ", e);
+        }
+    }
+
+    // 관리자의 강사 정보 수정
+    public boolean updateInstructorinfo(Long userNo, String newName, boolean status) {
+        try {
+            return userDAO.updateInstructorinfo(userNo, newName, status);
+        } catch (SQLException e) {
+            throw new RuntimeException("강사 찾는 중 에러 발생 !!" + e);
+        }
+    }
+    // 관리자의 비활성화 강사 조회
+    public List<UserDTO> findInactiveInstructors() {
+        try {
+            return userDAO.findInactiveInstructors();
+        } catch (SQLException e) {
+            throw new RuntimeException("비활성 강사 조회 중 오류 발생!!", e);
+        }
+    }
+
+    // 관리자의 비활성화 강사 삭제
+    public boolean deleteInstructor(Long userNo) {
+
+        try {
+            return userDAO.deleteInstructor(userNo);
+        } catch (SQLException e) {
+            throw new RuntimeException("강사 삭제 중 오류 발생", e);
+        }
+    }
+
 }

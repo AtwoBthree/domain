@@ -21,7 +21,7 @@ public class EnrollmentDAO {
     /**
      * 신규 수강 신청 기록 저장
      */
-    public Long save(EnrollmentDTO enrollment) throws SQLException {
+    public boolean save(EnrollmentDTO enrollment) throws SQLException {
         String query = EnrollmentQueryUtil.getQuery("enrollment.save");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -37,11 +37,11 @@ public class EnrollmentDAO {
             if (result > 0) {
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
-                    return rs.getLong(1);
+                    return true;
                 }
             }
         }
-        return null;
+        return false;
     }
 
     /**
@@ -67,6 +67,21 @@ public class EnrollmentDAO {
             }
         }
         return null;
+    }
+
+    // 학생의 수강중인 강좌의 아이디 리스트
+    public List<Long> studyingCourse(Long studentId) throws SQLException{
+        String query = EnrollmentQueryUtil.getQuery("enrollment.isStudyingCourse");
+        List<Long> list = new ArrayList<>();
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, studentId);
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                list.add(rset.getLong("course_id"));
+            }
+        }
+        return list;
     }
 
     /**
@@ -110,7 +125,7 @@ public class EnrollmentDAO {
         }
     }
 
-    // 강좌별 수강생 조회
+    // 강좌별 수강생 조회(주체 : 관리자)
     public List<EnrollmentStudentDTO> selectStudentByCourseid() throws SQLException {
 
         String query = UserQueryUtil.getQuery("view.student.bycourseid");
@@ -137,4 +152,46 @@ public class EnrollmentDAO {
 
         return list;
     }
+
+    // 수강생 강좌 목록 출력 (주체 : 수강생)
+    public List<EnrollmentStudentDTO> studentCoursePage(Long studentId) throws SQLException {
+
+        String query = EnrollmentQueryUtil.getQuery("enrollment.studentcourse");
+        List<EnrollmentStudentDTO> list = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setLong(1, studentId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+
+                EnrollmentStudentDTO user = new EnrollmentStudentDTO(
+                        rs.getLong("course_id"),
+                        rs.getString("title"),
+                        rs.getLong("progress_rate")
+                );
+
+                list.add(user);
+            }
+        }
+
+        return list;
+    }
+
+
+    public int updateProgress(Long studentId, Long courseId) throws SQLException {
+        String query = EnrollmentQueryUtil.getQuery("enrollment.updateProgress");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)){
+            pstmt.setLong(1, studentId);
+            pstmt.setLong(2, courseId);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+
+
 }

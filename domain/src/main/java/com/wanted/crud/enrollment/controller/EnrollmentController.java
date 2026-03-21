@@ -2,13 +2,17 @@ package com.wanted.crud.enrollment.controller;
 
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.enrollment.model.dto.EnrollmentDTO;
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 import com.wanted.crud.enrollment.model.service.EnrollmentService;
+import com.wanted.crud.enrollment.view.EnrollmentOutputView;
+
+import java.util.List;
 
 public class EnrollmentController {
     private final EnrollmentService service;
 
     public EnrollmentController(EnrollmentService service) {this.service = service;}
-    public Long createEnrollment(Long studentId, Long courseId) {
+    public boolean createEnrollment(Long studentId, Long courseId) {
 
 
 
@@ -18,4 +22,24 @@ public class EnrollmentController {
         EnrollmentDTO newEnrollment = new EnrollmentDTO(studentId, courseId);
         return service.saveEnrollment(newEnrollment);
     }
+
+    // 수강생 강좌 목록 출력
+    public void studentCoursePage(Long studentId) {
+        List<EnrollmentStudentDTO> list = service.studentCoursePage(studentId);
+        EnrollmentOutputView.printStudentCourses(list);
+
+    }
+    
+    // 수강생 강좌 중복 여부
+    public boolean isStudyingCoruse(Long studentId, Long courseId) {
+        return service.isStudyingCourse(studentId, courseId);
+    }
+
+    public boolean updateEnrollmentProgress(Long studentId, Long courseId){
+        return service.updateEnrollmentProgress(studentId, courseId);
+    }
+
+
+
+
 }

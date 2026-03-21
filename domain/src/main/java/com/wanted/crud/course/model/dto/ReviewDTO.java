@@ -10,6 +10,8 @@ public class ReviewDTO {
     private Long courseId;
     private Long studentId;
 
+
+
     public ReviewDTO(Long reviewId, Long rating, Date createdAt, Long courseId, Long studentId) {
         this.reviewId = reviewId;
         this.rating = rating;

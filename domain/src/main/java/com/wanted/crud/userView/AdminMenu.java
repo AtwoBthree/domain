@@ -6,8 +6,7 @@ import com.wanted.crud.user.view.AdminInputView;
 
 import java.util.Scanner;
 
-import static com.wanted.crud.Application.adminInputView;
-import static com.wanted.crud.Application.userInputView;
+import static com.wanted.crud.Application.*;
 
 public class AdminMenu {
     private Scanner sc = new Scanner(System.in);
@@ -86,7 +85,9 @@ public class AdminMenu {
                 userInputView.updateStudent();
 
             }
-            else if (menu == 3) {System.out.println("\n  🛠️ [알림] 수강생 삭제 로직 준비 중...");}
+            else if (menu == 3) {System.out.println("\n  🛠️ [알림] 수강생 삭제 로직 준비 중...");
+                userInputView.deleteStudent();
+            }
             else if (menu == 0) isMenuOpen = false;
             else System.out.println("  ❌ [오류] 잘못된 선택입니다.");
         }
@@ -98,14 +99,20 @@ public class AdminMenu {
             System.out.println("\n  📂 [ 2. 강사 관리 세부 메뉴 ]");
             System.out.println("  --------------------------------------------------");
             System.out.println("  • 1. 🔍 이름으로 강사 조회");
-            System.out.println("  • 2. 🛠️ 정보 수정 및 삭제");
+            System.out.println("  • 2. 🛠️ 강사 정보 수정");
+            System.out.println("  • 3. 🛠️ 강사 정보 삭제");
             System.out.println("  • 0. 🔙 뒤로가기");
             System.out.println("  --------------------------------------------------");
             System.out.print("  ▶ 메뉴를 선택해주세요: ");
 
             int menu = getMenuInput();
             if (menu == 1) adminInputView.searchInstructor();
-            else if (menu == 2) System.out.println("\n  🛠️ [알림] 강사 정보 수정/삭제 로직 준비 중...");
+            else if (menu == 2) {System.out.println("\n  🛠️ [알림] 강사 정보 수정 로직 준비 중...");
+              adminInputView.updateInstructor();
+            }
+            else if (menu == 3) {System.out.println("\n  🛠️ [알림] 강사 정보 삭제 로직 준비 중...");
+            adminInputView.deleteInstructor();
+            }
             else if (menu == 0) isMenuOpen = false;
             else System.out.println("  ❌ [오류] 잘못된 선택입니다.");
         }
@@ -147,8 +154,21 @@ public class AdminMenu {
             System.out.print("  ▶ 메뉴를 선택해주세요: ");
 
             int menu = getMenuInput();
-            if (menu == 1) System.out.println("\n  📊 [분석] 강좌별 누적 총액 데이터를 산출합니다...");
-            else if (menu == 2) System.out.println("\n  💸 [수익] 강사별 수익 데이터를 집계합니다...");
+            if (menu == 1) {
+                if (Application.paymentInputView != null) {
+                    Application.paymentInputView.viewRevenueByCourse();
+                } else {
+                    System.out.println("  🚨 [시스템 오류] 결제 관련 화면을 불러올 수 없습니다.");
+                }
+            }
+
+            else if (menu == 2) {
+                if (settlementInputView != null) {
+                    settlementInputView.viewRevenueByInstructor();
+                } else {
+                    System.out.println("  🚨 [시스템 오류] 정산 관련 화면을 불러올 수 없습니다.");
+                }
+            }
             else if (menu == 3) System.out.println("\n  📈 [통계] 플랫폼 전체 수익을 합산합니다...");
             else if (menu == 0) isMenuOpen = false;
             else System.out.println("  ❌ [오류] 잘못된 선택입니다.");
@@ -156,12 +176,40 @@ public class AdminMenu {
     }
 
     private void adminSettlementScreen() {
+        boolean isMenuOpen = true;
+        while (isMenuOpen) {
         System.out.println("\n  💰 [ 5. 정산 관리 시스템 ]");
         System.out.println("  --------------------------------------------------");
+        System.out.println(" 1. 전체 정산 내역 보기. 2. create 미정산된 결제내역 , select 불러오기 3. 정산내역 처리하기");
+        //2. 정산내역 불러오면 status WAIT 인 상태로 불러와지고 3. WAIT 인 상태의 정산내역들이 관리자, 강사 돈이들어감.
         System.out.println("  🛠️  [처리중] 강사료 및 수수료 정산 로직 가동 중...");
         System.out.println("  ✅  정산 완료 시 상태 메일이 자동 발송됩니다.");
         System.out.println("  --------------------------------------------------");
+
+            int menu = getMenuInput();
+
+            if (menu == 1) {
+                System.out.println("전체 정산 내역 보기 로직");
+              //  settlementInputView.viewAllSettlement();
+
+            }
+
+            else if(menu == 2){
+                System.out.println("create 미정산된 결제내역 조회 로직");
+
+            }
+
+            else if (menu == 3) {
+                System.out.println("정산내역 처리하기 로직");
+                settlementInputView.saveSettlement();
+            }
+
+            else if (menu == 0) isMenuOpen = false;
+            else System.out.println("  ❌ [오류] 잘못된 선택입니다.");
+        }
+
     }
+
 
     private int getMenuInput() {
         try {

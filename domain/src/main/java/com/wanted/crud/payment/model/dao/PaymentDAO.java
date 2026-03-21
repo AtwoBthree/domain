@@ -65,6 +65,25 @@ public class PaymentDAO {
 
     }
 
+    // 강좌별 누적 결제 총금액 정산
+    public List<PaymentDTO> selectRevenueByCourse() throws SQLException {
+        String query = PaymentQueryUtil.getQuery("payment.getRevenueByCourse");
+        List<PaymentDTO> revenueList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rset = pstmt.executeQuery()) {
+
+            while (rset.next()) {
+                PaymentDTO revenueInfo = new PaymentDTO(
+                        rset.getLong("course_id"),
+                        rset.getString("course_title"),
+                        rset.getLong("total_revenue")
+                );
+                revenueList.add(revenueInfo);
+            }
+        }
+        return revenueList;
+    }
 
 
 

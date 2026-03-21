@@ -134,5 +134,43 @@
         WHERE user_no = ?;
     </query>
 
+    <query key = "user.updateAmount">
+        UPDATE user
+        SET user_price = user_price - ?
+        WHERE user_no = ?;
+    </query>
+
+    <query key = "findInactiveStudents">
+        select *
+        FROM user
+        WHERE status = 0
+        AND user_role = 'student';
+    </query>
+
+    <query key = "users.delete">
+        DELETE FROM user
+        WHERE user_no = ?
+        AND status = 0
+    </query>
+
+    <query key = "findAllInstructor">
+        select *
+        FROM user
+        WHERE user_role = 'instructor';
+    </query>
+
+    <query key = "user.updateInstructorInfo">
+        UPDATE user
+        SET user_name = ?, status = ?
+        WHERE user_no = ?;
+    </query>
+
+    <query key = "findInactiveInstructors">
+        select *
+        FROM user
+        WHERE status = 0
+        AND user_role = 'instructor';
+    </query>
+
 
 </properties>

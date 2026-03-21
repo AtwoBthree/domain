@@ -16,6 +16,9 @@
         WHERE u.instructor_id = ?
     </query>
 
+    <query key="course.findPriceById">
+
+    </query>
     <query key="course.findId">
         select course_id
         from course
@@ -103,5 +106,40 @@
         WHERE c.instructor_id = ?
         ORDER BY c.course_id ASC, e.start_date DESC
     </query>
+
+    <query key="review.completedCourses">
+        SELECT
+        c.course_id,
+        c.title,
+        e.progress_rate
+        FROM enrollment e
+        JOIN course c ON e.course_id = c.course_id
+        WHERE e.student_id = ? AND e.progress_rate = 100;
+    </query>
+
+    <query key="review.checkExists">
+        SELECT COUNT(*)
+        FROM review
+        WHERE student_id = ? AND course_id = ?;
+    </query>
+
+    <query key="review.save">
+        INSERT INTO review (student_id, course_id, rating, created_at)
+        VALUES (?, ?, ?, now());
+    </query>
+
+    <query key="review.selectByCourseId">
+        SELECT
+            c.course_id,
+            c.title,
+            c.description,
+            c.price,
+        ROUND(IFNULL(AVG(r.rating), 1), 0.0) as avg_rating
+        FROM course c
+        LEFT JOIN review r ON c.course_id = r.course_id
+        GROUP BY c.course_id, c.title, c.description, c.price
+        ORDER BY c.course_id ASC
+    </query>
+
 
 </properties>

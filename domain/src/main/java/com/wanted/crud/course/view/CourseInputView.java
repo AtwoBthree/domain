@@ -3,7 +3,9 @@ package com.wanted.crud.course.view;
 import com.wanted.crud.course.controller.CourseController;
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
+import com.wanted.crud.course.model.dto.CourseReviewDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 
 import java.util.List;
 import java.util.Scanner;
@@ -306,7 +308,112 @@ public class CourseInputView {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
+    // 리뷰 작성
+    public void reviewScreen(Long studentId){
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("  ✍️ [ 수강 완료 강좌 별점 남기기 ]");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
+        // 수강 완료 강좌 목록
+        List<EnrollmentStudentDTO> completelist = controller.getCompletedCourses(studentId);
+
+        if(completelist == null || completelist.isEmpty()){
+            System.out.println("❌ 수강을 완료한 강좌가 아직 없습니다");
+            System.out.println(" 진척도 100% 를 달성한 후 다시 찾아주세요!");
+            return;
+        }
+
+        System.out.printf("%-10s %-20s\n","강좌ID", "강좌명", "리뷰");
+        System.out.println("-----------------------------------------------------");
+        for(EnrollmentStudentDTO dto : completelist){
+            System.out.printf("%-10d %-20s\n", dto.getCourseId(), dto.getCourseTitle());
+        }
+        System.out.print("\n  ▶ 별점을 남길 강좌 번호를 입력하세요 (이전: 0): ");
+        long courseId;
+        try {
+            courseId = Long.parseLong(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("🚨 [입력 오류] 숫자만 입력 가능합니다.");
+            return;
+        }
+
+        if(courseId == 0){
+            System.out.println(" 이전 화면으로 돌아갑니다.");
+            return;
+        }
+
+        boolean isValid = false;
+        for (EnrollmentStudentDTO enrollmentStudentDTO : completelist){
+            if (enrollmentStudentDTO.getCourseId() == courseId){
+                isValid = true;
+                break;
+            }
+        }
+
+        if (!isValid){
+            System.out.println("🚨 목록에 없는 강좌 번호입니다.|");
+            return;
+        }
+
+        // 별점 입력받기
+        System.out.println("\n ⭐ [별점 입력]");
+        System.out.println("  [ 5 ] ★★★★★ - 완벽해요!");
+        System.out.println("  [ 4 ] ★★★★☆ - 아주 좋아요");
+        System.out.println("  [ 3 ] ★★★☆☆ - 보통이에요");
+        System.out.println("  [ 2 ] ★★☆☆☆ - 아쉬워요");
+        System.out.println("  [ 1 ] ★☆☆☆☆ - 별로예요");
+        System.out.print("  ▶ 별점을 숫자로 입력해주세요 (1~5): ");
+
+        Long rating;
+        try{
+            rating = Long.parseLong(sc.nextLine().trim());
+        } catch (NumberFormatException e){
+            System.out.println(" 🚨[입력 오류] 숫자만 입력해주세요");
+            return;
+        }
+
+        if (rating < 1 || rating > 5){
+            System.out.println("❌ 별점은 1부터 5 사이의 숫자로 입력해주세요.");
+            return;
+        }
+
+        boolean saveRating = controller.writeReview(studentId, courseId, rating);
+
+        if(saveRating){
+            System.out.println("\n🎉 소중한 별점이 성공적으로 등록되었습니다! 감사합니다!");
+        }
+    }
+
+
+
+    public void courseReviewScreen() {
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("  ⭐ [ 전체 강좌 평균 보기 ]");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+        List<CourseReviewDTO> courseReviewList = controller.getCourseReview();
+
+        if (courseReviewList == null || courseReviewList.isEmpty()){
+            System.out.println(" ❌ 리뷰가 등록된 강좌가 없습니다.");
+            return;
+        }
+
+        System.out.printf("%-5s | %-20s | %-10s | %-10s\n", "ID", "강좌명", "가격", "평점");
+        System.out.println("-----------------------------------------------------------------");
+
+         for (CourseReviewDTO courseReviewDTO : courseReviewList){
+             String courseRating = (courseReviewDTO.getAvgRating() > 0) ? "⭐ " + courseReviewDTO.getAvgRating() : "리뷰 없음";
+
+             System.out.printf("%-5d | %-20s | %-10d | %-10s\n",
+                     courseReviewDTO.getCourseId(),
+                     courseReviewDTO.getTitle(),
+                     courseReviewDTO.getPrice(),
+                     courseRating
+             );
+             System.out.println("      ▶ 소개: " + courseReviewDTO.getDescription());
+             System.out.println("-----------------------------------------------------------------");
+         }
+    }
 
 
 }

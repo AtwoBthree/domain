@@ -11,6 +11,10 @@ public class PaymentDTO {
     private long studentId;
     private long courseId;
 
+    // 강좌별 총수익 계산을 위한 필드
+    private String courseTitle;
+    private long totalRevenue;
+
     // ✨ [1단계] 여백 계산기: Java 버전에 상관없이 돌아가도록 수정했습니다!
     private String padRight(String text) {
         int targetWidth = 46; // 테두리 안쪽 너비
@@ -125,6 +129,10 @@ public class PaymentDTO {
         this.courseId = courseId;
     }
 
+    // 강좌별 수익 조회
+    public String getCourseTitle() { return courseTitle; }
+    public long getTotalRevenue() { return totalRevenue; }
+
     public PaymentDTO(long paymentId, long paymentAmount, String paymentMethod, boolean status, Date paidAt, long studentId, long courseId) {
         this.paymentId = paymentId;
         this.paymentAmount = paymentAmount;
@@ -144,4 +152,20 @@ public class PaymentDTO {
         this.studentId = studentId;
         this.courseId = courseId;
     }
+
+    // 강좌별 수익 조회
+    public PaymentDTO(long courseId, String courseTitle, long totalRevenue) {
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.totalRevenue = totalRevenue;
+    }
+
+    public String toCourseDashboardString() {
+        return String.format("  📘 강좌: %-15s (ID: %d) | 💰 누적 결제금액: %,d 원",
+                courseTitle, courseId, totalRevenue);
+    }
 }
+
+
+
+

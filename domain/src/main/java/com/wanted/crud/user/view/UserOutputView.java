@@ -27,7 +27,7 @@ public class UserOutputView {
     // ===== User 관련 출력 =====
     public void printUsers(List<UserDTO> userList) {
         System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("👥 [ 시스템 등록 전체 사용자 목록 ]");
+        System.out.println("👥 [ 시스템 사용자 목록 ]");
 
         if (userList == null || userList.isEmpty()) {
             System.out.println("🚨 조회된 사용자가 한 명도 없습니다.");
@@ -38,6 +38,8 @@ public class UserOutputView {
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
+
+
 
     // ===== 메뉴 출력 (박스 스타일) =====
     public void printMenu() {

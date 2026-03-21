@@ -259,13 +259,11 @@ public class UserDAO {
     // 유저 보유금액 수정하기 (유저 번호, 변경할 금액)
     public boolean updateAmount(Long userNo, Long userAmount) throws SQLException{
 
-        String query = UserQueryUtil.getQuery("user.updateStudentInfo");
+        String query = UserQueryUtil.getQuery("user.updateAmount");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-
-            pstmt.setLong(1, userNo);   // 변경할 이름
-            pstmt.setLong(2, userAmount);  // 변경할 상태
-            pstmt.setLong(3, userNo);     // 대상 user_no
+            pstmt.setLong(1, userAmount);  // 변경할 가격
+            pstmt.setLong(2, userNo);     // 변경할 대상
 
             int result = pstmt.executeUpdate();
 
@@ -305,7 +303,7 @@ public class UserDAO {
     }
 
 
-
+    // 관리자의 수강생 정보 수정
     public boolean updateStudentinfo(Long userNo, String newName, boolean status) throws SQLException{
 
         String query = UserQueryUtil.getQuery("user.updateStudentInfo");
@@ -325,5 +323,149 @@ public class UserDAO {
             return false;
         }
     }
+
+
+    // 관리자의 비활성화 수강생 조회
+
+    public List<UserDTO> findInactiveStudents() throws SQLException {
+
+        List<UserDTO> list = new ArrayList<>();
+
+        String query = UserQueryUtil.getQuery("findInactiveStudents");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                UserDTO user = new UserDTO(
+                         rset.getLong("user_no"),
+                        rset.getString("user_id"),
+                        rset.getString("user_password"),
+                        rset.getString("user_name"),
+                        rset.getString("user_phone_number"),
+                        rset.getLong("user_price"),
+                        rset.getString("user_role"),
+                        rset.getDate("created_at"),
+                        rset.getBoolean("status")
+                );
+
+                list.add(user);
+            }
+        }
+
+        return list;
+    }
+
+    // 관리자의 수강생 삭제
+    public boolean deleteUser(Long userNo) throws SQLException {
+
+        String query = UserQueryUtil.getQuery("users.delete");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setLong(1, userNo);
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0; // 1 이상이면 삭제 성공
+        }
+    }
+
+    // 관리자의 강사 전체 조회
+    public List<UserDTO>  findAllInstructor() throws SQLException {
+
+        List<UserDTO> list = new ArrayList<>();
+
+        String query = UserQueryUtil.getQuery("findAllInstructor");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                UserDTO user = new UserDTO(
+                        rset.getLong("user_no"),
+                        rset.getString("user_id"),
+                        rset.getString("user_password"),
+                        rset.getString("user_name"),
+                        rset.getString("user_phone_number"),
+                        rset.getLong("user_price"),
+                        rset.getString("user_role"),
+                        rset.getDate("created_at"),
+                        rset.getBoolean("status")
+                );
+
+                list.add(user);
+            }
+        }
+
+        return list;
+    }
+    // 관리자의 강사 정보 수정
+    public boolean updateInstructorinfo(Long userNo, String newName, boolean status) throws SQLException{
+
+        String query = UserQueryUtil.getQuery("user.updateInstructorInfo");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, newName);   // 변경할 이름
+            pstmt.setBoolean(2, status);  // 변경할 상태
+            pstmt.setLong(3, userNo);     // 대상 user_no
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0; // 1이면 성공, 0이면 실패
+
+        } catch (SQLException e) {
+            System.err.println("수강생 수정 중 오류 발생: " + e.getMessage());
+            return false;
+        }
+    }
+    // 관리자의 비활성화 강사 조회
+    public List<UserDTO> findInactiveInstructors() throws SQLException {
+
+        List<UserDTO> list = new ArrayList<>();
+
+        String query = UserQueryUtil.getQuery("findInactiveInstructors");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                UserDTO user = new UserDTO(
+                        rset.getLong("user_no"),
+                        rset.getString("user_id"),
+                        rset.getString("user_password"),
+                        rset.getString("user_name"),
+                        rset.getString("user_phone_number"),
+                        rset.getLong("user_price"),
+                        rset.getString("user_role"),
+                        rset.getDate("created_at"),
+                        rset.getBoolean("status")
+                );
+
+                list.add(user);
+            }
+        }
+
+        return list;
+    }
+    // 관리자의 비활성화 강사 삭제
+    public boolean deleteInstructor(Long userNo) throws SQLException {
+
+        String query = UserQueryUtil.getQuery("users.delete");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setLong(1, userNo);
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0; // 1 이상이면 삭제 성공
+        }
+    }
+
 }
 

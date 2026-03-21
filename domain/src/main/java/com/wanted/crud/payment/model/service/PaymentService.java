@@ -31,4 +31,13 @@ public class PaymentService {
             throw new RuntimeException("결제 내역 등록 중 Error 발생!!! 🚨" + e);
         }
     }
+
+    // 강좌별 누적 총금액 계산
+    public List<PaymentDTO> getRevenueByCourse() {
+        try {
+            return paymentDAO.selectRevenueByCourse();
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 강좌별 수익 조회 중 오류 발생: " + e.getMessage());
+        }
+    }
 }

@@ -1,10 +1,13 @@
 package com.wanted.crud.course.model.service;
 
 import com.wanted.crud.course.model.dao.CourseDAO;
+import com.wanted.crud.course.model.dao.ReviewDAO;
 import com.wanted.crud.course.model.dao.SectionDAO;
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
+import com.wanted.crud.course.model.dto.CourseReviewDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +18,7 @@ public class CourseService {
     private final CourseDAO courseDAO;
     private final SectionDAO sectionDAO;
     private final Connection connection;
+    private final ReviewDAO reviewDAO;
 
     // 강좌 번호 리턴
     public List<Long> findCoursesId(Long instructorId) {
@@ -34,8 +38,6 @@ public class CourseService {
     }
 
 
-
-
     public List<CourseDTO> findAllCourses() {
         try {
             return courseDAO.selectAllCourses();
@@ -48,6 +50,7 @@ public class CourseService {
     public CourseService(Connection connection) {
         this.courseDAO = new CourseDAO(connection);
         this.sectionDAO = new SectionDAO(connection);
+        this.reviewDAO = new ReviewDAO(connection);
         this.connection = connection;
     }
 
@@ -173,16 +176,44 @@ public class CourseService {
     }
 
 
+    //만들필요없었나. . .. 보류
+    public Long coursePrice(Long courseId) {
+        try {
+            return courseDAO.coursePrice(courseId);
+        } catch (SQLException e) {
+            throw new RuntimeException("강좌번호를 통한 강좌가격 조회 중 오류발생!!"+e);
+        }
+    }
 
+    // 리뷰
 
+    public List<EnrollmentStudentDTO> completedCourses(Long studentId){
+        try {
+            return reviewDAO.completeCourses(studentId);
+        } catch (SQLException e){
+            throw new RuntimeException("🚨 수강 완료 목록 불러오는 중 오류 발생!", e);
+        }
+    }
 
+    public boolean writeReview(Long studentId, Long courseId, Long rating){
+        try{
+            if(reviewDAO.checkReviewExists(studentId,courseId) > 0){
+                System.out.println("🚨 이미 별점을 남긴 강좌입니다!");
+                return false;
+            }
+            return reviewDAO.saveReview(studentId, courseId, rating) > 0;
+        } catch (SQLException e){
+            throw new RuntimeException("🚨 리뷰 저장 중 오류 발생!", e);
+        }
+    }
 
-
-
-
-
-
-
+    public List<CourseReviewDTO> getCourseReview() {
+        try{
+            return courseDAO.selectCourseReview();
+        } catch (SQLException e){
+            throw new RuntimeException("🚨 강좌별 평균 리뷰 점수 조회 중 오류 발생!" , e);
+        }
+    }
 
 
 }

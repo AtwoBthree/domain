@@ -10,6 +10,7 @@ public class EnrollmentStudentDTO {
     private String userId;
     private String userName;
     private String userPhoneNumber;
+    private Long progressRate;
 
     public EnrollmentStudentDTO(Long courseId, String courseTitle,
                                 Long userNo, String userId,
@@ -21,6 +22,12 @@ public class EnrollmentStudentDTO {
         this.userId = userId;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public EnrollmentStudentDTO(Long courseId, String courseName, Long progressRate) {
+        this.courseId = courseId;
+        this.courseTitle = courseName;
+        this.progressRate = progressRate;
     }
 
     public Long getCourseId() {
@@ -46,6 +53,8 @@ public class EnrollmentStudentDTO {
     public String getUserPhoneNumber() {
         return userPhoneNumber;
     }
+
+    public Long getProgress(){ return progressRate; }
 
     // ✨ 정밀 정렬을 위한 여백 계산기 (너비 50으로 정교화)
     private String padRight(String text) {

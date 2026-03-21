@@ -1,9 +1,11 @@
 package com.wanted.crud.course.controller;
 
 import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
+import com.wanted.crud.course.model.dto.CourseReviewDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.course.model.service.CourseService;
+import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 
 import java.util.List;
 
@@ -83,5 +85,19 @@ public class CourseController {
     // 관리자가 강좌 삭제
     public boolean deleteCourseByAdmin(Long courseId) {
         return service.removeCourseByAdmin(courseId);
+    }
+
+
+    // 리뷰
+    public List<EnrollmentStudentDTO>getCompletedCourses(Long studentId){
+        return service.completedCourses(studentId);
+    }
+
+    public boolean writeReview(Long studentId, Long courseId, Long rating){
+        return service.writeReview(studentId, courseId, rating);
+    }
+
+    public List<CourseReviewDTO> getCourseReview() {
+        return service.getCourseReview();
     }
 }

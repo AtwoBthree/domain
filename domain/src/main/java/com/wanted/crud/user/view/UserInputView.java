@@ -203,7 +203,7 @@ public class UserInputView {
         }
     }
 
-    // 유저(수강생) 정보 수정(주체: 수강생)
+    // 유저(강사) 정보 수정(주체: 강사)
     public void updateInstructor(Long userNo) {
         System.out.println("변경할 이름을 입력하세요: ");
         String name = inputString();
@@ -221,7 +221,7 @@ public class UserInputView {
         }
     }
     // 회원탈퇴
-    public void deleteUser() {
+    public boolean deleteUser() {
         System.out.println("회원 탈퇴를 진행합니다.");
 
         // 1. 아이디 입력
@@ -235,11 +235,21 @@ public class UserInputView {
         // 3. Controller 호출
         boolean result = controller.dropUser(id, password); // Controller에서 boolean 반환
 
+        /*
         // 4. 결과 출력
         if (result) {
             System.out.println("✅ 회원 탈퇴가 완료되었습니다.");
         } else {
             outputView.printError("회원 탈퇴 실패: 아이디 또는 비밀번호가 틀렸거나, 이미 탈퇴한 계정일 수 있습니다.");
+        }
+    }
+    */
+        if (result) {
+            System.out.println("✅ 회원 탈퇴 완료");
+            return true; // 🔥 성공
+        } else {
+            System.out.println("🚨 [ERROR] ❌ 회원 탈퇴 실패: 아이디 또는 비밀번호가 틀렸거나, 이미 탈퇴한 계정일 수 있습니다.");
+            return false; // 🔥 실패
         }
     }
     // 관리자 메서드
@@ -327,6 +337,22 @@ public class UserInputView {
             }
         }
     }
+//=========================================================
+    //사용자 보유금액 업데이트
+    public void updateAmount(Long userNo, Long amount) {
+        System.out.println("값 업데이트중입니다");
+        if(controller.updateAmount(userNo, amount)) {
+            System.out.println("!!값 업데이트 완료");
+        }
+        else {
+            System.out.println("ㅠㅠ 업데이트 실패했습니다 ㅠㅠ");
+        }
+    }
+
+
+//    =======================================================
+
+
 
     // ===== 입력 =====
     private String inputString() {
@@ -363,9 +389,21 @@ public class UserInputView {
         System.out.print("변경할 이름을 입력하세요: ");
         String newName = inputString();
 
-        System.out.print("변경할 계정 상태를 입력해주세요 (1: 활성, 0: 비활성): ");
-        int statusInput = inputInt();
+
+        int statusInput;
+        while (true) {
+            System.out.print("변경할 계정 상태를 입력해주세요 (1: 활성, 0: 비활성): ");
+            statusInput = inputInt();
+
+            if (statusInput == 1 || statusInput == 0) {
+                break;
+            }
+
+            System.out.println("❌ 1 또는 0만 입력 가능합니다.");
+        }
+
         boolean status = (statusInput == 1);
+
 
         // 4. 업데이트 실행
         boolean result = controller.updateStudentinfo(userNo, newName, status);
@@ -377,13 +415,16 @@ public class UserInputView {
             outputView.printError("수정 실패 (user_no 확인 필요)");
         }
     }
-/*
+
+
+
+
     // 관리자의 수강생 정보 삭제
     public void deleteStudent() {
 
         // 1. status = 0 수강생 출력
         List<UserDTO> list = controller.findInactiveStudents();
-        outputView.printStudents(list);
+        outputView.printUsers(list);
 
         if (list == null || list.isEmpty()) {
             outputView.printError("삭제할 수강생이 없습니다.");
@@ -403,8 +444,6 @@ public class UserInputView {
         } else {
             outputView.printError("삭제 실패 (user_no 확인 필요)");
         }
-    }*/
-
-
+    }
 
 }

@@ -23,7 +23,10 @@ public class PaymentController {
         return service.savePayment(newPayment);
     }
 
-
+    // 강좌별 누적 총금액 계산
+    public List<PaymentDTO> getRevenueByCourse() {
+        return service.getRevenueByCourse();
+    }
 
 
 }

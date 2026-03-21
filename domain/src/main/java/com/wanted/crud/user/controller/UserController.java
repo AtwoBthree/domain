@@ -104,8 +104,56 @@ public class UserController {
         return service.findAllStudents();
     }
 
+    // 관리자의 수강생 정보 수정
     public boolean updateStudentinfo(Long userNo, String newName, boolean status) {
 
         return service.updateStudentinfo(userNo, newName, status);
     }
+
+
+    // 관리자의 비활성화 수강생 조회
+    public List<UserDTO> findInactiveStudents() {
+        {
+            return service.findInactiveStudents();
+        }
+    }
+
+    // 관리자의 수강생 삭제
+    public boolean deleteStudent(Long userNo) {
+        return service.deleteStudent(userNo);
+    }
+
+    // 관리자의 전체 강사 조회
+    public List<UserDTO> findAllInstructor() {
+        return service.findAllInstructor();
+    }
+
+    // 관리자의 강사 정보 수정
+
+     public boolean updateInstructorinfo(Long userNo, String newName, boolean status) {
+
+        return service.updateInstructorinfo(userNo, newName, status);
+    }
+    // 관리자의 비활성화 강사 조회
+
+    public List<UserDTO> findInactiveInstructors() {
+        {
+            return service.findInactiveInstructors();
+        }
+    }
+
+    // 관리자의 비활성화 강사 삭제
+    public boolean deleteInstructor(Long userNo) {
+        {
+            return service.deleteInstructor(userNo);
+        }
+    }
+
+
+    //유저 금액 업데이트
+    public boolean updateAmount(Long userNo, Long amount) {
+        return service.updateAmount(userNo, amount);
+    }
+
+
 }

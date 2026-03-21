@@ -2,6 +2,7 @@ package com.wanted.crud.course.model.dao;
 
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
+import com.wanted.crud.course.model.dto.CourseReviewDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
 import com.wanted.crud.global.utils.CourseQueryUtil;
 import com.wanted.crud.global.utils.UserQueryUtil;
@@ -62,6 +63,8 @@ public class CourseDAO {
         }
         return courseIdList;
     }
+
+
 
 
     // 내 강좌 조회
@@ -235,6 +238,49 @@ public class CourseDAO {
         }
         return mystudentList;
     }
+
+    // 강좌 아이디로 해당 강좌 가격 가져오기
+    public Long coursePrice(Long courseId) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.findPriceById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, courseId);
+
+            // ResultSet도 안전하게 닫히도록 try에 추가하는 것을 권장합니다.
+            try (ResultSet rset = pstmt.executeQuery()) {
+
+                // 1. rset.next()로 커서를 한 칸 내리면서 데이터가 있는지 확인합니다.
+                if (rset.next()) {
+                    return rset.getLong("price"); // 데이터가 있으면 가격 반환
+                }
+            }
+        }
+        // 2. 만약 입력한 courseId에 해당하는 강좌가 DB에 아예 없다면?
+        return null; // 무료 강좌(0원)와 구분하기 위해 null을 반환하는 것이 좋습니다.
+    }
+
+    public List<CourseReviewDTO> selectCourseReview() throws SQLException {
+        String query = CourseQueryUtil.getQuery("review.selectByCourseId");
+        List<CourseReviewDTO> courseReviewList = new ArrayList<>();
+
+        try(PreparedStatement pstmt = connection.prepareStatement(query)){
+            ResultSet rset = pstmt.executeQuery();
+            while(rset.next()){
+                courseReviewList.add(new CourseReviewDTO(
+                   rset.getLong("course_id"),
+                   rset.getString("title"),
+                   rset.getString("Description"),
+                   rset.getLong("price"),
+                   rset.getDouble("avg_rating")
+                ));
+            }
+        }
+        return courseReviewList;
+    }
+
+
+
+
 
 }
 
