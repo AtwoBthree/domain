@@ -4,10 +4,8 @@ import com.wanted.crud.user.view.UserInputView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Scanner;
 
-import static com.wanted.crud.Application.courseInputView;
 import static com.wanted.crud.Application.userInputView;
 
 public class MainInput {
@@ -15,95 +13,90 @@ public class MainInput {
     private Scanner sc = new Scanner(System.in);
     public String role;
     public Long userNo;
-    public static Long instructorId;
-    public static List<Long> findcourseid;
-   // public Long courseId;
+    public Long instructorId;
 
     public void startApp() {
-        while(true) {
-
-            System.out.println("1. 로그인 2. 회원가입 3.ID/password 찾기 4. 프로그램 종료");
-            System.out.print("메뉴 선택: ");
-
+        while (true) {
+            System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            System.out.println("  🌟 [ WELCOME TO WANTED SKILLS ONLINE ]");
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            System.out.println("  1. 🔑 로그인");
+            System.out.println("  2. 📝 회원가입");
+            System.out.println("  3. 🔍 ID/Password 찾기");
+            System.out.println("  4. ❌ 프로그램 종료");
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            System.out.print("  ▶ 메뉴 선택: ");
 
             int startMenu = -1;
             try {
                 startMenu = Integer.parseInt(sc.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("[오류] 숫자로 된 메뉴 번호를 입력해주세요.\n");
+                System.out.println("  🚨 [입력오류] 숫자로 된 메뉴 번호를 입력해주세요.\n");
                 continue;
             }
 
             switch (startMenu) {
-                case 1:
-                    //로그인화면
-                    loginScreen();
-                    break;
-                case 2:
-                    registerScreen(); // [Main-01]
-                    break;
-                case 3:
-                    findIdScreen(); // [Main-02]
-                    break;
+                case 1: loginScreen(); break;
+                case 2: registerScreen(); break;
+                case 3: findIdScreen(); break;
                 case 4:
-                    System.out.println("프로그램을 종료합니다.");
+                    System.out.println("\n  👋 이용해주셔서 감사합니다. 프로그램을 종료합니다.");
                     sc.close();
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("잘못된 입력입니다.\n");
+                    System.out.println("  ❌ [오류] 잘못된 선택입니다. 다시 입력해주세요.\n");
                     break;
             }
         }
     }
 
-    private void findIdScreen() {
-        System.out.println("\n--- ID/Password 찾기 ---");
-        userInputView.findIdPassword();
-        System.out.println("[Main-02] ID/PW 찾기 로직을 연결할 자리입니다.");
-    }
-
-    private void registerScreen() {
-        System.out.println("\n--- 회원가입 ---");
-        System.out.println("[Main-01] 회원가입 로직(Controller)을 연결할 자리입니다.");
-        userInputView.displayRegister();
-    }
-
-
-
     private void loginScreen() {
-        System.out.println("\n--- 로그인 화면 ---");
-        System.out.println("아이디를 입력해주세요:");
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("  🔑 [ 로그인 시스템 접속 ]");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.print("  ▶ 아이디 입력: ");
         String id = sc.nextLine().trim();
-        System.out.println("비밀번호를 입력해주세요:");
+        System.out.print("  ▶ 비밀번호 입력: ");
         String password = sc.nextLine().trim();
-        Long userNo = userInputView.loginGetNo(id, password);
+
+        userNo = userInputView.loginGetNo(id, password);
         if (userNo == null) {
+            // Error 메시지는 OutputView에서 이미 출력되므로 생략하거나 아래처럼 안내
+            System.out.println("  🚨 로그인 정보를 다시 확인해주세요.");
             return;
         }
+
         role = userInputView.loginSession(id, password);
-        userNo = userInputView.loginGetNo(id, password);
         instructorId = userInputView.instructorId(userNo);
 
-        // [Main-03] 실제 DB 조회 후 role을 판단하는 로그인 인증 로직이 들어갈 자리입니다.
-        System.out.println("[Main-03] 로그인 인증 및 세션 처리 로직 구현 예정");
+        System.out.println("\n  ✨ [인증성공] " + id + "님, 환영합니다!");
+        System.out.println("  📡 권한 확인: " + role);
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
         switch (role) {
             case "STUDENT":
-                StudentMenu studentMenu2 = new StudentMenu(sc);
-                studentMenu2.showMenu();
+                new StudentMenu(sc, role, userNo, instructorId).showMenu();
                 break;
             case "INSTRUCTOR":
-                InstructorMenu instructorMenu2 = new InstructorMenu(sc);
-                instructorMenu2.showMenu();
+                new InstructorMenu(sc, role, userNo, instructorId).showMenu();
                 break;
             case "ADMIN":
-                AdminMenu adminMenu2 = new AdminMenu(sc);
-                adminMenu2.showMenu();
+                new AdminMenu(sc, role, userNo, instructorId).showMenu();
                 break;
             default:
-                System.out.println("존재하지 않는 역할이거나 잘못된 입력입니다.\n");
+                System.out.println("  🚨 [오류] 존재하지 않는 역할이거나 권한이 만료되었습니다.\n");
                 break;
         }
+    }
+
+    private void registerScreen() {
+        System.out.println("\n  📝 [ 회원가입 프로세스 시작 ]");
+        userInputView.displayRegister();
+    }
+
+    private void findIdScreen() {
+        System.out.println("\n  🔍 [ 계정 정보 찾기 모드 ]");
+        userInputView.findIdPassword();
     }
 }

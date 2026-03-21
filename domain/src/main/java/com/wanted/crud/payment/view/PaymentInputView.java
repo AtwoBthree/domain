@@ -38,8 +38,8 @@ public class PaymentInputView {
     }
 
     //결제내역 추가 (paymentAmount, paymentMethod, studentId, courseId)
-    public void createPayment(Long paymentAmount, String paymentMethod, Long studentId, Long courseId) {
-        controller.createPayment(paymentAmount, paymentMethod, studentId, courseId);
+    public void createPayment(Long paymentAmount, String paymentMethod, boolean status, Long studentId, Long courseId) {
+        controller.createPayment(paymentAmount, paymentMethod, status,studentId,  courseId);
     }
 
     private final PaymentOutputView outputView;

@@ -11,17 +11,62 @@ public class PaymentDTO {
     private long studentId;
     private long courseId;
 
+    // ✨ [1단계] 여백 계산기: Java 버전에 상관없이 돌아가도록 수정했습니다!
+    private String padRight(String text) {
+        int targetWidth = 46; // 테두리 안쪽 너비
+        int width = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c >= '가' && c <= '힣') width += 2; // 한글은 2칸
+            else width += 1; // 나머지는 1칸
+        }
+
+        StringBuilder padded = new StringBuilder(text);
+        while (width < targetWidth) {
+            padded.append(" ");
+            width++;
+        }
+        return padded.toString();
+    }
+
     @Override
     public String toString() {
-        return "PaymentDTO{" +
-                "paymentId=" + paymentId +
-                ", paymentAmount=" + paymentAmount +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", status=" + status +
-                ", paidAt=" + paidAt +
-                ", studentId=" + studentId +
-                ", courseId=" + courseId +
-                '}';
+        // 1. 결제 상태 및 금액 포맷팅
+        boolean isPaid = "1".equals(String.valueOf(status));
+        String formattedAmount = String.format("%,d원", paymentAmount);
+        String statusText = isPaid ? "✅ COMPLETE!" : "⏳ WAITING..";
+        String paymentTitle = isPaid ? " [ PAYMENT SUCCESS ]" : " [ PAYMENT PENDING ]";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append("  .--------------------------------------------------\n");
+        // 🚀 선명한 PAYMENT 타이포그래피 (오른쪽 테두리 제거)
+        sb.append("  |   ____   _  _   _  _   _  ____  _  _  ____ \n");
+        sb.append("  |  |  _ \\ / _\\ \\_/ /| \\_/ ||  __|| \\| ||_  _|\n");
+        sb.append("  |  |  __/| [ ] | | || \\_/ ||  __|| \\  |  ||  \n");
+        sb.append("  |  |_|   |_| |_|_| ||_| |_||____||_|\\_|  |_|  \n");
+        sb.append("  ├--------------------------------------------------\n");
+        sb.append("  | ").append(paymentTitle).append("\n");
+        sb.append("  ├--------------------------------------------------\n");
+        // 캐릭터(영수증 도장 느낌)
+        sb.append("  |      .-------.    .-------.  \n");
+        sb.append("  |      | O   O |    |   |   |  \n");
+        sb.append("  |      |   o   |    | o | o |  \n");
+        sb.append("  |      '-------'    '-------'  \n");
+        sb.append("  ├--------------------------------------------------\n");
+        // 상세 결제 정보
+        sb.append("  |   💰 결제 번호  : # ").append(String.format("%06d", paymentId)).append("\n");
+        sb.append("  |   💵 결제 금액  : ").append(formattedAmount).append("\n");
+        sb.append("  |   💳 결제 수단  : ").append(paymentMethod != null ? paymentMethod : "미지정").append("\n");
+        sb.append("  |   🧑‍🎓 학생 번호  : ").append(studentId).append("번 회원\n");
+        sb.append("  |   📘 강좌 번호  : ").append(courseId).append("번 강좌\n");
+        sb.append("  ├--------------------------------------------------\n");
+        // 하단 상태 요약
+        sb.append("  |   [상태] ").append(statusText).append("\n");
+        sb.append("  |   [일시] ").append(paidAt != null ? paidAt : "결제 대기 중").append("\n");
+        sb.append("  '--------------------------------------------------\n");
+
+        return sb.toString();
     }
 
     public long getPaymentId() {
@@ -91,10 +136,11 @@ public class PaymentDTO {
     }
 
     // 업데이트 DTO
-    public PaymentDTO(long paymentAmount, String paymentMethod, long studentId, long courseId) {
+    public PaymentDTO(long paymentAmount, String paymentMethod, boolean status, long studentId, long courseId) {
 
         this.paymentAmount = paymentAmount;
         this.paymentMethod = paymentMethod;
+        this.status = status;
         this.studentId = studentId;
         this.courseId = courseId;
     }

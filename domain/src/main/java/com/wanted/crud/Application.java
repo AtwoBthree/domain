@@ -9,6 +9,7 @@ import com.wanted.crud.enrollment.model.service.EnrollmentService;
 import com.wanted.crud.enrollment.view.EnrollmentInputView;
 import com.wanted.crud.enrollment.view.EnrollmentOutputView;
 import com.wanted.crud.global.config.JDBCTemplate;
+import com.wanted.crud.payment.view.PaymentInputView;
 import com.wanted.crud.payment.view.PaymentOutputView;
 import com.wanted.crud.settlement.controller.SettlementController;
 import com.wanted.crud.settlement.model.service.SettlementService;
@@ -19,10 +20,10 @@ import com.wanted.crud.settlement.view.SettlementInputView;
 import com.wanted.crud.settlement.view.SettlementOutputView;
 import com.wanted.crud.user.controller.UserController;
 import com.wanted.crud.user.model.service.UserService;
+import com.wanted.crud.user.view.AdminInputView;
 import com.wanted.crud.user.view.UserInputView;
 import com.wanted.crud.user.view.UserOutputView;
 import com.wanted.crud.userView.MainInput;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -35,6 +36,8 @@ public class Application {
     public static EnrollmentInputView enrollmentInputView;
     public static SettlementInputView settlementInputView;
     public static UserInputView userInputView;
+    public static AdminInputView adminInputView;
+    public static PaymentInputView paymentInputView;
 
 
 
@@ -66,6 +69,7 @@ public class Application {
             UserController userController = new UserController(userService);
             UserOutputView userOutputView = new UserOutputView();
             UserInputView userinputView = new UserInputView(userController, userOutputView);
+            AdminInputView adminInputViewLocal = new AdminInputView(userController, userOutputView);
 
 
 
@@ -74,6 +78,7 @@ public class Application {
 //            enrollmentInputView = enrollmentinputview;
             settlementInputView = settlementinputView;
             userInputView = userinputView;
+            Application.adminInputView = adminInputViewLocal;
 
 
             // ❌ 삭제: 프로그램 켜지자마자 강좌 조회하던 테스트 코드는 지웁니다.

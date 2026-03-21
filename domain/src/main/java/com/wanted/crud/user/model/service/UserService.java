@@ -83,9 +83,17 @@ public class UserService {
         }
     }
 
-    public UserDTO findNo(Long userNo) {
+    public UserDTO findSelectUserNo(Long userNo) {
         try {
-            return userDAO.findNo(userNo);
+            return userDAO.findSelectUserNo(userNo);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UserDTO findSelectUserRole(String userRole) {
+        try {
+            return userDAO.findSelectUserRole(userRole);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -107,11 +115,21 @@ public class UserService {
         }
     }
 
+    //학생 업데이트
     public boolean updateStudent(UserDTO userDTO) {
         try {
             return studentDAO.updateStudent(userDTO) > 0;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("학생정보 업데이트 중 오류" + e);
+        }
+    }
+
+    //강사 업데이트
+    public boolean updateInstructor(UserDTO userDTO) {
+        try {
+            return instructorDAO.updateInstructor(userDTO) > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("강사 정보 업데이트중 오류" + e);
         }
     }
 
@@ -137,13 +155,26 @@ public class UserService {
         return null;
     }
 
+
+    // 학생 번호 리턴
     public Long findStudentId(Long userNo) {
         try {
             if(studentDAO.findId(userNo) != null) {
                 return studentDAO.findId(userNo);
-            } else System.out.println("조회된 강사번호가 없음");
+            } else System.out.println("조회된 수강생 번호가 없음");
         } catch (SQLException e) {
-            throw new RuntimeException("유저번호를 통한 강사번호 조회 중 오류발생!! +", e);
+            throw new RuntimeException("유저번호를 통한 수강생 번호 조회 중 오류발생!! +", e);
+        }
+        return null;
+    }
+
+    public Long getAmount(Long userNo) {
+        try {
+            if(userDAO.getAmount(userNo) != null) {
+                return userDAO.getAmount(userNo);
+            } else System.out.println("잔액이 확인되지않음");
+        } catch (SQLException e) {
+            throw new RuntimeException("유저번호를 통한 수강 잔액확인불가+", e);
         }
         return null;
     }
@@ -161,4 +192,29 @@ public class UserService {
     }
 
 
+    // 관리자의 강사 이름으로 조회
+    public List<UserDTO> findInstructorByName(String name) {
+        try {
+            return userDAO.findInstructorByName(name);
+        } catch (SQLException e) {
+            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!" + e);
+        }
+    }
+
+
+    public List<UserDTO> findAllStudents() {
+        try {
+            return userDAO.findAllStudents();
+        } catch (SQLException e) {
+            throw new RuntimeException("수강생 전체 조회 중 Error 발생!! ", e);
+        }
+    }
+
+    public boolean updateStudentinfo(Long userNo, String newName, boolean status) {
+        try {
+            return userDAO.updateStudentinfo(userNo, newName, status);
+        } catch (SQLException e) {
+            throw new RuntimeException("비밀번호 찾는 중 에러 발생 !!" + e);
+        }
+    }
 }

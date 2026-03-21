@@ -3,7 +3,12 @@
     <query key="course.findAllCourse">
         select * from course
     </query>
-
+    <query key="course.getPrice">
+        select
+            price
+        from course
+        where course_id = ?
+    </query>
     <query key="course.selectMyCourse">
         SELECT *
         FROM course c
@@ -49,6 +54,54 @@
         s.material_url = ?
         WHERE s.section_id = ?
         AND c.instructor_id = ?
+    </query>
+
+    <query key="section.selectSectionsByCourseId">
+        SELECT * FROM SECTION WHERE course_id = ?
+    </query>
+
+    <query key="section.updateSection">
+        UPDATE SECTION s
+        JOIN COURSE c ON s.course_id = c.course_id
+        SET s.title = ?,
+        s.video_url = ?,
+        s.material_url = ?
+        WHERE s.section_id = ? AND c.instructor_id = ?
+    </query>
+
+    <query key="course.selectInstructorCourses">
+        SELECT * FROM COURSE WHERE instructor_id = ?
+    </query>
+
+    <query key="course.adminDeleteCourse">
+        DELETE FROM COURSE WHERE course_id = ?
+    </query>
+
+    <query key="course.adminUpdateCourse">
+        UPDATE COURSE
+        SET title = ?,
+        description = ?,
+        price = ?,
+        status = ?
+        WHERE course_id = ?
+    </query>
+
+    <query key="course.myStudent">
+        SELECT
+        c.course_id,
+        c.title,
+        e.student_id,
+        u.user_name,
+        e.progress_rate,
+        e.start_date,
+        e.end_date,
+        e.status
+        FROM course c
+        JOIN ENROLLMENT e ON c.course_id = e.course_id
+        JOIN STUDENT s ON e.student_id = s.student_id
+        JOIN USER u ON s.user_no= u.user_no
+        WHERE c.instructor_id = ?
+        ORDER BY c.course_id ASC, e.start_date DESC
     </query>
 
 </properties>

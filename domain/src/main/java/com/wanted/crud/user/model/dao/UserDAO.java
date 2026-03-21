@@ -1,6 +1,7 @@
 package com.wanted.crud.user.model.dao;
 
 import com.wanted.crud.global.utils.UserQueryUtil;
+import com.wanted.crud.user.model.dto.InstructorDTO;
 import com.wanted.crud.user.model.dto.UserDTO;
 
 import java.sql.Connection;
@@ -60,8 +61,8 @@ public class UserDAO {
     }
 
     //마이페이지 조회
-    public UserDTO findNo(long userNo) throws SQLException {
-        String query = UserQueryUtil.getQuery("users.findNo");
+    public UserDTO findSelectUserNo(long userNo) throws SQLException {
+        String query = UserQueryUtil.getQuery("users.findSelectUserNo");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, userNo);
@@ -77,7 +78,33 @@ public class UserDAO {
                         rset.getString("user_name"),
                         rset.getString("user_phone_number"),
                         rset.getLong("user_price"),
-                        rset.getString("role"),
+                        rset.getString("user_role"),
+                        rset.getDate("created_at"),
+                        rset.getBoolean("status")
+                );
+            }
+        }
+        return null;
+    }
+
+    public UserDTO findSelectUserRole(String userRole) throws SQLException {
+        String query = UserQueryUtil.getQuery("users.findSelectUserRole");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, userRole);
+
+            //select 결과는 ResultSet 객체로 변환!!
+            ResultSet rset = pstmt.executeQuery();
+
+            if(rset.next()) {
+                return new UserDTO(
+                        rset.getLong("user_no"),
+                        rset.getString("user_id"),
+                        rset.getString("user_password"),
+                        rset.getString("user_name"),
+                        rset.getString("user_phone_number"),
+                        rset.getLong("user_price"),
+                        rset.getString("user_role"),
                         rset.getDate("created_at"),
                         rset.getBoolean("status")
                 );
@@ -181,6 +208,122 @@ public class UserDAO {
     }
 
 
+    public List<UserDTO> findInstructorByName(String name) throws SQLException {
+        List<UserDTO> instructors = new ArrayList<>();
 
+        String query = UserQueryUtil.getQuery("user.findInstructorByName");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, "%" + name + "%"); // 부분 일치 검색
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+                while (rset.next()) {
+                    UserDTO user = new UserDTO(
+                            rset.getLong("user_no"),
+                            rset.getString("user_id"),
+                            rset.getString("user_password"),
+                            rset.getString("user_name"),
+                            rset.getString("user_phone_number"),
+                            rset.getLong("user_price"),
+                            rset.getString("user_role"),
+                            rset.getTimestamp("created_at"),
+                            rset.getBoolean("status")
+                    );
+
+                    instructors.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("강사 이름 조회 중 오류 발생: " + e.getMessage());
+            throw e;
+        }
+
+        return instructors;
+    }
+
+    public Long getAmount(Long userNo) throws SQLException {
+        String query = UserQueryUtil.getQuery("user.getAmount");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userNo);
+
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return rset.getLong("user_price");
+
+            }
+        }
+        return null;
+    }
+
+    // 유저 보유금액 수정하기 (유저 번호, 변경할 금액)
+    public boolean updateAmount(Long userNo, Long userAmount) throws SQLException{
+
+        String query = UserQueryUtil.getQuery("user.updateStudentInfo");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setLong(1, userNo);   // 변경할 이름
+            pstmt.setLong(2, userAmount);  // 변경할 상태
+            pstmt.setLong(3, userNo);     // 대상 user_no
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0; // 1이면 성공, 0이면 실패
+
+        } catch (SQLException e) {
+            System.err.println("수강생 수정 중 오류 발생: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<UserDTO> findAllStudents() throws SQLException{
+        List<UserDTO> list = new ArrayList<>();
+
+        String query = UserQueryUtil.getQuery("user.findAllStudents");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rset = pstmt.executeQuery()) {
+
+            while (rset.next()) {
+                UserDTO user = new UserDTO(
+                        rset.getLong("user_no"),
+                        rset.getString("user_id"),
+                        rset.getString("user_password"),
+                        rset.getString("user_name"),
+                        rset.getString("user_phone_number"),
+                        rset.getLong("user_price"),
+                        rset.getString("user_role"),
+                        rset.getDate("created_at"),
+                        rset.getBoolean("status")
+                );
+
+                list.add(user);
+            }
+        }
+        return list;
+    }
+
+
+
+    public boolean updateStudentinfo(Long userNo, String newName, boolean status) throws SQLException{
+
+        String query = UserQueryUtil.getQuery("user.updateStudentInfo");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, newName);   // 변경할 이름
+            pstmt.setBoolean(2, status);  // 변경할 상태
+            pstmt.setLong(3, userNo);     // 대상 user_no
+
+            int result = pstmt.executeUpdate();
+
+            return result > 0; // 1이면 성공, 0이면 실패
+
+        } catch (SQLException e) {
+            System.err.println("수강생 수정 중 오류 발생: " + e.getMessage());
+            return false;
+        }
+    }
 }
 

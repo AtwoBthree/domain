@@ -9,15 +9,64 @@ public class RefundDTO {
     private Date refundAt;
     private long paymentId;
 
+    // ✨ 환불 승인서 전용 정밀 여백 계산기 (너비 46)
+    private String padRight(String text) {
+        int targetWidth = 46;
+        int width = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c >= '가' && c <= '힣') width += 2;
+            else width += 1;
+        }
+        StringBuilder padded = new StringBuilder(text);
+        while (width < targetWidth) {
+            padded.append(" ");
+            width++;
+        }
+        return padded.toString();
+    }
+
     @Override
     public String toString() {
-        return "RefundDTO{" +
-                "refundId=" + refundId +
-                ", refundAmount=" + refundAmount +
-                ", refundStatus=" + refundStatus +
-                ", refundAt=" + refundAt +
-                ", paymentId=" + paymentId +
-                '}';
+        // 1. 환불 상태 분석 (null 방어 포함)
+        boolean isDone = "1".equals(String.valueOf(refundStatus));
+        String statusIcon = isDone ? "✅ 완료 (COMPLETED)" : "⏳ 진행 중 (PROCESSING)";
+        String formattedAmount = String.format("%,d원", refundAmount);
+
+        // 2. 상태 도장(STAMP) 아스키 아트
+        String stampTop = " .----------. ";
+        String stampMid = isDone ? " |  REFUND  | " : " |  PENDING | ";
+        String stampBot = " '----------' ";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append("  .--------------------------------------------------\n");
+        // 🚀 REFUND 타이포그래피 (오른쪽 테두리 제거)
+        sb.append("  |   ____   _____  _____  _   _  _   _  ____  \n");
+        sb.append("  |  |  _ \\ |  ___||  ___|| | | || \\ | ||  _ \\ \n");
+        sb.append("  |  | |_) || |__  | |__  | | | ||  \\| || | | |\n");
+        sb.append("  |  |  _ < |  __| |  __| | |_| || |\\  || |_| |\n");
+        sb.append("  |  |_| \\_\\|_____||_|     \\___/ |_| \\_||____/ \n");
+        sb.append("  ├--------------------------------------------------\n");
+        sb.append("  |         OFFICIAL REFUND DOCUMENT\n");
+        sb.append("  ├--------------------------------------------------\n");
+        // 상태 도장 및 ID 표시
+        sb.append("  |  \n");
+        sb.append("  |      ").append(stampTop).append("\n");
+        sb.append("  |      ").append(stampMid).append("  ID : #").append(String.format("%05d", refundId)).append("\n");
+        sb.append("  |      ").append(stampBot).append("\n");
+        sb.append("  |  \n");
+        sb.append("  ├--------------------------------------------------\n");
+        // 상세 환불 데이터 정렬 (한글 항목명 적용)
+        sb.append("  |   💰 환불 금액  : ").append(formattedAmount).append("\n");
+        sb.append("  |   💳 결제 번호  : # ").append(String.format("%06d", paymentId)).append("\n");
+        sb.append("  |   ✨ 처리 상태  : ").append(statusIcon).append("\n");
+        sb.append("  |   📅 처리 일시  : ").append(refundAt != null ? refundAt : "확인 중 (Pending)").append("\n");
+        sb.append("  ├--------------------------------------------------\n");
+        sb.append("  |   PLEASE KEEP THIS FOR YOUR RECORDS.\n");
+        sb.append("  '--------------------------------------------------\n");
+
+        return sb.toString();
     }
 
     public long getRefundId() {

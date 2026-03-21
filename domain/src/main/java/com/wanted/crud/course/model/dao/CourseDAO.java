@@ -1,8 +1,10 @@
 package com.wanted.crud.course.model.dao;
 
 import com.wanted.crud.course.model.dto.CourseDTO;
+import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
 import com.wanted.crud.global.utils.CourseQueryUtil;
+import com.wanted.crud.global.utils.UserQueryUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +17,7 @@ public class CourseDAO {
 
     private final Connection connection;
 
-    public CourseDAO (Connection connection) {
+    public CourseDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -27,7 +29,7 @@ public class CourseDAO {
         try (PreparedStatement pstmt = connection.prepareStatement(query);
              ResultSet rset = pstmt.executeQuery()) {
 
-            while (rset.next()){
+            while (rset.next()) {
                 CourseDTO course = new CourseDTO(
                         rset.getLong("course_id"),
                         rset.getString("title"),
@@ -62,18 +64,16 @@ public class CourseDAO {
     }
 
 
-
-
     // 내 강좌 조회
     public List<CourseDTO> selectCourse(long id) throws SQLException {
         String query = CourseQueryUtil.getQuery("course.selectMyCourse");
         List<CourseDTO> courseMyList = new ArrayList<>();
 
-        try (PreparedStatement pstmt = connection.prepareStatement(query)){
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, id);
             ResultSet rset = pstmt.executeQuery();
 
-            while (rset.next()){
+            while (rset.next()) {
                 CourseDTO course = new CourseDTO(
                         rset.getLong("course_id"),
                         rset.getString("title"),
@@ -145,7 +145,100 @@ public class CourseDAO {
         }
     }
 
+    public Long getPrice(Long courseId) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.getPrice");
 
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, courseId);
 
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return rset.getLong("price");
+            }
+        }
+        return null;
+    }
+
+    // 관리자가 강사 강좌 조회
+    public List<CourseDTO> selectCoursesByInstructorId(long instructorId) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.selectMyCourse"); // WHERE instructor_id = ? 쿼리 사용
+        List<CourseDTO> courses = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, instructorId);
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+                while (rset.next()) {
+                    courses.add(new CourseDTO(
+                            rset.getLong("course_id"),
+                            rset.getString("title"),
+                            rset.getString("description"),
+                            rset.getLong("price"),
+                            rset.getString("status"),
+                            rset.getDate("created_at"),
+                            rset.getLong("instructor_id")
+                    ));
+                }
+            }
+        }
+        return courses;
+    }
+
+    // 관리자가 강좌 삭제
+    public boolean adminDeleteCourse(Long courseId) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.adminDeleteCourse");
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, courseId);
+            return pstmt.executeUpdate() > 0;
+        }
+    }
+
+    // 관리자가 강좌 수정
+    public int updateCourseByAdmin(CourseDTO course) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.adminUpdateCourse");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, course.getTitle());
+            pstmt.setString(2, course.getDescription());
+            pstmt.setLong(3, course.getPrice());
+            pstmt.setString(4, course.getStatus());
+            pstmt.setLong(5, course.getCourseId());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    // 내 강좌를 수강 중인 전체 학생 현황 조회
+    public List<CourseMyStudentDTO> selectMyStudent(long instructorId) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.myStudent");
+        List<CourseMyStudentDTO> mystudentList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, instructorId);
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                CourseMyStudentDTO course = new CourseMyStudentDTO(
+                        rset.getLong("course_id"),
+                        rset.getString("title"),
+                        rset.getLong("student_id"),
+                        rset.getString("user_name"),
+                        rset.getLong("progress_rate"),
+                        rset.getDate("start_date"),
+                        rset.getDate("end_date"),
+                        rset.getBoolean("status")
+                );
+
+                mystudentList.add(course);
+            }
+
+        }
+        return mystudentList;
+    }
 
 }
+
+
+
+
+

@@ -43,10 +43,12 @@ public class SectionDAO {
         return null;
     }
 
+
     // 강의 수정
     public List<SectionDTO> selectSectionsByCourseId(long courseId) throws SQLException {
-        String query = "SELECT * FROM SECTION WHERE course_id = ?"; // CourseQueryUtil에 등록 권장
+        String query = CourseQueryUtil.getQuery("section.selectSectionsByCourseId");
         List<SectionDTO> sections = new ArrayList<>();
+
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, courseId);
             ResultSet rset = pstmt.executeQuery();
@@ -64,20 +66,16 @@ public class SectionDAO {
         return sections;
     }
 
-    // 강의 정보 수정 (보안을 위해 instructorId 체크 포함)
+    // 강의 정보 수정
     public int updateSection(SectionDTO section, Long instructorId) throws SQLException {
-        // 1. section_id로 접근하되, 해당 section의 course_id가 로그인한 강사의 것인지 체크
-        String query = "UPDATE SECTION s " +
-                "JOIN COURSE c ON s.course_id = c.course_id " +
-                "SET s.title = ?, s.video_url = ?, s.material_url = ? " +
-                "WHERE s.section_id = ? AND c.instructor_id = ?";
+        String query = CourseQueryUtil.getQuery("section.updateSection");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, section.getTitle());      // 새로운 제목
-            pstmt.setString(2, section.getVideoUrl());   // 새로운 URL
-            pstmt.setString(3, section.getMaterialUrl()); // 새로운 자료
-            pstmt.setLong(4, section.getSectionId());    // ★ 수정할 강의 번호 (여기선 2번)
-            pstmt.setLong(5, instructorId);              // ★ 로그인한 강사 번호 (여기선 1번)
+            pstmt.setString(1, section.getTitle());
+            pstmt.setString(2, section.getVideoUrl());
+            pstmt.setString(3, section.getMaterialUrl());
+            pstmt.setLong(4, section.getSectionId());
+            pstmt.setLong(5, instructorId);
 
             return pstmt.executeUpdate();
         }

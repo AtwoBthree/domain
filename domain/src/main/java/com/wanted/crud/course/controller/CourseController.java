@@ -1,5 +1,6 @@
 package com.wanted.crud.course.controller;
 
+import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.course.model.service.CourseService;
@@ -39,7 +40,6 @@ public class CourseController {
 
     // 특정 강좌에 속한 강의(Section) 목록 조회
     public List<SectionDTO> selectSectionsByCourseId(Long courseId) {
-        // 컨트롤러는 서비스에게 일을 시킵니다.
         return service.findSectionsByCourseId(courseId);
     }
 
@@ -54,8 +54,34 @@ public class CourseController {
 
     // 내 강의 수정
     public boolean updateSection(Long sectionId, String title, String videoUrl, String materialUrl, Long instructorId) {
-        // SectionDTO에는 courseId를 굳이 안 넣어도 됩니다 (DAO에서 JOIN으로 체크하니까요)
         SectionDTO section = new SectionDTO(sectionId, title, videoUrl, materialUrl, null, null);
         return service.updateSection(section, instructorId);
+    }
+
+    // 관리자가 강사 강의 조회
+    public List<CourseDTO> getCoursesByInstructor(Long targetInstructorId) {
+        return service.findCoursesByInstructorId(targetInstructorId);
+    }
+
+    // 관리자가 강사 강좌 수정
+    public boolean updateCourseByAdmin(Long courseId, String title, String description, Long price, String status) {
+        CourseDTO updateCourse = new CourseDTO(courseId, title, description, price, status, null, null);
+        return service.updateCourseByAdmin(updateCourse);
+    }
+
+    public Long getPirce(Long courseId) {
+        return service.getPrice(courseId);
+    }
+
+
+    // 내 강좌를 수강중인 학생 전체 조회
+    public List<CourseMyStudentDTO> selectFindMyStudent(Long instructorId){
+        return service.selectFindMyStudent(instructorId);
+    }
+
+
+    // 관리자가 강좌 삭제
+    public boolean deleteCourseByAdmin(Long courseId) {
+        return service.removeCourseByAdmin(courseId);
     }
 }

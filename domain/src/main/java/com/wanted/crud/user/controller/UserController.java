@@ -66,13 +66,24 @@ public class UserController {
     public Long studentFindId(Long userno) {
         return service.findStudentId(userno);
     }
+    public Long getAmount(Long userNo) {
+        return service.getAmount(userNo);
+    }
+
 
     public boolean updateStudent(UserDTO userDTO) {
         return service.updateStudent(userDTO);
     }
+    public boolean updateInstructor(UserDTO userDTO) {
+        return service.updateInstructor(userDTO);
+    }
 
-    public UserDTO findNo(Long userNo) {
-        return service.findNo(userNo);
+    public UserDTO findSelectUserNo(Long userNo) {
+        return service.findSelectUserNo(userNo);
+    }
+
+    public UserDTO findSelectUserRole(String userRole) {
+        return service.findSelectUserRole(userRole);
     }
 
 
@@ -82,4 +93,19 @@ public class UserController {
         return service.viewStudentBycourseId();
     }
 
+    // 관리자의 강사 이름 검색으로 조회
+    public List<UserDTO> findInstructorByName(String name) {
+        return service.findInstructorByName(name);
+
+    }
+
+    // 관리자의 수강생 전체 조회
+    public List<UserDTO> findAllStudents() {
+        return service.findAllStudents();
+    }
+
+    public boolean updateStudentinfo(Long userNo, String newName, boolean status) {
+
+        return service.updateStudentinfo(userNo, newName, status);
+    }
 }

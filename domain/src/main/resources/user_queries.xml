@@ -46,12 +46,31 @@
         where student_id = ?
     </query>
 
+    <query key="user.getAmount">
+        select
+            user_price
+        from user
+        where user_no = ?
+    </query>
     <query key="student.findId">
         select
             student_id
         from student
         where user_no = ?
 
+    </query>
+    <query key="users.findSelectUserNo">
+        select
+            *
+        from user
+        where user_no = ?
+    </query>
+
+    <query key="users.findSelectUserRole">
+        select
+        *
+        from user
+        where user_role = ?
     </query>
 
     <query key="student.update">
@@ -86,4 +105,34 @@
         WHERE u.status = true
         ORDER BY c.course_id;
     </query>
+
+    <query key = "user.findInstructorByName">
+        SELECT user_no, user_id, user_password, user_name, user_phone_number, user_price, user_role, created_at, status
+        FROM user
+        WHERE user_role = 'instructor'
+        AND user_name LIKE ?;
+    </query>
+
+    <query key = "user.findAllStudents">
+        SELECT
+        user_no,
+        user_id,
+        user_password,
+        user_name,
+        user_phone_number,
+        user_price,
+        user_role,
+        created_at,
+        status
+        FROM user
+        WHERE user_role = 'student';
+    </query>
+
+    <query key = "user.updateStudentInfo">
+        UPDATE user
+        SET user_name = ?, status = ?
+        WHERE user_no = ?;
+    </query>
+
+
 </properties>

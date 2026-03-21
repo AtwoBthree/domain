@@ -42,13 +42,12 @@ public class PaymentDAO {
         String query = PaymentQueryUtil.getQuery("payment.save");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query , PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pstmt.setLong(1, newPayment.getPaymentId());
-            pstmt.setLong(2, newPayment.getPaymentAmount());
-            pstmt.setString(3, newPayment.getPaymentMethod());
-            pstmt.setBoolean(4, newPayment.isStatus());
-            pstmt.setDate(5, (Date)newPayment.getPaidAt());
-            pstmt.setLong(6, newPayment.getStudentId());
-            pstmt.setLong(7, newPayment.getCourseId());
+
+            pstmt.setLong(1, newPayment.getPaymentAmount());
+            pstmt.setString(2, newPayment.getPaymentMethod());
+            pstmt.setBoolean(3, newPayment.isStatus());
+            pstmt.setLong(4, newPayment.getStudentId());
+            pstmt.setLong(5, newPayment.getCourseId());
 
             // dml 구문은 executeUpdate 를 통해 query 를 실행한다.
             // 결과 값은 정수 자료형 즉 영향을 받은 행의 갯수가 리턴된다.

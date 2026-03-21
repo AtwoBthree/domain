@@ -3,6 +3,7 @@ package com.wanted.crud.course.model.service;
 import com.wanted.crud.course.model.dao.CourseDAO;
 import com.wanted.crud.course.model.dao.SectionDAO;
 import com.wanted.crud.course.model.dto.CourseDTO;
+import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
 import com.wanted.crud.course.model.dto.SectionDTO;
 
 import java.sql.Connection;
@@ -112,6 +113,75 @@ public class CourseService {
             throw new RuntimeException("🚨 강의 수정 중 Error 발생: " + e.getMessage());
         }
     }
+
+    // 관리자가 강사 강좌 조회
+    public List<CourseDTO> findCoursesByInstructorId(Long instructorId) {
+        try {
+            List<CourseDTO> courses = courseDAO.selectCoursesByInstructorId(instructorId);
+
+            if (courses == null || courses.isEmpty()) {
+                System.out.println("해당 강사가 등록한 강좌가 없습니다.");
+            }
+            return courses;
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 특정 강사 강좌 조회 중 Error 발생: " + e.getMessage());
+        }
+    }
+
+    // 관리자가 강좌 수정
+    public boolean updateCourseByAdmin(CourseDTO course) {
+        try {
+            return courseDAO.updateCourseByAdmin(course) > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 관리자 강좌 수정 중 오류: " + e.getMessage());
+        }
+    }
+
+    // 관리자가 강좌 삭제
+    public boolean removeCourseByAdmin(Long courseId) {
+        try {
+            return courseDAO.adminDeleteCourse(courseId);
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 관리자 강좌 삭제 중 오류: " + e.getMessage());
+        }
+    }
+
+    // 내 강좌를 수강 중인 전체 학생 현황 조회
+    public List<CourseMyStudentDTO> selectFindMyStudent(Long instructorId) {
+        try {
+            List<CourseMyStudentDTO> myStudents = courseDAO.selectMyStudent(instructorId);
+
+            if (myStudents == null || myStudents.isEmpty()) {
+                System.out.println("해당 강사님의 강좌를 수강 중인 학생이 없습니다.");
+            }
+            return myStudents;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨 수강생 현황 조회 중 Error 발생: " + e.getMessage());
+        }
+    }
+
+    public Long getPrice(Long courseId) {
+        try {
+            if(courseDAO.getPrice(courseId) != null) {
+                return courseDAO.getPrice(courseId);
+            } else System.out.println("잔액이 확인되지않음");
+        } catch (SQLException e) {
+            throw new RuntimeException("수강번호를 통한 수강 가격확인불가+", e);
+        }
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

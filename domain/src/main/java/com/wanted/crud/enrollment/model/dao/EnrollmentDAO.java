@@ -26,12 +26,10 @@ public class EnrollmentDAO {
 
         try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             // progress_rate, start_date, end_date, status, student_id, course_id
-            pstmt.setLong(1, enrollment.getProgressRate());
-            pstmt.setDate(2, new Date(enrollment.getStartDate().getTime()));
-            pstmt.setDate(3, enrollment.getEndDate() != null ? new Date(enrollment.getEndDate().getTime()) : null);
-            pstmt.setString(4, enrollment.getStatus());
-            pstmt.setLong(5, enrollment.getStudentId());
-            pstmt.setLong(6, enrollment.getCourseId());
+
+
+            pstmt.setLong(1, enrollment.getStudentId());
+            pstmt.setLong(2, enrollment.getCourseId());
 
 
             int result = pstmt.executeUpdate();

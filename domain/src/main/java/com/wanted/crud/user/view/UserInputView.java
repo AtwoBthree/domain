@@ -80,23 +80,42 @@ public class UserInputView {
             }
         }
     }
-    //마이페이지 보기
-    public void myPage(Long userNo) {
+    // 수강생 마이페이지 보기
+    public void studentMyPage(Long userNo) {
         System.out.println("1. 내 정보 보기 2. 내 정보 수정하기");
         int menu = inputInt();
         switch (menu) {
             case 1:
-                findNo(userNo);
+                findSelectUserNo(userNo);
                 break;
             case 2:
                 updateStudent(userNo);
                 break;
         }
     }
+
+    // 강사 마이페이지
+    public void instructorMyPage(Long userNo) {
+        System.out.println("1. 내 정보 보기 2. 내 정보 수정하기");
+        int menu = inputInt();
+        switch (menu) {
+            case 1:
+                findSelectUserNo(userNo);
+                break;
+            case 2:
+                updateInstructor(userNo);
+                break;
+        }
+    }
     // 사용자님의 정보찾기
-    public void findNo(Long userNo) {
+    public void findSelectUserNo(Long userNo) {
         System.out.println("사용자님의 정보입니다.");
-        System.out.println(controller.findNo(userNo));
+        System.out.println(controller.findSelectUserNo(userNo));
+    }
+
+    public void findSelectUserRole(String userRole) {
+        System.out.println(userRole + "의 정보입니다.");
+        System.out.println(controller.findSelectUserRole(userRole));
     }
     // 아이디, 비번 찾기
     public void findIdPassword() {
@@ -183,6 +202,24 @@ public class UserInputView {
             outputView.printError("학생 정보 업데이트 중 오류 발생");
         }
     }
+
+    // 유저(수강생) 정보 수정(주체: 수강생)
+    public void updateInstructor(Long userNo) {
+        System.out.println("변경할 이름을 입력하세요: ");
+        String name = inputString();
+
+        System.out.println("변경할 비밀번호를 입력하세요");
+        String password = inputString();
+        System.out.println("변경할 휴대폰번호를 입력하세요");
+        String phoneNumber = inputString();
+        if(controller.updateInstructor(new UserDTO(
+                userNo, null, password, name, phoneNumber, null, null, null, true
+        ))) {
+            outputView.printMessage("강사 정보 업데이트 완료");;
+        } else {
+            outputView.printError("강사 정보 업데이트 중 오류 발생");
+        }
+    }
     // 회원탈퇴
     public void deleteUser() {
         System.out.println("회원 탈퇴를 진행합니다.");
@@ -206,7 +243,7 @@ public class UserInputView {
         }
     }
     // 관리자 메서드
-    // 강좌별 수강생 조회
+    // 관리자의 강좌별 수강생 조회
 
     public void viewStudentBycourseId(){
 
@@ -214,6 +251,16 @@ public class UserInputView {
 
         outputView.printEnrollmentStudents(list);
     }
+
+    //학생번호
+    public Long studentFindId(Long userNo) {
+        return controller.studentFindId(userNo);
+    }
+
+    public Long getAmount(Long userNo) {
+        return controller.getAmount(userNo);
+    }
+
 
     // 유저 정보 삭제
 
@@ -295,6 +342,69 @@ public class UserInputView {
             }
         }
     }
+
+    // 관리자의 수강생 정보 수정
+    public void updateStudent() {
+
+        // 1. 전체 수강생 출력 (status 상관없이)
+        List<UserDTO> list = controller.findAllStudents();
+        outputView.printAllStudents(list);
+
+        if (list == null || list.isEmpty()) {
+            outputView.printError("수정할 수강생이 없습니다.");
+            return;
+        }
+
+        // 2. user_no 입력
+        System.out.print("수정할 수강생의 user_no를 입력해주세요: ");
+        Long userNo = Long.parseLong(inputString());
+
+        // 3. 변경 값 입력
+        System.out.print("변경할 이름을 입력하세요: ");
+        String newName = inputString();
+
+        System.out.print("변경할 계정 상태를 입력해주세요 (1: 활성, 0: 비활성): ");
+        int statusInput = inputInt();
+        boolean status = (statusInput == 1);
+
+        // 4. 업데이트 실행
+        boolean result = controller.updateStudentinfo(userNo, newName, status);
+
+        // 5. 결과 출력
+        if (result) {
+            outputView.printSuccess("수강생 정보가 수정되었습니다.");
+        } else {
+            outputView.printError("수정 실패 (user_no 확인 필요)");
+        }
+    }
+/*
+    // 관리자의 수강생 정보 삭제
+    public void deleteStudent() {
+
+        // 1. status = 0 수강생 출력
+        List<UserDTO> list = controller.findInactiveStudents();
+        outputView.printStudents(list);
+
+        if (list == null || list.isEmpty()) {
+            outputView.printError("삭제할 수강생이 없습니다.");
+            return;
+        }
+
+        // 2. user_no 입력
+        System.out.print("삭제할 수강생의 user_no를 입력해주세요: ");
+        Long userNo = Long.parseLong(inputString());
+
+        // 3. 삭제 실행
+        boolean result = controller.deleteStudent(userNo);
+
+        // 4. 결과 출력
+        if (result) {
+            outputView.printSuccess("수강생이 완전히 삭제되었습니다.");
+        } else {
+            outputView.printError("삭제 실패 (user_no 확인 필요)");
+        }
+    }*/
+
 
 
 }
