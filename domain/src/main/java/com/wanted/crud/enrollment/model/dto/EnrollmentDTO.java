@@ -1,5 +1,6 @@
 package com.wanted.crud.enrollment.model.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EnrollmentDTO {
@@ -10,6 +11,9 @@ public class EnrollmentDTO {
     private String status;
     private Long studentId;
     private Long courseId;
+
+
+    public EnrollmentDTO() {}
 
     public EnrollmentDTO(Long studentId, Long courseId) {
         this.studentId = studentId;
@@ -26,106 +30,66 @@ public class EnrollmentDTO {
         this.courseId = courseId;
     }
 
-    public Long getEnrollmentId() {
-        return enrollmentId;
-    }
-
-    public void setEnrollmentId(Long enrollmentId) {
-        this.enrollmentId = enrollmentId;
-    }
-
-    public Long getProgressRate() {
-        return progressRate;
-    }
-
-    public void setProgressRate(Long progressRate) {
-        this.progressRate = progressRate;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
-    // ✨ 여백 계산기 (너비 58 고정)
-    private String padRight(String text) {
-        int targetWidth = 58;
-        int width = 0;
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (c >= '가' && c <= '힣') width += 2;
-            else width += 1;
-        }
-        int padding = targetWidth - width;
-        if (padding > 0) return text + " ".repeat(padding);
-        return text;
-    }
+    // Getter & Setter
+    public Long getEnrollmentId() { return enrollmentId; }
+    public void setEnrollmentId(Long enrollmentId) { this.enrollmentId = enrollmentId; }
+    public Long getProgressRate() { return progressRate; }
+    public void setProgressRate(Long progressRate) { this.progressRate = progressRate; }
+    public Date getStartDate() { return startDate; }
+    public void setStartDate(Date startDate) { this.startDate = startDate; }
+    public Date getEndDate() { return endDate; }
+    public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public Long getStudentId() { return studentId; }
+    public void setStudentId(Long studentId) { this.studentId = studentId; }
+    public Long getCourseId() { return courseId; }
+    public void setCourseId(Long courseId) { this.courseId = courseId; }
 
     @Override
     public String toString() {
-        // 1. 상태값 비교 (null 방어 포함)
+        // 🎨 ANSI 색상 및 스타일 코드 정의
+        final String RESET = "\u001B[0m";
+        final String B_WHITE = "\u001B[97m";   // 토끼
+        final String B_BLACK = "\u001B[90m";   // 빈 프로그레스 바
+        final String CYAN = "\u001B[36m";      // 테두리
+        final String B_YELLOW = "\u001B[93m";  // 별/라벨
+        final String B_GREEN = "\u001B[92m";   // 강좌/상태
+        final String B_MAGENTA = "\u001B[95m"; // 등록번호/진도율
+        final String B_CYAN = "\u001B[96m";    // 학생번호
+        final String RED = "\u001B[31m";       // 종료/비활성 상태
+
+        // 📝 1. 데이터 포맷팅
+        String formattedEnrollmentId = enrollmentId != null ? String.format("%04d", enrollmentId) : "----";
+        String formattedStudentId = studentId != null ? String.format("%04d", studentId) : "----";
+        String formattedCourseId = courseId != null ? String.format("%04d", courseId) : "----";
+
         boolean isActive = "1".equals(status);
+        String statusIcon = isActive ? B_GREEN + "✅ 수강 중 (ACTIVE)" + RESET : RED + "❌ 종료됨 (CLOSED)" + RESET;
 
-        // 2. 상태에 따른 캐릭터 표정 및 메시지
-        // isActive가 true면 기쁜 표정(^ω^), false면 시무룩한 표정(-ㅅ-)
-        String dogFace    = isActive ? "  ( ^ω^ ) " : "  ( -ㅅ- ) ";
-        String statusMsg  = isActive ? " [ 🔥 열공 모드 작동 중! ] " : " [ ❄️ 수강이 종료되었습니다 ] ";
-        String statusIcon = isActive ? "✅ ACTIVE " : "❌ CLOSED ";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String startStr = (startDate != null) ? sdf.format(startDate) : "미정";
+        String endStr = (endDate != null) ? sdf.format(endDate) : "진행 중";
 
-        // 3. 날짜 null 방어
-        String safeStart = (startDate != null) ? String.valueOf(startDate) : "미정";
-        String safeEnd   = (endDate != null) ? String.valueOf(endDate) : "미정";
+        // 🚀 2. 진도율 프로그레스 바 (Progress Bar) 로직
+        long actualProgress = (progressRate != null) ? progressRate : 0L;
+        int filledBars = (int) (actualProgress / 10);
+        StringBuilder pb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            if (i < filledBars) pb.append(B_MAGENTA).append("■").append(RESET);
+            else pb.append(B_BLACK).append("□").append(RESET);
+        }
+        String progressBar = pb.toString();
+        String paddedProgressNum = String.format("%-4s", actualProgress + "%");
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append("  ╔══════════════════════════════════════════════════════════\n");
-        sb.append("  ║          [ 공 식 수 강 증 명 서 ]\n");
-        sb.append("  ╠══════════════════════════════════════════════════════════\n");
-        sb.append("  ║   /\\___/\\ \n");
-        sb.append("  ║ ").append(dogFace).append("  🆔 등록 번호 : EN-").append(String.format("%04d", enrollmentId)).append("\n");
-        sb.append("  ║  |  v  |   🧑‍🎓 수 강 생 : ").append(studentId).append("번 학생\n");
-        sb.append("  ║  |     |   📘 수강 강좌 : ").append(courseId).append("번 강좌\n");
-        sb.append("  ║  |_____|  ").append(statusMsg).append("\n");
-        sb.append("  ╟──────────────────────────────────────────────────────────\n");
-        sb.append("  ║  ✨ 현재 상태 : ").append(statusIcon).append("\n");
-        sb.append("  ║  📅 수강 기간 : ").append(safeStart).append(" ~ ").append(safeEnd).append("\n");
-        sb.append("  ╚══════════════════════════════════════════════════════════\n");
-
-        return sb.toString();
+        // 🎨 3. 학사모 토끼 + 와이드 레이아웃 조합
+        return "\n" +
+                CYAN + "  ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                CYAN + "  ┃ " + B_YELLOW + "      * ﾟ  +  .  * " + CYAN + "           " + B_MAGENTA + "    🆔 [ 등록 번호: EN-" + formattedEnrollmentId + " ]    " + B_CYAN + " 🧑‍🎓 [ 학생 번호: " + formattedStudentId + " ]\n" +
+                CYAN + "  ┃ " + B_WHITE + "        (\\_/)      " + CYAN + " " + B_YELLOW + " OFFICIAL" + B_GREEN + "     📘 수강 강좌 : " + RESET + formattedCourseId + "번 강좌\n" +
+                CYAN + "  ┃ " + B_WHITE + "       ( •_•)      " + CYAN + " " + B_YELLOW + " ENROLL  " + B_MAGENTA + "     📊 진 도 율 : " + progressBar + " " + B_WHITE + paddedProgressNum + "   " + B_GREEN + "          📌 상 태 : " + RESET + statusIcon + "\n" +
+                CYAN + "  ┃ " + B_WHITE + "       / >🎓      " + CYAN + " " + B_YELLOW + " RECORD  " + B_GREEN + "      📅 수강 기간 : " + RESET + startStr + " ~ " + endStr + "\n" +
+                CYAN + "  ┃ " + B_YELLOW + "      * .  +  ﾟ * " + CYAN + "           \n" +
+                CYAN + "  ╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" + RESET;
     }
 }

@@ -30,34 +30,32 @@ public class UserDTO {
         sb.append("\n");
 
         // 🚀 [왕귀 포인트] 볼에 해바라기씨를 가득 넣은 햄찌
-        sb.append("       ╲  |  /           \n");
-        sb.append("        \\_|_/            \n");
-        sb.append("       (  -  )           \n");
-        sb.append("      (  ◕ ω ◕ )  <-- 꾸꾹.. 유저 리포트 배달왔찌! \n");
-        sb.append("     o(  :   :  )o       \n");
-        sb.append("       (  m m  )____     \n");
+//        sb.append("       ╲  |  /           \n");
+//        sb.append("        \\_|_/            \n");
+//        sb.append("       (  -  )           \n");
+//        sb.append("      (  ◕ ω ◕ )  <-- 꾸꾹.. 유저 리포트 배달왔찌! \n");
+//        sb.append("     o(  :   :  )o       \n");
+//        sb.append("       (  m m  )____     \n");
 
-        // 🚀 리포트 본체 (오른쪽 테두리 제거)
+
+        sb.append("         (\\_/)  🎓           \n");
+        sb.append("         ( •ᴥ•)  * ﾟ + . * \n");
+        sb.append("         / > 📜c < -- 유저 리포트 배달왔끼! \n");
+        sb.append("        (____|____)          \n");
         sb.append("  .----/       \\--------------------------------------\n");
         sb.append("  |        [ USER INFORMATION REPORT ]\n");
         sb.append("  ├--------------------------------------------------\n");
-
-        // 데이터 섹션 1: 기본 정보
         sb.append("  |  [기본 정보]\n");
-        sb.append("  |  👤 사용자 번호  : ").append(noStr).append("\n");
-        sb.append("  |  🆔 아이디       : ").append(idStr).append("\n");
-        sb.append("  |  📛 이름         : ").append(nameStr).append("\n");
-        sb.append("  |  📞 연락처       : ").append(phoneStr).append("\n");
+        sb.append("  |  👤 사용자 번호 : ").append(noStr).append("\n");
+        sb.append("  |  🆔 아이디     : ").append(idStr).append("\n");
+        sb.append("  |  📛 이름       : ").append(nameStr).append("\n");
+        sb.append("  |  📞 연락처     : ").append(phoneStr).append("\n");
         sb.append("  | \n");
-
-        // 데이터 섹션 2: 계정 상태
         sb.append("  |  [계정 상태]\n");
-        sb.append("  |  💰 누적 결제액  : ").append(priceStr).append("\n");
-        sb.append("  |  🎖️ 권한 등급    : ").append(roleStr).append("\n");
-        sb.append("  |  📅 가입 일자    : ").append(dateStr).append("\n");
-        sb.append("  |  ✅ 현재 상태    : ").append(statStr).append("\n");
-
-        // 하단 마감 (햄찌 발자국 추가)
+        sb.append("  |  💰 보유 금액  : ").append(priceStr).append("\n");
+        sb.append("  |  🎖️ 권한 등급  : ").append(roleStr).append("\n");
+        sb.append("  |  📅 가입 일자  : ").append(dateStr).append("\n");
+        sb.append("  |  ✅ 현재 상태  : ").append(statStr).append("\n");
         sb.append("  '----------------------------------------- 🐾 🐾 --\n");
 
         return sb.toString();

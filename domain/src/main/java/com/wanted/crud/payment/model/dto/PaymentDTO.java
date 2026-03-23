@@ -44,7 +44,6 @@ public class PaymentDTO {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append("  .--------------------------------------------------\n");
-        // 🚀 선명한 PAYMENT 타이포그래피 (오른쪽 테두리 제거)
         sb.append("  |   ____   _  _   _  _   _  ____  _  _  ____ \n");
         sb.append("  |  |  _ \\ / _\\ \\_/ /| \\_/ ||  __|| \\| ||_  _|\n");
         sb.append("  |  |  __/| [ ] | | || \\_/ ||  __|| \\  |  ||  \n");
@@ -52,22 +51,13 @@ public class PaymentDTO {
         sb.append("  ├--------------------------------------------------\n");
         sb.append("  | ").append(paymentTitle).append("\n");
         sb.append("  ├--------------------------------------------------\n");
-        // 캐릭터(영수증 도장 느낌)
-        sb.append("  |      .-------.    .-------.  \n");
-        sb.append("  |      | O   O |    |   |   |  \n");
-        sb.append("  |      |   o   |    | o | o |  \n");
-        sb.append("  |      '-------'    '-------'  \n");
-        sb.append("  ├--------------------------------------------------\n");
-        // 상세 결제 정보
         sb.append("  |   💰 결제 번호  : # ").append(String.format("%06d", paymentId)).append("\n");
         sb.append("  |   💵 결제 금액  : ").append(formattedAmount).append("\n");
         sb.append("  |   💳 결제 수단  : ").append(paymentMethod != null ? paymentMethod : "미지정").append("\n");
         sb.append("  |   🧑‍🎓 학생 번호  : ").append(studentId).append("번 회원\n");
         sb.append("  |   📘 강좌 번호  : ").append(courseId).append("번 강좌\n");
         sb.append("  ├--------------------------------------------------\n");
-        // 하단 상태 요약
-        sb.append("  |   [상태] ").append(statusText).append("\n");
-        sb.append("  |   [일시] ").append(paidAt != null ? paidAt : "결제 대기 중").append("\n");
+        sb.append("  |   [상태] ").append(statusText).append(" [일시] ").append(paidAt != null ? paidAt : "결제 대기 중").append("\n");
         sb.append("  '--------------------------------------------------\n");
 
         return sb.toString();

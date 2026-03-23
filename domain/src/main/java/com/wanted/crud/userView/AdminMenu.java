@@ -1,8 +1,6 @@
 package com.wanted.crud.userView;
 
 import com.wanted.crud.Application;
-import com.wanted.crud.user.model.dto.UserDTO;
-import com.wanted.crud.user.view.AdminInputView;
 
 import java.util.Scanner;
 
@@ -183,25 +181,27 @@ public class AdminMenu {
         System.out.println(" 1. 전체 정산 내역 보기. 2. create 미정산된 결제내역 , select 불러오기 3. 정산내역 처리하기");
         //2. 정산내역 불러오면 status WAIT 인 상태로 불러와지고 3. WAIT 인 상태의 정산내역들이 관리자, 강사 돈이들어감.
         System.out.println("  🛠️  [처리중] 강사료 및 수수료 정산 로직 가동 중...");
-        System.out.println("  ✅  정산 완료 시 상태 메일이 자동 발송됩니다.");
+        System.out.println("  ✅  정산 완료 시 상태가 업데이트 됩니다.");
         System.out.println("  --------------------------------------------------");
 
             int menu = getMenuInput();
 
+            // 1. 전체 정산 내역 보기
             if (menu == 1) {
                 System.out.println("전체 정산 내역 보기 로직");
-              //  settlementInputView.viewAllSettlement();
-
+                settlementInputView.viewAllSettlement();
             }
 
             else if(menu == 2){
                 System.out.println("create 미정산된 결제내역 조회 로직");
-
-            }
+                // Java 8 이상 (권장 방식)
+                java.sql.Timestamp now = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
+                settlementInputView.paymentToSettlement(now);
+            } // 진도 파이팅!
 
             else if (menu == 3) {
                 System.out.println("정산내역 처리하기 로직");
-                settlementInputView.saveSettlement();
+                settlementInputView.processFullSettlement();
             }
 
             else if (menu == 0) isMenuOpen = false;

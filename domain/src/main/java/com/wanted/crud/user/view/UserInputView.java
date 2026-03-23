@@ -66,17 +66,50 @@ public class UserInputView {
             String password = inputString();
             System.out.print("사용할 이름을 입력해주세요: ");
             String name = inputString();
-            System.out.print("사용할 전화번호를 입력해주세요: ");
-            String phone_number = inputString();
-            System.out.print("역할을 입력해주세요: ");
-            String role = inputString();
+
+
+            // 🔥 전화번호 검증
+            String phone_number = "";
+            while (true) {
+                System.out.print("사용할 전화번호를 입력해주세요 (ex: 010-1234-5678) : ");
+                phone_number = inputString();
+
+                // 숫자와 하이픈만 허용 (010-1234-5678 형태)
+                if (phone_number.matches("^\\d{3}-\\d{4}-\\d{4}$")) {
+                    break; // 정상 입력
+                } else {
+                    System.out.println("❌ 올바른 형식의 전화번호를 입력해주세요. (예: 010-1234-5678)");
+                }
+            }
+
+            // 🔥 역할 선택
+            String role = "";
+            while (true) {
+                System.out.print("역할을 선택해주세요: 1. 학생  2. 강사 : ");
+                int choice = inputInt();
+
+                switch (choice) {
+                    case 1:
+                        role = "STUDENT";
+                        break;
+                    case 2:
+                        role = "INSTRUCTOR";
+                        break;
+                    default:
+                        System.out.println("❌ 올바른 번호를 입력해주세요.");
+                        continue; // 다시 입력
+                }
+                break; // 정상 입력 시 탈출
+            }
 
             Long result = controller.createUser(id, password, name, phone_number, role);
 
             if (result != null && result > 0) {
                 outputView.printSuccess("회원가입 성공! 생성된 계정 ID : " + result);
+                break; // 회원가입 빠져나옴
             } else {
                 outputView.printError("회원가입 실패");
+                break;
             }
         }
     }
@@ -150,7 +183,7 @@ public class UserInputView {
     public void displayFindId() {
         System.out.println("이름을 입력하세요");
         String name = inputString();
-        System.out.println("휴대폰 번호를 입력하세요 ex) 010-0000-0000");
+        System.out.println("전화번호를 입력하세요 ex) 010-1234-5678");
         String phonenumber = inputString();
 
 
@@ -173,7 +206,7 @@ public class UserInputView {
     public void displayFindPassword() {
         System.out.println("아이디를 입력하세요");
         String userid = inputString();
-        System.out.println("전화번호를 입력하세요");
+        System.out.println("전화번호를 입력하세요 ex) 010-1234-5678");
         String phonenumber = inputString();
 
         String password = controller.findPassword(userid, phonenumber);
@@ -192,7 +225,7 @@ public class UserInputView {
 
         System.out.println("변경할 비밀번호를 입력하세요");
         String password = inputString();
-        System.out.println("변경할 휴대폰번호를 입력하세요");
+        System.out.println("변경할 전화번호를 입력하세요");
         String phoneNumber = inputString();
         if(controller.updateStudent(new UserDTO(
                 userNo, null, password, name, phoneNumber, null, null, null, true
@@ -210,7 +243,7 @@ public class UserInputView {
 
         System.out.println("변경할 비밀번호를 입력하세요");
         String password = inputString();
-        System.out.println("변경할 휴대폰번호를 입력하세요");
+        System.out.println("변경할 전화번호를 입력하세요");
         String phoneNumber = inputString();
         if(controller.updateInstructor(new UserDTO(
                 userNo, null, password, name, phoneNumber, null, null, null, true

@@ -2,6 +2,7 @@
 <properties>
     <query key="course.findAllCourse">
         select * from course
+        where status = true;
     </query>
     <query key="course.getPrice">
         select
@@ -9,11 +10,23 @@
         from course
         where course_id = ?
     </query>
+
     <query key="course.selectMyCourse">
         SELECT *
         FROM course c
         JOIN instructor u ON c.instructor_id = u.instructor_id
         WHERE u.instructor_id = ?
+    </query>
+
+    <query key="course.isCourseExists">
+        <![CDATA[
+    SELECT EXISTS (
+        SELECT 1
+        FROM COURSE
+        WHERE course_id = ?
+          AND status = TRUE
+    ) AS isCourseExists
+    ]]>
     </query>
 
     <query key="course.findPriceById">
@@ -114,8 +127,16 @@
         e.progress_rate
         FROM enrollment e
         JOIN course c ON e.course_id = c.course_id
-        WHERE e.student_id = ? AND e.progress_rate = 100;
+        WHERE e.student_id = ? AND e.progress_rate = 100
+        AND NOT EXISTS (
+        SELECT 1
+        FROM review r
+        WHERE r.course_id = c.course_id
+        AND r.student_id = e.student_id
+        )
     </query>
+
+
 
     <query key="review.checkExists">
         SELECT COUNT(*)
@@ -130,16 +151,14 @@
 
     <query key="review.selectByCourseId">
         SELECT
-            c.course_id,
-            c.title,
-            c.description,
-            c.price,
-        ROUND(IFNULL(AVG(r.rating), 1), 0.0) as avg_rating
-        FROM course c
+        c.course_id,
+        c.title,
+        c.description,
+        c.price,
+        ROUND(IFNULL(AVG(r.rating), 0), 1) as avg_rating  FROM course c
         LEFT JOIN review r ON c.course_id = r.course_id
         GROUP BY c.course_id, c.title, c.description, c.price
         ORDER BY c.course_id ASC
     </query>
-
 
 </properties>

@@ -41,29 +41,20 @@ public class RefundDTO {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append("  .--------------------------------------------------\n");
-        // 🚀 REFUND 타이포그래피 (오른쪽 테두리 제거)
         sb.append("  |   ____   _____  _____  _   _  _   _  ____  \n");
         sb.append("  |  |  _ \\ |  ___||  ___|| | | || \\ | ||  _ \\ \n");
         sb.append("  |  | |_) || |__  | |__  | | | ||  \\| || | | |\n");
         sb.append("  |  |  _ < |  __| |  __| | |_| || |\\  || |_| |\n");
         sb.append("  |  |_| \\_\\|_____||_|     \\___/ |_| \\_||____/ \n");
         sb.append("  ├--------------------------------------------------\n");
-        sb.append("  |         OFFICIAL REFUND DOCUMENT\n");
-        sb.append("  ├--------------------------------------------------\n");
-        // 상태 도장 및 ID 표시
-        sb.append("  |  \n");
         sb.append("  |      ").append(stampTop).append("\n");
         sb.append("  |      ").append(stampMid).append("  ID : #").append(String.format("%05d", refundId)).append("\n");
         sb.append("  |      ").append(stampBot).append("\n");
-        sb.append("  |  \n");
         sb.append("  ├--------------------------------------------------\n");
-        // 상세 환불 데이터 정렬 (한글 항목명 적용)
         sb.append("  |   💰 환불 금액  : ").append(formattedAmount).append("\n");
         sb.append("  |   💳 결제 번호  : # ").append(String.format("%06d", paymentId)).append("\n");
         sb.append("  |   ✨ 처리 상태  : ").append(statusIcon).append("\n");
         sb.append("  |   📅 처리 일시  : ").append(refundAt != null ? refundAt : "확인 중 (Pending)").append("\n");
-        sb.append("  ├--------------------------------------------------\n");
-        sb.append("  |   PLEASE KEEP THIS FOR YOUR RECORDS.\n");
         sb.append("  '--------------------------------------------------\n");
 
         return sb.toString();

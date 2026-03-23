@@ -2,7 +2,9 @@ package com.wanted.crud.payment.model.service;
 
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.payment.model.dao.PaymentDAO;
+import com.wanted.crud.payment.model.dao.ToSettlementPaymentDAO;
 import com.wanted.crud.payment.model.dto.PaymentDTO;
+import com.wanted.crud.payment.model.dto.ToSettlementPaymentDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,11 +12,15 @@ import java.util.List;
 
 public class PaymentService {
     private final PaymentDAO paymentDAO;
+    private final ToSettlementPaymentDAO toSettlementPaymentDAO;
     private final Connection connection;
     public PaymentService(Connection connection) {
         this.connection = connection;
         this.paymentDAO = new PaymentDAO(connection);
+        this.toSettlementPaymentDAO = new ToSettlementPaymentDAO(connection);
     }
+
+
 
     public List<PaymentDTO> selectAllPayment() {
         try {

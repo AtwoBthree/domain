@@ -64,14 +64,19 @@ public class MainInput {
 
         userNo = userInputView.loginGetNo(id, password);
         if (userNo == null) {
-            // Error 메시지는 OutputView에서 이미 출력되므로 생략하거나 아래처럼 안내
             System.out.println("  🚨 로그인 정보를 다시 확인해주세요.");
             return;
         }
 
         role = userInputView.loginSession(id, password);
-        instructorId = userInputView.instructorId(userNo);
-        studentId = userInputView.studentFindId(userNo);
+
+// 🔥 역할별로 분기해서 조회
+        if ("INSTRUCTOR".equals(role)) {
+            instructorId = userInputView.instructorId(userNo);
+        } else if ("STUDENT".equals(role)) {
+            studentId = userInputView.studentFindId(userNo);
+        }
+
         System.out.println("\n  ✨ [인증성공] " + id + "님, 환영합니다!");
         System.out.println("  📡 권한 확인: " + role);
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

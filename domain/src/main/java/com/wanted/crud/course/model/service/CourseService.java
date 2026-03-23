@@ -166,13 +166,10 @@ public class CourseService {
 
     public Long getPrice(Long courseId) {
         try {
-            if(courseDAO.getPrice(courseId) != null) {
-                return courseDAO.getPrice(courseId);
-            } else System.out.println("잔액이 확인되지않음");
+            return courseDAO.getPrice(courseId);
         } catch (SQLException e) {
             throw new RuntimeException("수강번호를 통한 수강 가격확인불가+", e);
         }
-        return null;
     }
 
 
@@ -216,4 +213,11 @@ public class CourseService {
     }
 
 
+    public boolean isCourseExists(Long courseId) {
+        try {
+            return courseDAO.isCourseExists(courseId);
+        } catch (SQLException e) {
+            throw new RuntimeException("오픈되지 않거나 수강신청 조회 중 오류!!", e);
+        }
+    }
 }

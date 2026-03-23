@@ -26,18 +26,22 @@
     </query>
 
     <query key="payment.selectForSettlement">
-        SELECT
-        payment_id,
-        payment_amount,
-        payment_method,
-        status,
-        paid_at,
-        student_id,
-        course_id
-        FROM payment
-        WHERE status = ?
-        AND paid_at > ?
-        AND paid_at <= ?
+        <![CDATA[
+    SELECT
+        course_id,
+        SUM(payment_amount) AS raw_amount
+    FROM payment
+    WHERE status = true
+    AND paid_at > (
+        SELECT settlement_date
+        FROM settlement
+        WHERE status = 'WAIT'
+        ORDER BY settlement_date DESC
+        LIMIT 1
+    )
+    AND paid_at <= ?
+    GROUP BY course_id
+    ]]>
     </query>
 
 </properties>
