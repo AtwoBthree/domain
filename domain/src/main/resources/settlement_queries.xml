@@ -26,4 +26,35 @@
         ) VALUES (
         ?, ?, ?, ?, ?)
     </query>
+
+    <query key="settlement.updateStatus">
+        UPDATE settlement SET status = ? WHERE settlement_id = ?
+    </query>
+
+    <query key = "settlement.ViewAllSettlement">
+        SELECT
+        settlement_id,
+        course_id,
+        settlement_date,
+        instructor_id,
+        raw_amount,
+        commission,
+        final_amount,
+        status
+        FROM SETTLEMENT;
+    </query>
+
+    <query key = "settlement.ViewWaitSettlement">
+        SELECT
+        settlement_id,
+        course_id,
+        settlement_date,
+        instructor_id,
+        raw_amount,
+        commission,
+        final_amount,
+        status
+        FROM SETTLEMENT
+        WHERE status = 'WAIT';
+    </query>
 </properties>

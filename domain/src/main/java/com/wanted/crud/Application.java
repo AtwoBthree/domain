@@ -85,7 +85,7 @@ public class Application {
             settlementInputView = settlementinputView;
             userInputView = userinputView;
             paymentInputView = paymentinputview;
-            Application.adminInputView = adminInputViewLocal;
+            adminInputView = adminInputViewLocal;
 
             // ❌ 삭제: 프로그램 켜지자마자 강좌 조회하던 테스트 코드는 지웁니다.
             // inputView.viewMyCourse();

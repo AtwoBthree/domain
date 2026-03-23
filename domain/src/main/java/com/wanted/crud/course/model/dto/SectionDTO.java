@@ -93,22 +93,15 @@ public class SectionDTO {
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        // 상단 윈도우 바 느낌
-        sb.append("  ╭──────────────────────────────────────────────────────────\n");
+        sb.append("  ╭────────────────────────────────────────────────────────────────────────\n");
         sb.append("  │  ▶  NOW PLAYING...  [ LEC NO.").append(String.format("%04d", sectionId)).append(" ]\n");
-        sb.append("  ├──────────────────────────────────────────────────────────\n");
-
-        // 상세 정보 (오른쪽 ║ 제거로 URL이 길어져도 안심!)
+        sb.append("  ├────────────────────────────────────────────────────────────────────────\n");
         sb.append("  │  🎬 강의 제목 : ").append(safeTitle).append("\n");
-        sb.append("  │  🔗 영상 링크 : ").append(safeVideo).append("\n");
-        sb.append("  │  📂 학습 자료 : ").append(safeMaterial).append("\n");
-        sb.append("  │  📅 등 록 일  : ").append(createdAt).append("\n");
-        sb.append("  │  📁 소속 강좌 : ").append(courseId).append("번 강좌\n");
-
-        // 하단 재생바 UI (여기는 디자인 포인트!)
-        sb.append("  ├──────────────────────────────────────────────────────────\n");
-        sb.append("  │  00:00  ━━━━━━━●──────────────────────────  10:00  🔉\n");
-        sb.append("  ╰──────────────────────────────────────────────────────────\n");
+        sb.append("  │  🔗 강의 영상 : ").append(safeVideo).append("\n").append("     📂 강의 자료 : ").append(safeMaterial).append("\n");
+        sb.append("  │  📅 등 록 일  : ").append(createdAt).append("\n").append("     📁 소속 강좌 : ").append(courseId).append("번 강좌\n");
+        sb.append("  ├────────────────────────────────────────────────────────────────────────\n");
+        sb.append("  │  04:22  ━━━━━━━●────────────────────────────────────────  22:02  🔉\n");
+        sb.append("  ╰────────────────────────────────────────────────────────────────────────\n");
 
         return sb.toString();
     }

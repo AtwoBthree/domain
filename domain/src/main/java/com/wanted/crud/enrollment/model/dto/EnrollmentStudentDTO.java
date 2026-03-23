@@ -1,6 +1,5 @@
 package com.wanted.crud.enrollment.model.dto;
 
-
 public class EnrollmentStudentDTO {
 
     private Long courseId;
@@ -15,7 +14,6 @@ public class EnrollmentStudentDTO {
     public EnrollmentStudentDTO(Long courseId, String courseTitle,
                                 Long userNo, String userId,
                                 String userName, String userPhoneNumber) {
-
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.userNo = userNo;
@@ -30,77 +28,53 @@ public class EnrollmentStudentDTO {
         this.progressRate = progressRate;
     }
 
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public String getCourseTitle() {
-        return courseTitle;
-    }
-
-    public Long getUserNo() {
-        return userNo;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserPhoneNumber() {
-        return userPhoneNumber;
-    }
-
+    public Long getCourseId() { return courseId; }
+    public String getCourseTitle() { return courseTitle; }
+    public Long getUserNo() { return userNo; }
+    public String getUserId() { return userId; }
+    public String getUserName() { return userName; }
+    public String getUserPhoneNumber() { return userPhoneNumber; }
     public Long getProgress(){ return progressRate; }
-
-    // ✨ 정밀 정렬을 위한 여백 계산기 (너비 50으로 정교화)
-    private String padRight(String text) {
-        int targetWidth = 50;
-        int width = 0;
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            // 한글 및 이모지(🔹, 📚)는 보통 2칸을 차지합니다.
-            // c가 char 타입일 때
-            String s = String.valueOf(c);
-
-            if ((c >= '가' && c <= '힣') || s.equals("🔹") || s.equals("📚") || s.equals("▶")) {
-                width += 2;
-            } else {
-                width += 1;
-            }
-        }
-        int padding = targetWidth - width;
-        if (padding > 0) return text + " ".repeat(padding);
-        return text;
-    }
 
     @Override
     public String toString() {
-        // 테두리가 없으므로 글자 수 제한을 훨씬 넉넉하게 (25자) 둡니다.
-        String safeName = (userName != null) ? userName : "Unknown";
-        String safeTitle = (courseTitle != null) ? courseTitle : "No Title";
+        // 🎨 ANSI 색상 및 스타일 코드 정의
+        final String RESET = "\u001B[0m";
+        final String CYAN = "\u001B[36m";      // 생각풍선 테두리
+        final String B_WHITE = "\u001B[97m";   // 사람, 책상, 기본 텍스트
+        final String B_YELLOW = "\u001B[93m";  // 메인 타이틀, 이름 등 강조
+        final String B_GREEN = "\u001B[92m";   // 연락처, 진도율 바
+        final String B_MAGENTA = "\u001B[95m"; // 아이디, 번호 라벨
+        final String B_BLACK = "\u001B[90m";   // 빈 진도율 바
 
+        // 📝 1. Null 안전 포맷팅 (모든 변수 처리)
+        String safeName = (userName != null) ? userName : "정보 없음";
+        String safeUserId = (userId != null) ? userId : "정보 없음";
+        String safeUserNo = (userNo != null) ? String.format("%04d", userNo) : "----";
+        String safePhone = (userPhoneNumber != null) ? userPhoneNumber : "정보 없음";
+        String safeCourseId = (courseId != null) ? String.format("%04d", courseId) : "----";
+        String safeTitle = (courseTitle != null) ? courseTitle : "수강 강좌 없음";
+
+        // 🚀 2. 진도율 (progressRate) 프로그레스 바 로직
+        long actualProgress = (progressRate != null) ? progressRate : 0L;
+        int filledBars = (int) (actualProgress / 10);
+        StringBuilder pb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            if (i < filledBars) pb.append(B_GREEN).append("■").append(RESET);
+            else pb.append(B_BLACK).append("□").append(RESET);
+        }
+        String progressBar = pb.toString();
+
+        // 🎨 3. 오른쪽 생각풍선 UI 렌더링
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        sb.append("  ╔══════════════════════════════════════════════════════\n");
-        sb.append("  ║      [ DIGITAL STUDENT IDENTIFICATION ]\n");
-        sb.append("  ╠══════════════════════════════════════════════════════\n");
-        sb.append("  ║\n");
-        // 증명사진 칸과 기본 정보 정렬
-        sb.append("  ║    ╭───────────╮   🆔 이 름   : ").append(safeName).append("\n");
-        sb.append("  ║    │   (^_^)   │   🆔 아이디  : ").append(userId).append("\n");
-        sb.append("  ║    │   /| |\\  │   🆔 번 호   : #").append(userNo).append("\n");
-        sb.append("  ║    │   /   \\  │   📞 연락처  : ").append(userPhoneNumber).append("\n");
-        sb.append("  ║    ╰───────────╯\n");
-        sb.append("  ╟──────────────────────────────────────────────────────\n");
-        sb.append("  ║  📚 수강 강좌 정보 (ENROLLED COURSE)\n");
-        sb.append("  ╟──────────────────────────────────────────────────────\n");
-        sb.append("  ║  🔹 강좌 번호 : ").append(courseId).append("\n");
-        sb.append("  ║  🔹 강좌 제목 : ").append(safeTitle).append("\n");
-        sb.append("  ╚══════════════════════════════════════════════════════\n");
+        sb.append(CYAN).append("                        ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n").append(RESET);
+        sb.append(CYAN).append("                     o   ").append(B_YELLOW).append("👑 [ 관리자 뷰 - 결제 학생 상세 정보 ]\n").append(RESET);
+        sb.append(B_WHITE).append("     ∧＿∧").append(CYAN).append("          O     ").append(B_MAGENTA).append("🧑‍🎓 학생 번호: ").append(B_WHITE).append("#").append(safeUserNo).append("   ").append(B_YELLOW).append("🧑‍🎓 이름: ").append(B_WHITE).append(safeName).append("\n").append(RESET);
+        sb.append(B_WHITE).append("    (* ･ω･)").append(CYAN).append("       ◯      ").append(B_GREEN).append("📞 연 락 처 : ").append(B_WHITE).append(safePhone).append("   ").append(B_MAGENTA).append("🆔 아이디: ").append(B_WHITE).append(safeUserId).append("\n").append(RESET);
+        sb.append(B_WHITE).append("  ＿(__つ/￣￣￣/_").append(CYAN).append("         ").append(B_YELLOW).append("📚 수강 강좌: ").append(B_WHITE).append("NO.").append(safeCourseId).append(" (").append(safeTitle).append(")\n").append(RESET);
+        sb.append(B_WHITE).append("     ＼/　　　/").append(CYAN).append("            ").append(B_GREEN).append("📊 진 도 율 : ").append(progressBar).append(" ").append(B_WHITE).append(String.format("%-4s", actualProgress + "%")).append("\n").append(RESET);
+        sb.append(CYAN).append("                        ╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n").append(RESET);
 
         return sb.toString();
     }

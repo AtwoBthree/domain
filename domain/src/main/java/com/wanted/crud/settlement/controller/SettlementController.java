@@ -2,7 +2,10 @@ package com.wanted.crud.settlement.controller;
 
 import com.wanted.crud.settlement.model.dto.SettlementDTO;
 import com.wanted.crud.settlement.model.service.SettlementService;
+import com.wanted.crud.user.model.dto.UserDTO;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class SettlementController {
@@ -23,6 +26,24 @@ public class SettlementController {
 
     public Long saveSettlement(SettlementDTO settlementDTO){
         return settlementService. saveSettlement(settlementDTO);
+    }
+
+    // 정산 조회
+    public List<SettlementDTO> viewAllSettlement(){
+        return settlementService.viewAllSettlement();
+    }
+
+    // 미정산 조회
+    public List<SettlementDTO> viewWaitSettlement() {
+        return settlementService.viewWaitSettlement();
+    }
+
+    public void paymentToSettlement(Timestamp now) {
+        settlementService.paymentToSettlement(now);
+    }
+
+    public boolean processFullSettlement() {
+        return settlementService.processFullSettlement();
     }
 
 }

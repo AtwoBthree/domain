@@ -104,24 +104,31 @@ public class CourseDTO {
 
     @Override
     public String toString() {
-        // 공개 여부를 이모지와 함께 텍스트로 변환
-        String statusText = "1".equals(status) ? "🔹 공개" : "❌ 비공개";
+        // 🎨 ANSI 색상 코드 설정
+        final String RESET = "\u001B[0m";
+        final String CYAN = "\u001B[38;2;78;108;105m";   // 외곽선 (시안)
+        final String YELLOW = "\u001B[33m"; // 아트워크 (노랑)
+        final String GREEN = "\u001B[32m";  // 항목 라벨 (초록)
+        final String MAGENTA = "\u001B[38;2;255;182;193m";// 강조 번호 (마젠타)
+        final String BLUE = "\u001B[34m";   // 상태-공개 (파랑)
+        final String RED = "\u001B[31m";    // 상태-비공개 (빨강)
 
+        // 📝 데이터 포맷팅
+        String statusText = "1".equals(status) ? BLUE + "🔹 공개" + RESET : RED + "❌ 비공개" + RESET;
+        String formattedId = String.format("%04d", courseId);
+
+        // 간격을 예쁘게 맞추기 위한 좌측 정렬 패딩 (약 12칸 할당)
+        String paddedPrice = String.format("%-12s", String.format("%,d원", price));
+        String paddedInstructor = String.format("%-12s", instructorId);
+
+        // 🚀 좌우 분할 가로형 UI 조합
         return "\n" +
-                "  ╔══════════════════════════════════════════════════\n" +
-                "  ║   ____ ___  _   _ ____  ____  _____\n" +
-                "  ║  / ___/ _ \\| | | |  _ \\/ ___|| ____|\n" +
-                "  ║ | |  | | | | | | | |_) \\___ \\|  _|\n" +
-                "  ║ | |__| |_| | |_| |  _ < ___) | |___\n" +
-                "  ║  \\____\\___/ \\___/|_| \\_\\____/|_____|\n" +
-                "  ╠══════════════════════════════════════════════════\n" +
-                "  ║  /\\_/\\    [ NO." + String.format("%04d", courseId) + " ]\n" +
-                "  ║ ( o.o )    📚 강좌 제목 : " + title +
-                "  ║  > ^ <     📃 강좌 설명 : " + description + "\n" +
-                "  ║ /  _  \\   💰 강좌 가격 : " + String.format("%,d원", price) + "\n" +
-                "  ║( ( | | )   ✅ 개방 상태 : " + statusText + "\n" +
-                "  ║ \\| | | |/ 📅 등 록 일 : " + createdAt + "\n" +
-                "  ║            👨‍🏫 강사 번호 : " + instructorId + "\n" +
-                "  ╚══════════════════════════════════════════════════";
+                CYAN + "  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                CYAN + "  ┃" + YELLOW + "  /\\_/\\      ____ ___  _   _ ____  ____  _____  " + CYAN + "" + MAGENTA + " 📌 [ NO." + formattedId + " ]\n" +
+                CYAN + "  ┃" + YELLOW + " ( o.o )    / ___/ _ \\| | | |  _ \\/ ___|| ____| " + CYAN + "" + GREEN + " 📚 강좌 제목 : " + RESET + title + "\n" +
+                CYAN + "  ┃" + YELLOW + "  > ^ <     | |  | | | | | | | |_) \\___ \\|  _|  " + CYAN + "" + GREEN + " 📃 강좌 설명 : " + RESET + description + "\n" +
+                CYAN + "  ┃" + YELLOW + " /  _  \\    | |__| |_| | |_| |  _ < ___) | |___ " + CYAN + "" + GREEN + " 💰 강좌 가격 : " + RESET + paddedPrice + GREEN + " ✅ 개방 상태 : " + RESET + statusText + "\n" +
+                CYAN + "  ┃" + YELLOW + " ( ( | |     \\____\\___/ \\___/|_| \\_\\____/|_____|" + CYAN + "" + GREEN + " 👨‍🏫 강사 번호 : " + RESET + paddedInstructor + GREEN + "  📅 등 록 일 : " + RESET + createdAt + "\n" +
+                CYAN + "  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + RESET;
     }
 }

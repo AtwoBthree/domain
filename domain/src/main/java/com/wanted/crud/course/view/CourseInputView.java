@@ -108,22 +108,46 @@ public class CourseInputView {
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
-
+// 강좌 수정
+    // 강좌 수정
     public void updateCourseView(Long instructorId) {
         System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("📝 [ 강좌 정보 수정 ]");
+
         viewMyCourse(instructorId);
+
+        List<Long> myCourseIds = controller.findCoursesId(instructorId);
+
+        if (myCourseIds == null || myCourseIds.isEmpty()) {
+            outputView.printError("🚨 수정할 수 있는 강좌가 없습니다.");
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            return;
+        }
 
         long courseId = 0L;
         while (true) {
-            System.out.print("▶ 수정할 강좌 번호 선택 : ");
+            System.out.print("▶ 수정할 강좌 번호 선택 (취소는 0) : ");
             try {
                 courseId = Long.parseLong(sc.nextLine().trim());
+
+                if (courseId == 0) {
+                    System.out.println("  🔙 수정을 취소하고 이전으로 돌아갑니다.");
+                    return;
+                }
+
+                if (!myCourseIds.contains(courseId)) {
+                    outputView.printError("🚨 [오류] 본인의 강좌가 아니거나 존재하지 않는 번호입니다. 다시 확인해주세요.");
+                    continue;
+                }
+
                 break;
+
             } catch (NumberFormatException e) {
                 outputView.printError("🚨 [입력오류] 강좌 번호는 숫자로 입력해주세요.");
             }
         }
+
+        // --- 여기까지 무사히 통과했다면 진짜 내 강좌임이 증명된 것! ---
 
         System.out.print("▶ 새 제목 : ");
         String title = sc.nextLine();
@@ -147,7 +171,7 @@ public class CourseInputView {
         if (isSuccess) {
             outputView.printSuccess("✅ " + courseId + "번 강좌 정보가 갱신되었습니다.");
         } else {
-            outputView.printError("❌ 수정 실패: 권한 또는 번호를 확인하세요.");
+            outputView.printError("❌ 수정 실패: 서버 오류가 발생했습니다.");
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
@@ -160,7 +184,7 @@ public class CourseInputView {
         List<CourseDTO> myCourses = controller.selectCourse(instructorId);
 
         System.out.println("┌────────────────────────────────────────────────────┐");
-        System.out.println("│           내 강좌 및 소속 강의 정보 리스트         │");
+        System.out.println("│           내 강좌 및 소속 강의 정보 리스트              │");
         System.out.println("├────────────────────────────────────────────────────┤");
         for (CourseDTO course : myCourses) {
             System.out.printf("│ [%d] %-38s │\n", course.getCourseId(), course.getTitle());
@@ -180,7 +204,13 @@ public class CourseInputView {
         System.out.println("└────────────────────────────────────────────────────┘");
 
         System.out.print("\n▶ 수정할 강의 번호 입력: ");
-        long sectionId = Long.parseLong(sc.nextLine().trim());
+        long sectionId;
+        try {
+            sectionId = Long.parseLong(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            outputView.printError("🚨 [입력오류] 유효한 숫자를 입력해주세요.");
+            return;
+        }
 
         System.out.print("▶ 새 강의 제목: ");
         String title = sc.nextLine();
@@ -416,4 +446,7 @@ public class CourseInputView {
     }
 
 
+    public boolean isCourseExists(Long courseId) {
+        return controller.isCourseExists(courseId);
+    }
 }

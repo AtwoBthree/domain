@@ -279,9 +279,24 @@ public class CourseDAO {
     }
 
 
+    public boolean isCourseExists(Long courseId) throws SQLException {
+        String query = CourseQueryUtil.getQuery("course.isCourseExists");
 
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            // 1. ? 에 courseId 값 매핑
+            pstmt.setLong(1, courseId);
 
-
+            try (ResultSet rset = pstmt.executeQuery()) {
+                // 2. rset.next()로 결과 행이 있는지 확인 후 값 가져오기
+                if (rset.next()) {
+                    // 참고: 메서드명이나 별칭에 오타(Exixts -> Exists)가 있지만,
+                    // 쿼리 별칭과 맞추기 위해 그대로 사용합니다.
+                    return rset.getBoolean("isCourseExists");
+                }
+            }
+        }
+        return false; // 만약의 경우를 대비한 기본 반환값
+    }
 }
 
 

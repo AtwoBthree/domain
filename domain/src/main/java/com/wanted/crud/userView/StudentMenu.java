@@ -99,10 +99,15 @@ public class StudentMenu {
         long studentCash;
         courseInputView.viewAllCourses();
         System.out.println("어느 강좌를 신청하시겠습니까?");
-        System.out.print("신청할 강좌의 아이디를 입력해주세요.");
+        System.out.print("신청할 강좌의 강좌번호를 입력해주세요.");
         Long courseId = (long)getMenuInput();
         //중복강좌 신청불가 로직
         //중복강좌 신청했으면 리턴
+        //+없는 강좌도 처리해야함.
+        if(!courseInputView.isCourseExists(courseId)) {
+            System.out.println("해당 강좌는 없거나 오픈되지않았습니다.");
+            return;
+        }
         if(enrollmentInputView.isStudyingCourse(studentId, courseId)) {
             System.out.println("이미 수강신청한 강좌입니다.");
             return;
@@ -135,7 +140,7 @@ public class StudentMenu {
             System.out.println("결제할 수 있음!");
             //수강생 보유금액에서 결제금액 차감
             //userInputView.updateAmount(userNo, 차감될 금액)
-            try {userInputView.updateAmount(userNo, paymentAmount);}
+            try {userInputView.updateAmount(userNo, -paymentAmount);}
             catch(Exception e) {
                 System.out.println("결제 도중 문제가 발생했습니다." + e);
                 return;
@@ -168,7 +173,7 @@ public class StudentMenu {
             boolean updateProgress = enrollmentInputView.updateEnrollmentProgress(studentId, courseId);
 
             if (updateProgress) {
-                System.out.println("강좌 수강이 완료되었습니다! (진척도 +10)");
+                System.out.println("강좌 수강이 완료되었습니다! (진척도 +20)");
             } else {
                 System.out.println("🚨 강좌 수강에 실패하였습니다.");
                 System.out.println("🚨 이미 수강 완료한 강좌거나, 잘못된 강좌 번호 입니다.");

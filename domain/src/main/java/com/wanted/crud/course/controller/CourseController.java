@@ -100,4 +100,8 @@ public class CourseController {
     public List<CourseReviewDTO> getCourseReview() {
         return service.getCourseReview();
     }
+
+    public boolean isCourseExists(Long courseId) {
+        return service.isCourseExists(courseId);
+    }
 }

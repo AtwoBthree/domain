@@ -3,6 +3,7 @@ package com.wanted.crud.userView;
 import com.wanted.crud.Application;
 import com.wanted.crud.user.view.UserInputView;
 
+import static com.wanted.crud.Application.courseInputView;
 import static com.wanted.crud.Application.userInputView;
 import java.util.Scanner;
 
@@ -67,8 +68,8 @@ public class InstructorMenu {
 
     private void viewMyCourse() {
         System.out.println("\n  🔎 [ 내 강좌 목록 조회 중... ]");
-        if (Application.courseInputView != null) {
-            Application.courseInputView.viewMyCourse(instructorId);
+        if (courseInputView != null) {
+            courseInputView.viewMyCourse(instructorId);
         } else {
             System.out.println("  🚨 [시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
         }
@@ -76,8 +77,8 @@ public class InstructorMenu {
 
     private void viewAllCourses() {
         System.out.println("\n  🌐 [ 플랫폼 전체 강좌 목록 조회 ]");
-        if (Application.courseInputView != null) {
-            Application.courseInputView.viewAllCourses();
+        if (courseInputView != null) {
+            courseInputView.viewAllCourses();
         } else {
             System.out.println("  🚨 [시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
         }
@@ -100,8 +101,8 @@ public class InstructorMenu {
             switch (menu) {
                 case 1:
                     System.out.println("\n  🆕 [ STEP 1 : 강좌 정보 입력 ]");
-                    if (Application.courseInputView != null) {
-                        Application.courseInputView.createCourse(instructorId);
+                    if (courseInputView != null) {
+                        courseInputView.createCourse(instructorId);
                     } else {
                         System.out.println("  🚨 시스템 오류: 뷰가 초기화되지 않았습니다.");
                         break;
@@ -114,7 +115,7 @@ public class InstructorMenu {
 
                     int subMenu = getMenuInput();
                     if (subMenu == 1) {
-                        Application.courseInputView.createSection(instructorId);
+                        courseInputView.createSection(instructorId);
                     } else {
                         System.out.println("  ✅ 강좌 기본 정보만 저장하고 메뉴로 돌아갑니다.");
                     }
@@ -128,8 +129,8 @@ public class InstructorMenu {
 
                     if (courseIdToDelete == 0) {
                         System.out.println("  🚫 강좌 삭제를 취소했습니다.");
-                    } else if (Application.courseInputView != null) {
-                        Application.courseInputView.deleteCourse(courseIdToDelete, instructorId);
+                    } else if (courseInputView != null) {
+                        courseInputView.deleteCourse(courseIdToDelete, instructorId);
                     }
                     break;
 
@@ -155,11 +156,11 @@ public class InstructorMenu {
             switch (menu) {
                 case 1:
                     System.out.println("\n  📘 [ 강좌 기본 정보 수정 모드 ]");
-                    if (Application.courseInputView != null) Application.courseInputView.updateCourseView(instructorId);
+                    if (courseInputView != null) courseInputView.updateCourseView(instructorId);
                     break;
                 case 2:
                     System.out.println("\n  🎬 [ 강의 세부 내용 수정 모드 ]");
-                    if (Application.courseInputView != null) Application.courseInputView.updateSectionView(instructorId);
+                    if (courseInputView != null) courseInputView.updateSectionView(instructorId);
                     break;
                 case 0: isEditMenuOpen = false; break;
                 default: System.out.println("  ❌ 잘못된 입력입니다."); break;
@@ -170,14 +171,13 @@ public class InstructorMenu {
     private void myPageScreen() {
         System.out.println("\n  👤 [ 강사 마이페이지 ]");
         userInputView.instructorMyPage(userNo);
-        System.out.println("  🛠️  강사 정보 출력 및 수정 로직이 연결될 예정입니다.");
     }
 
     private void studentStatusScreen() {
         System.out.println("\n  🧑‍🎓 [ 수강생 현황 리포트 ]");
         System.out.println("  📊  내 강좌를 수강 중인 전체 학생 목록을 불러오는 중...");
-        if (Application.courseInputView != null) {
-            Application.courseInputView.studentStatusScreen(instructorId);
+        if (courseInputView != null) {
+            courseInputView.studentStatusScreen(instructorId);
         } else {
             System.out.println("  🚨 [시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
         }

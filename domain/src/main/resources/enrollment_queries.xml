@@ -47,7 +47,7 @@
 
     <query key="enrollment.updateProgress">
         UPDATE enrollment
-        SET progress_rate = progress_rate + 10,
+        SET progress_rate = progress_rate + 20,
         end_date = CASE WHEN progress_rate >= 100 THEN CURRENT_DATE ELSE end_date END,
         status = CASE WHEN progress_rate >= 100 THEN 1 ELSE status END
         WHERE student_id = ? AND course_id = ? AND progress_rate &lt; 100

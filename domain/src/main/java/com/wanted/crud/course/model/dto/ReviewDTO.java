@@ -92,8 +92,8 @@ public class ReviewDTO {
         sb.append("\n");
         sb.append("   💬 [ REVIEW NO.").append(String.format("%04d", reviewId)).append(" ]\n");
         sb.append("  ╭──────────────────────────────────────────\n");
-        sb.append("  │  📚 대상 강좌 : ").append(courseId).append("번 강좌\n");
-        sb.append("  │  ⭐ 평가 점수 : ").append(stars).append(" (").append(rating).append("점)\n");
+        sb.append("  │  📚 강좌 번호 : ").append(courseId).append("\n");
+        sb.append("  │  ⭐ 강좌 별점 : ").append(stars).append(" (").append(rating).append("점)\n");
         sb.append("  │  📅 작 성 일  : ").append(createdAt).append("\n");
         sb.append("  ╰──────────────────────────────────────────\n");
         sb.append("      \\\n");

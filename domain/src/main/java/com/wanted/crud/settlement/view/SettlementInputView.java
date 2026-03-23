@@ -4,6 +4,8 @@ import com.wanted.crud.settlement.controller.SettlementController;
 import com.wanted.crud.settlement.model.dto.SettlementDTO;
 import com.wanted.crud.user.model.dto.UserDTO;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,7 +25,6 @@ public class SettlementInputView {
     }
 
     // 강사별 총수익
-
     public void viewRevenueByInstructor() {
         System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         // OutputView가 있다면 outputView.printMessage()를 쓰셔도 됩니다.
@@ -41,10 +42,21 @@ public class SettlementInputView {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
-    // 정산하기
+
+    // 정산하기 (수정할 것임)
     public void saveSettlement() {
         System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("  📝 [ 미정산 내역 (WAIT 상태) ]");
+
+       /* public void viewWaitSettlement() {
+            List<SettlementDTO> list = controller.viewWaitSettlement();
+            outputView.printAllSettlement(list);
+
+            if (list == null || list.isEmpty()) {
+                outputView.printError("조회할 정산내역이 없습니다.");
+                return;
+            }
+        }*/
         System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
         try {
@@ -57,7 +69,7 @@ public class SettlementInputView {
             System.out.print("  ▶ 총 매출액(원금)을 입력하세요: ");
             Long rawAmount = Long.parseLong(sc.nextLine().trim());
 
-            Long commission = (long) (rawAmount * 0.7);
+            Long commission = (long) (rawAmount * 0.8);
             Long finalAmount = rawAmount - commission;
 
             System.out.println("\n  📊 [ 정산 금액 계산 완료 ]");
@@ -79,18 +91,30 @@ public class SettlementInputView {
             System.out.println("🚨 [입력 오류] 숫자만 입력하세요.");
         }
     }
-/*
+
     // 정산 내역 조회
-    public void viewAllSettlement{
+    public void viewAllSettlement() {
         List<SettlementDTO> list = controller.viewAllSettlement();
-        outputView.printAllSettlement(List);
+        outputView.printAllSettlement(list);
 
         if (list == null || list.isEmpty()) {
             outputView.printError("조회할 정산내역이 없습니다.");
             return;
         }
     }
+    public void paymentToSettlement(Timestamp now) {
+        controller.paymentToSettlement(now);
+        System.out.println("정산 페이지 갱신 완료");
+    }
 
+    public void processFullSettlement() {
+        if(controller.processFullSettlement()) {
+            System.out.println("정산처리 완료되었습니다.");;
+        }
+    }
+
+
+/*
     // 관리자의 수강생 정보 수정
     public void updateStudent() {
 
