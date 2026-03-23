@@ -1,11 +1,6 @@
 package com.wanted.crud.userView;
 
 import com.wanted.crud.Application;
-import com.wanted.crud.enrollment.controller.EnrollmentController;
-import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
-import com.wanted.crud.enrollment.view.EnrollmentInputView;
-
-import java.util.List;
 import java.util.Scanner;
 
 import static com.wanted.crud.Application.*;
@@ -135,7 +130,7 @@ public class StudentMenu {
         }
 
         //수강생이 보유한 금액이 결제금액보다 많은지 확인.
-        if(studentCash > paymentAmount) {
+        if(studentCash >= paymentAmount) {
             status = true;
             System.out.println("결제할 수 있음!");
             //수강생 보유금액에서 결제금액 차감

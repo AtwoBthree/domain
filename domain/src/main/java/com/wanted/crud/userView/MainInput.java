@@ -1,14 +1,11 @@
 package com.wanted.crud.userView;
 
-import com.wanted.crud.Application;
-import com.wanted.crud.user.view.UserInputView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
-import static com.wanted.crud.Application.enrollmentController;
-import static com.wanted.crud.Application.userInputView;
+import static com.wanted.crud.Application.*;
 
 public class MainInput {
     private static final Logger log = LoggerFactory.getLogger(MainInput.class);
@@ -89,7 +86,7 @@ public class MainInput {
                 new InstructorMenu(sc, role, userNo, instructorId).showMenu();
                 break;
             case "ADMIN":
-                new AdminMenu(sc, role, userNo, instructorId).showMenu();
+                new AdminMenu(sc, role, userNo).showMenu();
                 break;
             default:
                 System.out.println("  🚨 [오류] 존재하지 않는 역할이거나 권한이 만료되었습니다.\n");

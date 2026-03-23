@@ -1,7 +1,5 @@
 package com.wanted.crud.userView;
 
-import com.wanted.crud.Application;
-import com.wanted.crud.user.view.UserInputView;
 
 import static com.wanted.crud.Application.courseInputView;
 import static com.wanted.crud.Application.userInputView;
@@ -18,10 +16,6 @@ public class InstructorMenu {
         this.role = role;
         this.userNo = userNo;
         this.instructorId = instructorId;
-    }
-
-    public InstructorMenu(Scanner sc) {
-        this.sc = sc;
     }
 
     public void showMenu() {

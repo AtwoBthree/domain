@@ -1,26 +1,20 @@
 package com.wanted.crud.userView;
-
-import com.wanted.crud.Application;
-
 import java.util.Scanner;
 
 import static com.wanted.crud.Application.*;
+
 
 public class AdminMenu {
     private Scanner sc = new Scanner(System.in);
     private String role;
     private Long userNo;
-    private Long instructorId;
 
-    public AdminMenu(Scanner sc, String role, Long userNo, Long instructorId) {
+
+    public AdminMenu(Scanner sc, String role, Long userNo) {
         this.sc = sc;
         this.role = role;
         this.userNo = userNo;
-        this.instructorId = instructorId;
-    }
 
-    public AdminMenu(Scanner sc) {
-        this.sc = sc;
     }
 
     public void showMenu() {
@@ -129,10 +123,10 @@ public class AdminMenu {
 
             int menu = getMenuInput();
             if (menu == 1) {
-                if (Application.courseInputView != null) Application.courseInputView.viewInstructorCourses();
+                if (courseInputView != null) courseInputView.viewInstructorCourses();
                 else System.out.println("  🚨 [시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
             } else if (menu == 2) {
-                if (com.wanted.crud.Application.courseInputView != null) com.wanted.crud.Application.courseInputView.adminManageCourseDetail();
+                if (courseInputView != null) courseInputView.adminManageCourseDetail();
                 else System.out.println("  🚨 [시스템 오류] 강좌 뷰가 초기화되지 않았습니다.");
             } else if (menu == 0) isMenuOpen = false;
             else System.out.println("  ❌ [오류] 잘못된 선택입니다.");
@@ -153,8 +147,8 @@ public class AdminMenu {
 
             int menu = getMenuInput();
             if (menu == 1) {
-                if (Application.paymentInputView != null) {
-                    Application.paymentInputView.viewRevenueByCourse();
+                if (paymentInputView != null) {
+                    paymentInputView.viewRevenueByCourse();
                 } else {
                     System.out.println("  🚨 [시스템 오류] 결제 관련 화면을 불러올 수 없습니다.");
                 }

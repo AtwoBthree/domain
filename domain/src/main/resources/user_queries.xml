@@ -133,11 +133,17 @@
         SET user_name = ?, status = ?
         WHERE user_no = ?;
     </query>
+
+
     <query key="instructor.update">
-        UPDATE user
-        SET user_name, user_password, user_phone_number
-        value (?, ?, ?);
+        update user
+        set user_name = ?,
+        user_password = ?,
+        user_phone_number = ?
+        where user_no = ?
     </query>
+
+
     <query key = "user.updateAmount">
         UPDATE user
         SET user_price = user_price + ?
