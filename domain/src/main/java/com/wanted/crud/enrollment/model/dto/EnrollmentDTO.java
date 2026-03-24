@@ -59,7 +59,7 @@ public class EnrollmentDTO {
         final String B_CYAN = "\u001B[96m";    // 학생번호
         final String RED = "\u001B[31m";       // 종료/비활성 상태
 
-        // 📝 1. 데이터 포맷팅
+        // 데이터 포맷팅
         String formattedEnrollmentId = enrollmentId != null ? String.format("%04d", enrollmentId) : "----";
         String formattedStudentId = studentId != null ? String.format("%04d", studentId) : "----";
         String formattedCourseId = courseId != null ? String.format("%04d", courseId) : "----";
@@ -71,7 +71,7 @@ public class EnrollmentDTO {
         String startStr = (startDate != null) ? sdf.format(startDate) : "미정";
         String endStr = (endDate != null) ? sdf.format(endDate) : "진행 중";
 
-        // 🚀 2. 진도율 프로그레스 바 (Progress Bar) 로직
+        // 진도율 프로그레스 바 (Progress Bar) 로직
         long actualProgress = (progressRate != null) ? progressRate : 0L;
         int filledBars = (int) (actualProgress / 10);
         StringBuilder pb = new StringBuilder();
@@ -82,7 +82,7 @@ public class EnrollmentDTO {
         String progressBar = pb.toString();
         String paddedProgressNum = String.format("%-4s", actualProgress + "%");
 
-        // 🎨 3. 학사모 토끼 + 와이드 레이아웃 조합
+        // 학사모 토끼 + 와이드 레이아웃 조합
         return "\n" +
                 CYAN + "  ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
                 CYAN + "  ┃ " + B_YELLOW + "      * ﾟ  +  .  * " + CYAN + "           " + B_MAGENTA + "    🆔 [ 등록 번호: EN-" + formattedEnrollmentId + " ]    " + B_CYAN + " 🧑‍🎓 [ 학생 번호: " + formattedStudentId + " ]\n" +
@@ -92,4 +92,7 @@ public class EnrollmentDTO {
                 CYAN + "  ┃ " + B_YELLOW + "      * .  +  ﾟ * " + CYAN + "           \n" +
                 CYAN + "  ╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" + RESET;
     }
+
+
+
 }

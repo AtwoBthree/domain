@@ -210,9 +210,9 @@ public class UserService {
     }
 
     // 관리자의 수강생 정보 수정
-    public boolean updateStudentinfo(Long userNo, String newName, boolean status) {
+    public boolean updateStudentinfo(Long studentId, String newName, boolean status) {
         try {
-            return userDAO.updateStudentinfo(userNo, newName, status);
+            return userDAO.updateStudentinfo(studentId, newName, status);
         } catch (SQLException e) {
             throw new RuntimeException("수강생 찾는 중 에러 발생 !!" + e);
         }
@@ -257,9 +257,9 @@ public class UserService {
     }
 
     // 관리자의 강사 정보 수정
-    public boolean updateInstructorinfo(Long userNo, String newName, boolean status) {
+    public boolean updateInstructorinfo(Long instructorId, String newName, boolean status) {
         try {
-            return userDAO.updateInstructorinfo(userNo, newName, status);
+            return userDAO.updateInstructorinfo(instructorId, newName, status);
         } catch (SQLException e) {
             throw new RuntimeException("강사 찾는 중 에러 발생 !!" + e);
         }

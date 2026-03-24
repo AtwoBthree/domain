@@ -62,7 +62,7 @@ public class SettlementDTO {
         final String B_MAGENTA = "\u001B[95m"; // 정산 번호, 총 매출
         final String B_BLUE = "\u001B[94m";    // 완료 상태
 
-        // 📝 1. Null 방어 및 금액 포맷팅 (콤마 추가)
+        // 1. Null 방어 및 금액 포맷팅
         String formattedId = (settlementId != null) ? String.format("%04d", settlementId) : "----";
         String formattedRaw = (rawAmount != null) ? String.format("%,d원", rawAmount) : "0원";
         String formattedCommission = (commssion != null) ? String.format("%,d원", commssion) : "0원";
@@ -71,14 +71,14 @@ public class SettlementDTO {
         String instructorStr = (instructorId != null) ? String.format("%04d", instructorId) : "----";
         String courseStr = (courseId != null) ? String.format("%04d", courseId) : "----";
 
-        // 📝 2. 상태 및 날짜 포맷팅
+        // 2. 상태 및 날짜 포맷팅
         boolean isDone = "DONE".equals(status);
         String statusIcon = isDone ? B_BLUE + "✅ 정산 완료" + RESET : RED + "⏳ 정산 대기" + RESET;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String safeDate = (settlementDate != null) ? sdf.format(settlementDate) : "미정";
 
-        // 🚀 3. 똑똑한 회계사 고양이 + 영수증 레이아웃 조합
+        // 3. 똑똑한 회계사 고양이 + 영수증 레이아웃 조합
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append(CYAN).append("  ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n").append(RESET);

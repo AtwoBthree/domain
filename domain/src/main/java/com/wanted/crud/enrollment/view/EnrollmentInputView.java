@@ -9,20 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EnrollmentInputView {
-    /* comment.
-     *   View 계층의 책임
-     *   - 사용자의 입력 or 출력을 담당한다.
-     *   - InputView 의 할 일
-     *   - 사용자가 고를 수 있는 메뉴를 출력한다.
-     *   - Scanner 를 활용한 입력을 처리한다.
-     *   - Controller 를 사용자 입력에 맞게 호출한다.
-     *   - OutputView 를 호출하여 결과를 출력할 수 있게 한다.
-     *   .
-     *   - InputView 가 하면 안 되는 일
-     *   - SQL 작성 X
-     *   - 비즈니스 로직 처리 X
-     *   - Commit / Rollback X
-     * */
 
     private final EnrollmentController controller;
     private final EnrollmentOutputView outputView;
@@ -32,9 +18,8 @@ public class EnrollmentInputView {
         this.outputView = outputView;
     }
 
-
-    public void studentCoursePage(Long studentId) {
-        controller.studentCoursePage(studentId);
+    public boolean studentCoursePage(Long studentId) {
+        return controller.studentCoursePage(studentId);
 
     }
 
@@ -69,7 +54,6 @@ public class EnrollmentInputView {
 
 
     private final Scanner sc = new Scanner(System.in);
-
 
 
     public boolean updateEnrollmentProgress(Long studentId, Long courseId){

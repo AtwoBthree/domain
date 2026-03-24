@@ -38,6 +38,10 @@ public class SettlementController {
         return settlementService.viewWaitSettlement();
     }
 
+    public List<SettlementDTO> viewDoneSettlement() {
+        return settlementService.viewDoneSettlement();
+    }
+
     public void paymentToSettlement(Timestamp now) {
         settlementService.paymentToSettlement(now);
     }

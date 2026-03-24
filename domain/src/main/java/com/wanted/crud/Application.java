@@ -54,7 +54,6 @@ public class Application {
             EnrollmentInputView enrollmentinputview = new EnrollmentInputView(enrollmentController, enrollmentOutputView);
 
 
-
             SettlementService settlementService = new SettlementService(con);
             SettlementController settlementController = new  SettlementController(settlementService);
             SettlementOutputView settlementOutputView = new  SettlementOutputView();
@@ -74,11 +73,6 @@ public class Application {
 
 
             // 조립이 끝난 뷰를 전역 변수에 저장
-
-            // ❌ 삭제: 프로그램 켜지자마자 강좌 조회하던 테스트 코드는 지웁니다.
-            // inputView.viewMyCourse();
-
-            // ★ 추가: Scanner를 생성하고 강사 메뉴를 화면에 띄웁니다!
             Scanner sc = new Scanner(System.in);
             MainInput mainmenu = new MainInput(courseinputView, enrollmentinputview, settlementinputView, userinputView, paymentinputview, adminInputViewLocal);
             mainmenu.startApp();
@@ -86,6 +80,6 @@ public class Application {
             System.err.println("🚨 데이터베이스 연결 실패...");
         } finally {
             JDBCTemplate.close();
-        } //
+        }
     }
 }

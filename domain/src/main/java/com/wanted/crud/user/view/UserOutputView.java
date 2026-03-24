@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserOutputView {
 
-    // ===== 공통 출력 메서드 =====
+    // 공통 출력 메서드
     public void printError(String message) {
         System.out.println("\n🚨 [ERROR] ❌ " + message);
     }
@@ -19,14 +19,12 @@ public class UserOutputView {
     }
 
     public void printMessage(String s) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("💬 " + s);
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
-    // ===== User 관련 출력 =====
+    // User 관련 출력
     public void printUsers(List<UserDTO> userList) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("👥 [ 시스템 사용자 목록 ]");
 
         if (userList == null || userList.isEmpty()) {
@@ -41,7 +39,7 @@ public class UserOutputView {
 
 
 
-    // ===== 메뉴 출력 (박스 스타일) =====
+    // 메뉴 출력 (박스 스타일)
     public void printMenu() {
         System.out.println("\n┌────────────────── [ 수강생 메뉴 ] ──────────────────");
         System.out.println("│  1. 내 정보 조회                                      ");
@@ -67,13 +65,12 @@ public class UserOutputView {
         System.out.println("└────────────────────────────────────────────────────");
     }
 
-    // ===== Student 관련 출력 =====
+    // Student 관련 출력
     public void printStudent(StudentDTO student) {
         System.out.println(student);
     }
 
     public void printStudents(List<StudentDTO> studentList) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("🧑‍🎓 [ 수강생 명단 ]");
         for (StudentDTO student : studentList) {
             System.out.println(student);
@@ -82,7 +79,6 @@ public class UserOutputView {
     }
 
     public void printAllStudents(List<UserDTO> studentList) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("🧑‍🎓 [ 수강생 명단 ]");
         for (UserDTO student : studentList) {
             System.out.println(student);
@@ -90,9 +86,8 @@ public class UserOutputView {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
-    // ===== Instructor 관련 출력 =====
+    // Instructor 관련 출력
     public void printInstructors(List<InstructorDTO> instructorList) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("👨‍🏫 [ 소속 강사 명단 ]");
         for (InstructorDTO instructor : instructorList) {
             System.out.println(instructor);
@@ -101,7 +96,6 @@ public class UserOutputView {
     }
 
     public void printInstructors2(List<UserDTO> list) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("🔍 [ 강사 검색 결과 상세 리스트 ]");
         System.out.println("──────────────────────────────────────────────────────");
         System.out.println(" 번호  |  아이디  |  이름  |  전화번호  |  생성일  |  상태 ");
@@ -119,9 +113,8 @@ public class UserOutputView {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
-    // ===== Enrollment 관련 출력 =====
+    // Enrollment 관련 출력
     public void printEnrollmentStudents(List<EnrollmentStudentDTO> list) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("📊 [ 강좌별 수강 현황 ]");
 
         if (list == null || list.isEmpty()) {

@@ -18,7 +18,6 @@ public class AdminInputView {
 
     // 관리자의 강사 이름 조회
     public void searchInstructor() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("🔍 [ 관리자 전용: 강사 이름으로 검색 ]");
 
         System.out.print("▶ 조회할 강사의 이름을 입력하세요: ");
@@ -44,9 +43,9 @@ public class AdminInputView {
         List<UserDTO> list = controller.findAllInstructor();
         outputView.printUsers(list);
 
-        // 2. user_no 입력
-        System.out.print("수정할 강사의 user_no를 입력해주세요: ");
-        Long userNo = Long.parseLong(inputString());
+        // 2. instructorId 입력
+        System.out.print("수정할 강사의 강사번호를 입력해주세요: ");
+        Long instructorId = Long.parseLong(inputString());
 
         // 3. 변경 값 입력
         System.out.print("변경할 이름을 입력하세요: ");
@@ -69,41 +68,41 @@ public class AdminInputView {
 
 
         // 4. 업데이트 실행
-        boolean result = controller.updateInstructorinfo(userNo, newName, status);
+        boolean result = controller.updateInstructorinfo(instructorId, newName, status);
 
         // 5. 결과 출력
         if (result) {
             outputView.printSuccess("강사 정보가 수정되었습니다.");
         } else {
-            outputView.printError("수정 실패 (user_no 확인 필요)");
+            outputView.printError("❌ 수정 실패 (user_no 확인 필요)");
         }
     }
 
     // 관리자의 강사 정보 삭제
     public void deleteInstructor() {
 
-        // 1. status = 0 강사 출력
+        //status = 0 강사 출력
         List<UserDTO> list = controller.findInactiveInstructors();
         outputView.printUsers(list);
 
         if (list == null || list.isEmpty()) {
-            outputView.printError("삭제할 강사가 없습니다.");
+            outputView.printError("❌ 삭제할 강사가 없습니다.");
             return;
         }
 
-        // 2. user_no 입력
-        System.out.print("삭제할 강사의 user_no를 입력해주세요: ");
+        // user_no 입력
+        System.out.print("삭제할 강사의 사용자 번호를 입력해주세요: ");
         Long userNo = Long.parseLong(inputString());
 
 
-        // 3. 삭제 실행
+        // 삭제
         boolean result = controller.deleteInstructor(userNo);
 
-        // 4. 결과 출력
+        //결과 출력
         if (result) {
-            outputView.printSuccess("강사가 완전히 삭제되었습니다.");
+            outputView.printSuccess("✅ 강사가 완전히 삭제되었습니다.");
         } else {
-            outputView.printError("삭제 실패 (user_no 확인 필요)");
+            outputView.printError("❌ 삭제 실패 (사용자 번호 확인 필요)");
         }
     }
 
@@ -116,8 +115,6 @@ public class AdminInputView {
             }
         }
     }
-
-
 
 
     private String inputString() {

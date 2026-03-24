@@ -105,9 +105,9 @@ public class UserController {
     }
 
     // 관리자의 수강생 정보 수정
-    public boolean updateStudentinfo(Long userNo, String newName, boolean status) {
+    public boolean updateStudentinfo(Long studentId, String newName, boolean status) {
 
-        return service.updateStudentinfo(userNo, newName, status);
+        return service.updateStudentinfo(studentId, newName, status);
     }
 
 
@@ -130,9 +130,9 @@ public class UserController {
 
     // 관리자의 강사 정보 수정
 
-     public boolean updateInstructorinfo(Long userNo, String newName, boolean status) {
+     public boolean updateInstructorinfo(Long instructorId, String newName, boolean status) {
 
-        return service.updateInstructorinfo(userNo, newName, status);
+        return service.updateInstructorinfo(instructorId, newName, status);
     }
     // 관리자의 비활성화 강사 조회
 

@@ -15,14 +15,14 @@ public class PaymentDTO {
     private String courseTitle;
     private long totalRevenue;
 
-    // ✨ [1단계] 여백 계산기: Java 버전에 상관없이 돌아가도록 수정했습니다!
+    // 여백 계산기: Java 버전에 상관없이 돌아가도록
     private String padRight(String text) {
-        int targetWidth = 46; // 테두리 안쪽 너비
+        int targetWidth = 46;
         int width = 0;
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
-            if (c >= '가' && c <= '힣') width += 2; // 한글은 2칸
-            else width += 1; // 나머지는 1칸
+            if (c >= '가' && c <= '힣') width += 2;
+            else width += 1;
         }
 
         StringBuilder padded = new StringBuilder(text);

@@ -255,8 +255,7 @@ public class CourseDAO {
                 }
             }
         }
-        // 2. 만약 입력한 courseId에 해당하는 강좌가 DB에 아예 없다면?
-        return null; // 무료 강좌(0원)와 구분하기 위해 null을 반환하는 것이 좋습니다.
+        return null;
     }
 
     public List<CourseReviewDTO> selectCourseReview() throws SQLException {

@@ -57,4 +57,18 @@
         FROM SETTLEMENT
         WHERE status = 'WAIT';
     </query>
+
+    <query key = "settlement.ViewAllDoneSettlement">
+        SELECT
+        settlement_id,
+        course_id,
+        settlement_date,
+        instructor_id,
+        raw_amount,
+        commission,
+        final_amount,
+        status
+        FROM SETTLEMENT
+        where status = DONE;
+    </query>
 </properties>

@@ -13,13 +13,14 @@ public class EnrollmentStudentDTO {
 
     public EnrollmentStudentDTO(Long courseId, String courseTitle,
                                 Long userNo, String userId,
-                                String userName, String userPhoneNumber) {
+                                String userName, String userPhoneNumber, Long progressRate) {
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.userNo = userNo;
         this.userId = userId;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
+        this.progressRate = progressRate;
     }
 
     public EnrollmentStudentDTO(Long courseId, String courseName, Long progressRate) {
@@ -47,7 +48,7 @@ public class EnrollmentStudentDTO {
         final String B_MAGENTA = "\u001B[95m"; // 아이디, 번호 라벨
         final String B_BLACK = "\u001B[90m";   // 빈 진도율 바
 
-        // 📝 1. Null 안전 포맷팅 (모든 변수 처리)
+        // Null 안전 포맷팅 (모든 변수 처리)
         String safeName = (userName != null) ? userName : "정보 없음";
         String safeUserId = (userId != null) ? userId : "정보 없음";
         String safeUserNo = (userNo != null) ? String.format("%04d", userNo) : "----";
@@ -55,7 +56,7 @@ public class EnrollmentStudentDTO {
         String safeCourseId = (courseId != null) ? String.format("%04d", courseId) : "----";
         String safeTitle = (courseTitle != null) ? courseTitle : "수강 강좌 없음";
 
-        // 🚀 2. 진도율 (progressRate) 프로그레스 바 로직
+        // 진도율 (progressRate) 프로그레스 바 로직
         long actualProgress = (progressRate != null) ? progressRate : 0L;
         int filledBars = (int) (actualProgress / 10);
         StringBuilder pb = new StringBuilder();
@@ -65,7 +66,7 @@ public class EnrollmentStudentDTO {
         }
         String progressBar = pb.toString();
 
-        // 🎨 3. 오른쪽 생각풍선 UI 렌더링
+        // 오른쪽 생각풍선 UI 렌더링
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append(CYAN).append("                        ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n").append(RESET);

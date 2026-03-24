@@ -26,8 +26,6 @@ public class SettlementInputView {
 
     // 강사별 총수익
     public void viewRevenueByInstructor() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        // OutputView가 있다면 outputView.printMessage()를 쓰셔도 됩니다.
         System.out.println("  💸 [ 대시보드 : 강사별 누적 총수익 ]");
 
         List<SettlementDTO> revenueList = controller.getRevenueByInstructor();
@@ -43,9 +41,8 @@ public class SettlementInputView {
     }
 
 
-    // 정산하기 (수정할 것임)
+    // 정산하기
     public void saveSettlement() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("  📝 [ 미정산 내역 (WAIT 상태) ]");
 
        /* public void viewWaitSettlement() {
@@ -99,6 +96,16 @@ public class SettlementInputView {
 
         if (list == null || list.isEmpty()) {
             outputView.printError("조회할 정산내역이 없습니다.");
+            return;
+        }
+    }
+
+    public void viewDoneSettlement() {
+        List<SettlementDTO> list = controller.viewDoneSettlement();
+        outputView.printDoneSettlement(list);
+
+        if (list == null || list.isEmpty()) {
+            outputView.printError("조회할 완료된 정산내역이 없습니다.");
             return;
         }
     }

@@ -5,6 +5,7 @@ import com.wanted.crud.payment.model.dao.PaymentDAO;
 import com.wanted.crud.payment.model.dao.ToSettlementPaymentDAO;
 import com.wanted.crud.payment.model.dto.PaymentDTO;
 import com.wanted.crud.payment.model.dto.ToSettlementPaymentDTO;
+import com.wanted.crud.user.model.dao.UserDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,12 +13,14 @@ import java.util.List;
 
 public class PaymentService {
     private final PaymentDAO paymentDAO;
+    private final UserDAO userDAO;
     private final ToSettlementPaymentDAO toSettlementPaymentDAO;
     private final Connection connection;
     public PaymentService(Connection connection) {
         this.connection = connection;
         this.paymentDAO = new PaymentDAO(connection);
         this.toSettlementPaymentDAO = new ToSettlementPaymentDAO(connection);
+        this.userDAO = new UserDAO(connection);
     }
 
 

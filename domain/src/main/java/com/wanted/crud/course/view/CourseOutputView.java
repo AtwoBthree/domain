@@ -12,7 +12,6 @@ public class CourseOutputView {
     }
 
     public void printCourses2(List<CourseDTO> courseList) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("🔎 [ 모든 강좌 검색 결과 ]");
 
         if (courseList == null || courseList.isEmpty()) {
@@ -28,7 +27,6 @@ public class CourseOutputView {
     }
 
     public void printCourses(List<CourseDTO> findMyCourse) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("📂 [ 강좌 목록 리포트 ]");
 
         if (findMyCourse == null || findMyCourse.isEmpty()) {
@@ -55,7 +53,6 @@ public class CourseOutputView {
     }
 
     public void printMyStudent(List<CourseMyStudentDTO> findStudent) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
         if (findStudent == null || findStudent.isEmpty()) {
             System.out.println("🚨 [알림] 조회된 학생 데이터가 없습니다.");
