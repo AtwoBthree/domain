@@ -88,6 +88,33 @@ public class SettlementDAO {
         return List;
     }
 
+    // DONE인 정산 전체조회
+    public List<SettlementDTO> viewDoneSettlement() throws SQLException {
+        String query = SettlementQueryUtil.getQuery("settlement.ViewAllDoneSettlement");
+        List<SettlementDTO> List = new ArrayList<>();
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                SettlementDTO settlement = new SettlementDTO(
+                        rset.getLong("settlement_id"),
+                        rset.getLong("course_id"),
+                        rset.getTimestamp("settlement_date"),
+                        rset.getLong("instructor_id"),
+                        rset.getLong("raw_amount"),
+                        rset.getLong("commission"),
+                        rset.getLong("final_amount"),
+                        rset.getString("status")
+                );
+
+                List.add(settlement);
+            }
+        }
+        return List;
+    }
+
+
+
     // 미정산 조회
     public List<SettlementDTO> viewWaitSettlement() throws SQLException{
         String query = SettlementQueryUtil.getQuery("settlement.ViewWaitSettlement");
@@ -115,12 +142,11 @@ public class SettlementDAO {
 
 
     public Long save(SettlementDTO newSettlement) throws SQLException {
-        // 1. properties 등에서 INSERT 쿼리를 가져옵니다.
-        // 예상 쿼리: INSERT INTO `USER` (user_id, user_password, user_name, user_phone_number, user_role) VALUES (?, ?, ?, ?, ?)
+        // 1. properties 등에서 INSERT 쿼리를 가져옴
         String query = SettlementQueryUtil.getQuery("settlement.save");
         Long generatedId = null;
 
-        // 2. INSERT 실행 후 생성된 PK값을 가져오기 위해 RETURN_GENERATED_KEYS 옵션을 추가합니다.
+        // 2. INSERT 실행 후 생성된 PK값을 가져오기 위해 RETURN_GENERATED_KEYS 옵션을 추가
         try (PreparedStatement pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 
@@ -130,10 +156,10 @@ public class SettlementDAO {
             pstmt.setLong(4, newSettlement.getCommssion());
             pstmt.setLong(5, newSettlement.getFinalAmount());
 
-            // 4. INSERT 쿼리를 실행하고 영향을 받은 행(row)의 개수를 반환받습니다.
+            // 4. INSERT 쿼리를 실행하고 영향을 받은 행(row)의 개수를 반환
             int affectedRows = pstmt.executeUpdate();
 
-            // 5. 성공적으로 INSERT 되었다면, 생성된 PK(user_no)를 조회하여 반환합니다.
+            // 5. 성공적으로 INSERT 되었다면, 생성된 PK(user_no)를 조회하여 반환
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
@@ -147,12 +173,11 @@ public class SettlementDAO {
     }
 
     public Long saveDone(SettlementDTO newSettlement) throws SQLException {
-        // 1. properties 등에서 INSERT 쿼리를 가져옵니다.
-        // 예상 쿼리: INSERT INTO `USER` (user_id, user_password, user_name, user_phone_number, user_role) VALUES (?, ?, ?, ?, ?)
+        // 1. properties 등에서 INSERT 쿼리를 가져옴
         String query = SettlementQueryUtil.getQuery("settlement.saveDone");
         Long generatedId = null;
 
-        // 2. INSERT 실행 후 생성된 PK값을 가져오기 위해 RETURN_GENERATED_KEYS 옵션을 추가합니다.
+        // 2. INSERT 실행 후 생성된 PK값을 가져오기 위해 RETURN_GENERATED_KEYS 옵션을 추가
         try (PreparedStatement pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 
@@ -162,10 +187,10 @@ public class SettlementDAO {
             pstmt.setLong(4, newSettlement.getCommssion());
             pstmt.setLong(5, newSettlement.getFinalAmount());
 
-            // 4. INSERT 쿼리를 실행하고 영향을 받은 행(row)의 개수를 반환받습니다.
+            // 4. INSERT 쿼리를 실행하고 영향을 받은 행(row)의 개수를 반환
             int affectedRows = pstmt.executeUpdate();
 
-            // 5. 성공적으로 INSERT 되었다면, 생성된 PK(user_no)를 조회하여 반환합니다.
+            // 5. 성공적으로 INSERT 되었다면, 생성된 PK(user_no)를 조회하여 반환
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {

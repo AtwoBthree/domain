@@ -9,7 +9,7 @@ public class RefundDTO {
     private Date refundAt;
     private long paymentId;
 
-    // ✨ 환불 승인서 전용 정밀 여백 계산기 (너비 46)
+    // 환불 승인서 전용 정밀 여백 계산기 (너비 46)
     private String padRight(String text) {
         int targetWidth = 46;
         int width = 0;
@@ -28,12 +28,11 @@ public class RefundDTO {
 
     @Override
     public String toString() {
-        // 1. 환불 상태 분석 (null 방어 포함)
+        // 환불 상태 분석 (null 방어 포함)
         boolean isDone = "1".equals(String.valueOf(refundStatus));
         String statusIcon = isDone ? "✅ 완료 (COMPLETED)" : "⏳ 진행 중 (PROCESSING)";
         String formattedAmount = String.format("%,d원", refundAmount);
 
-        // 2. 상태 도장(STAMP) 아스키 아트
         String stampTop = " .----------. ";
         String stampMid = isDone ? " |  REFUND  | " : " |  PENDING | ";
         String stampBot = " '----------' ";

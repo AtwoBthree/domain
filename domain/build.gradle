@@ -26,3 +26,6 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.withType(JavaExec) {
+    systemProperty "org.slf4j.simpleLogger.defaultLogLevel", "error"}

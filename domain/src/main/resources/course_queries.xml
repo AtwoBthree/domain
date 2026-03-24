@@ -15,7 +15,7 @@
         SELECT *
         FROM course c
         JOIN instructor u ON c.instructor_id = u.instructor_id
-        WHERE u.instructor_id = ?
+        WHERE u.instructor_id = ? and status = true
     </query>
 
     <query key="course.isCourseExists">

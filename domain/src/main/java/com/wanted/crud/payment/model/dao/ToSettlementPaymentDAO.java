@@ -15,21 +15,18 @@ public class ToSettlementPaymentDAO {
         this.connection = connection;
     }
 
-    // 🌟 수정: 시작 날짜(startDate)와 종료 날짜(endDate)를 매개변수로 받습니다.
     public List<ToSettlementPaymentDTO> selectForSettlement(Timestamp startDate) throws SQLException {
         String query = PaymentQueryUtil.getQuery("payment.selectForSettlement");
         List<ToSettlementPaymentDTO> paymentList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            // 쿼리에 '?'가 하나뿐이므로 index 1에만 값을 세팅합니다.
             pstmt.setTimestamp(1, startDate);
 
             try (ResultSet rset = pstmt.executeQuery()) {
                 while (rset.next()) {
-                    // SQL의 별칭인 "raw_amount"를 사용하여 값을 가져옵니다.
                     ToSettlementPaymentDTO forStmPay = new ToSettlementPaymentDTO(
-                            rset.getLong("raw_amount"), // <- 수정된 부분
+                            rset.getLong("raw_amount"),
                             rset.getLong("course_id")
                     );
                     paymentList.add(forStmPay);

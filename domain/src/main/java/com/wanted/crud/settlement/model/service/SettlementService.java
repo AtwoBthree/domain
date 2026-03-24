@@ -37,13 +37,14 @@ public class SettlementService {
             List<ToSettlementPaymentDTO> paymentList = toSettlementPaymentDAO.selectForSettlement(now);
 
             if (paymentList == null || paymentList.isEmpty()) {
+                System.out.println("페이먼트리스트가없음.");
                 return false;
             }
 
             for (ToSettlementPaymentDTO payData : paymentList) {
                 long rawAmount = payData.getRawAmount();
 
-                // 요청하신 비율: 관리자 8(Commission) : 강사 2(FinalAmount)
+                // [수익배분] 관리자 8(Commission) : 강사 2(FinalAmount)
                 long commission = (long) (rawAmount * 0.8); // 관리자 몫
                 long finalAmount = rawAmount - commission;   // 강사 몫
 
@@ -127,9 +128,7 @@ public class SettlementService {
         }
     }
 
-    // --- 기존 기능 유지 ---
-
-    public SettlementDTO findbyId(long id){
+     public SettlementDTO findbyId(long id){
         try {
             return settlementDAO.find(id);
         } catch (SQLException e) {
@@ -167,6 +166,19 @@ public class SettlementService {
             return settlementList;
         } catch (SQLException e) {
             throw new RuntimeException("🚨정산 목록 조회 중 Error 발생", e);
+        }
+    }
+
+    // 미정산 조회
+    public List<SettlementDTO> viewDoneSettlement() {
+        try {
+            List<SettlementDTO> settlementList = settlementDAO.viewDoneSettlement();
+            if (settlementList == null || settlementList.isEmpty()) {
+                System.out.println("❌완료된 정산 내역이 없습니다.");
+            }
+            return settlementList;
+        } catch (SQLException e) {
+            throw new RuntimeException("🚨[DONE] 완료된 정산 목록 조회 중 Error 발생", e);
         }
     }
 

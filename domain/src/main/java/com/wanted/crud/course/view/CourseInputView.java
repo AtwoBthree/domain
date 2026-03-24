@@ -1,12 +1,10 @@
 package com.wanted.crud.course.view;
 
 import com.wanted.crud.course.controller.CourseController;
-import com.wanted.crud.course.model.dto.CourseDTO;
-import com.wanted.crud.course.model.dto.CourseMyStudentDTO;
-import com.wanted.crud.course.model.dto.CourseReviewDTO;
-import com.wanted.crud.course.model.dto.SectionDTO;
+import com.wanted.crud.course.model.dto.*;
 import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +24,6 @@ public class CourseInputView {
     }
 
     public void viewAllCourses() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("✨ [ 전체 강좌 목록 조회 ] ✨");
         List<CourseDTO> allCourses = controller.selectAllCourses();
         outputView.printCourses(allCourses);
@@ -34,7 +31,6 @@ public class CourseInputView {
     }
 
     public void viewMyCourse(Long id) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("📂 [ 내 강좌 목록 조회 ]");
         List<CourseDTO> findMyCourse = controller.selectCourse(id);
         outputView.printCourses(findMyCourse);
@@ -42,7 +38,6 @@ public class CourseInputView {
     }
 
     public void createCourse(Long id) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("🆕 [ 새 강좌 등록 시작 ]");
         System.out.print("▶ 강좌 제목 입력 : ");
         String title = sc.nextLine();
@@ -73,7 +68,6 @@ public class CourseInputView {
     public void createSection(Long instructorId) {
         viewMyCourse(instructorId);
 
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("🎬 [ 강의(Section) 추가 ]");
         System.out.print("▶ 추가할 강좌 번호 입력: ");
         long courseId = Long.parseLong(sc.nextLine().trim());
@@ -98,20 +92,18 @@ public class CourseInputView {
     }
 
     public void deleteCourse(Long courseIdToDelete, Long instructorId) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("🗑️ [ 강좌 삭제 진행 ]");
         boolean result = controller.deleteCourseById(courseIdToDelete, instructorId);
         if (result) {
             outputView.printSuccess("✅ " + courseIdToDelete + "번 강좌와 모든 강의가 제거되었습니다.");
         } else {
-            outputView.printError("❌ 강좌 삭제 실패 (ID를 확인하세요)");
+            outputView.printError("❌ 강좌 삭제 실패 (강좌 번호를 확인하세요)");
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
-// 강좌 수정
+
     // 강좌 수정
     public void updateCourseView(Long instructorId) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("📝 [ 강좌 정보 수정 ]");
 
         viewMyCourse(instructorId);
@@ -136,7 +128,7 @@ public class CourseInputView {
                 }
 
                 if (!myCourseIds.contains(courseId)) {
-                    outputView.printError("🚨 [오류] 본인의 강좌가 아니거나 존재하지 않는 번호입니다. 다시 확인해주세요.");
+                    outputView.printError("🚨 [오류] 본인의 강좌가 아니거나 존재하지 않는 강좌 번호입니다. 다시 확인해주세요.");
                     continue;
                 }
 
@@ -146,8 +138,6 @@ public class CourseInputView {
                 outputView.printError("🚨 [입력오류] 강좌 번호는 숫자로 입력해주세요.");
             }
         }
-
-        // --- 여기까지 무사히 통과했다면 진짜 내 강좌임이 증명된 것! ---
 
         System.out.print("▶ 새 제목 : ");
         String title = sc.nextLine();
@@ -171,20 +161,20 @@ public class CourseInputView {
         if (isSuccess) {
             outputView.printSuccess("✅ " + courseId + "번 강좌 정보가 갱신되었습니다.");
         } else {
-            outputView.printError("❌ 수정 실패: 서버 오류가 발생했습니다.");
+            outputView.printError("❌ [수정 실패] 서버 오류가 발생했습니다.");
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
     // 강의 수정
     public void updateSectionView(Long instructorId) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        // System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("📺 [ 강의 상세 내용 수정 ]");
 
         List<CourseDTO> myCourses = controller.selectCourse(instructorId);
 
         System.out.println("┌────────────────────────────────────────────────────┐");
-        System.out.println("│           내 강좌 및 소속 강의 정보 리스트              │");
+        System.out.println("│           내 강좌 및 소속 강의 정보 리스트             │");
         System.out.println("├────────────────────────────────────────────────────┤");
         for (CourseDTO course : myCourses) {
             System.out.printf("│ [%d] %-38s │\n", course.getCourseId(), course.getTitle());
@@ -198,7 +188,7 @@ public class CourseInputView {
                 }
                 System.out.println("                      │");
             } else {
-                System.out.println("│  └─ 🔘 등록된 강의 없음                            │");
+                System.out.println("│  └─ 🔘 등록된 강의 없음.                            │");
             }
         }
         System.out.println("└────────────────────────────────────────────────────┘");
@@ -224,14 +214,13 @@ public class CourseInputView {
         if (isSuccess) {
             outputView.printSuccess("✅ 강의 정보 수정 완료!");
         } else {
-            outputView.printError("❌ 수정 실패: 입력 정보를 확인하세요.");
+            outputView.printError("❌ [수정 실패] 입력 정보를 확인하세요.");
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
     // 강사별 강좌 조회
     public void viewInstructorCourses() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         outputView.printMessage("🔍 [ 강사별 강좌 조회 ]");
         System.out.print("▶ 조회할 강사 ID 입력: ");
 
@@ -255,9 +244,8 @@ public class CourseInputView {
     }
 
     public void adminManageCourseDetail() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        viewAllCourses();
         outputView.printMessage("🛠️ [ 관리자 모드: 강좌 관리 ]");
-
         long courseId;
         try {
             System.out.print("▶ 대상 강좌 ID 입력: ");
@@ -284,7 +272,7 @@ public class CourseInputView {
                 if (controller.deleteCourseByAdmin(courseId)) {
                     outputView.printSuccess("✅ 강좌가 관리자 권한으로 삭제되었습니다.");
                 } else {
-                    outputView.printError("❌ 삭제 실패: 대상 번호를 확인하세요.");
+                    outputView.printError("❌ [삭제 실패] 대상 번호를 확인하세요.");
                 }
             } else {
                 System.out.println("🚫 삭제 작업이 취소되었습니다.");
@@ -312,7 +300,7 @@ public class CourseInputView {
             if (controller.updateCourseByAdmin(courseId, title, description, price, status)) {
                 outputView.printSuccess("✅ 강좌 정보가 관리자 권한으로 갱신되었습니다.");
             } else {
-                outputView.printError("❌ 수정 실패: 대상 번호를 확인하세요.");
+                outputView.printError("❌ [수정 실패] 대상 번호를 확인하세요.");
             }
 
         } else if (choice == 0) {
@@ -331,7 +319,6 @@ public class CourseInputView {
 
     // 내 강좌를 수강 중인 전체 학생 현황 조회
     public void studentStatusScreen(Long id) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         //outputView.printMessage("📂 [ 내 강좌 목록 조회 ]");
         List<CourseMyStudentDTO> findStudent = controller.selectFindMyStudent(id);
         outputView.printMyStudent(findStudent);
@@ -339,26 +326,41 @@ public class CourseInputView {
     }
 
     // 리뷰 작성
-    public void reviewScreen(Long studentId){
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    public void reviewScreen(Long studentId) {
         System.out.println("  ✍️ [ 수강 완료 강좌 별점 남기기 ]");
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
-        // 수강 완료 강좌 목록
         List<EnrollmentStudentDTO> completelist = controller.getCompletedCourses(studentId);
 
-        if(completelist == null || completelist.isEmpty()){
-            System.out.println("❌ 수강을 완료한 강좌가 아직 없습니다");
+        if (completelist == null || completelist.isEmpty()) {
+            System.out.println("❌ 수강을 완료한 강좌가 아직 없습니다.");
             System.out.println(" 진척도 100% 를 달성한 후 다시 찾아주세요!");
             return;
         }
 
-        System.out.printf("%-10s %-20s\n","강좌ID", "강좌명", "리뷰");
-        System.out.println("-----------------------------------------------------");
-        for(EnrollmentStudentDTO dto : completelist){
-            System.out.printf("%-10d %-20s\n", dto.getCourseId(), dto.getCourseTitle());
+        boolean hasCompletedCourse = false;
+
+        System.out.println("  [ 🎓 수강 완료 강좌 목록 ]");
+        System.out.println("  ---------------------------------------------------");
+        System.out.printf("   %-10s | %-20s\n", "강좌ID", "강좌명");
+        System.out.println("  ---------------------------------------------------");
+
+        for (EnrollmentStudentDTO dto : completelist) {
+            if (dto.getProgress() != null && dto.getProgress() >= 100) {
+                System.out.printf("   %-10d | %-20s\n", dto.getCourseId(), dto.getCourseTitle());
+                hasCompletedCourse = true;
+            }
         }
-        System.out.print("\n  ▶ 별점을 남길 강좌 번호를 입력하세요 (이전: 0): ");
+
+        System.out.println("  ---------------------------------------------------");
+
+        if (!hasCompletedCourse) {
+            System.out.println("❌ 진도율 100%를 달성한 강좌가 없습니다.");
+            return;
+        }
+
+        System.out.print("\n  ▶ 별점을 남길 강좌 번호를 입력하세요 [🔙이전 메뉴 : 0]: ");
+
         long courseId;
         try {
             courseId = Long.parseLong(sc.nextLine().trim());
@@ -367,57 +369,67 @@ public class CourseInputView {
             return;
         }
 
-        if(courseId == 0){
-            System.out.println(" 이전 화면으로 돌아갑니다.");
+        if (courseId == 0) {
+            System.out.println("🔙 이전 메뉴로 돌아갑니다.");
             return;
         }
 
         boolean isValid = false;
-        for (EnrollmentStudentDTO enrollmentStudentDTO : completelist){
-            if (enrollmentStudentDTO.getCourseId() == courseId){
+        for (EnrollmentStudentDTO dto : completelist) {
+            if (dto.getCourseId() == courseId && dto.getProgress() != null && dto.getProgress() >= 100) {
                 isValid = true;
                 break;
             }
         }
 
-        if (!isValid){
-            System.out.println("🚨 목록에 없는 강좌 번호입니다.|");
+        if (!isValid) {
+            System.out.println("🚨 목록에 없거나 아직 진도율 100%를 달성하지 않은 강좌입니다.");
             return;
         }
 
-        // 별점 입력받기
         System.out.println("\n ⭐ [별점 입력]");
-        System.out.println("  [ 5 ] ★★★★★ - 완벽해요!");
-        System.out.println("  [ 4 ] ★★★★☆ - 아주 좋아요");
-        System.out.println("  [ 3 ] ★★★☆☆ - 보통이에요");
-        System.out.println("  [ 2 ] ★★☆☆☆ - 아쉬워요");
-        System.out.println("  [ 1 ] ★☆☆☆☆ - 별로예요");
+        System.out.println("  [ 5 ] ⭐⭐⭐⭐⭐  완벽해요!");
+        System.out.println("  [ 4 ]  ⭐⭐⭐⭐   아주 좋아요");
+        System.out.println("  [ 3 ]   ⭐⭐⭐    보통이에요");
+        System.out.println("  [ 2 ]    ⭐⭐      아쉬워요");
+        System.out.println("  [ 1 ]     ⭐       별로예요");
         System.out.print("  ▶ 별점을 숫자로 입력해주세요 (1~5): ");
 
         Long rating;
-        try{
+        try {
             rating = Long.parseLong(sc.nextLine().trim());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println(" 🚨[입력 오류] 숫자만 입력해주세요");
             return;
         }
 
-        if (rating < 1 || rating > 5){
+        if (rating < 1 || rating > 5) {
             System.out.println("❌ 별점은 1부터 5 사이의 숫자로 입력해주세요.");
             return;
         }
 
         boolean saveRating = controller.writeReview(studentId, courseId, rating);
 
-        if(saveRating){
+        if (saveRating) {
             System.out.println("\n🎉 소중한 별점이 성공적으로 등록되었습니다! 감사합니다!");
+
+            ReviewDTO resultReview = new ReviewDTO(
+                    0L,
+                    rating,
+                    new java.util.Date(),
+                    courseId,
+                    studentId
+            );
+            System.out.println(resultReview);
+
+        } else {
+            System.out.println("🚨 시스템 오류로 리뷰 등록에 실패했습니다.");
         }
     }
 
 
 
     public void courseReviewScreen() {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("  ⭐ [ 전체 강좌 평균 보기 ]");
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
@@ -428,21 +440,9 @@ public class CourseInputView {
             return;
         }
 
-        System.out.printf("%-5s | %-20s | %-10s | %-10s\n", "ID", "강좌명", "가격", "평점");
-        System.out.println("-----------------------------------------------------------------");
-
-         for (CourseReviewDTO courseReviewDTO : courseReviewList){
-             String courseRating = (courseReviewDTO.getAvgRating() > 0) ? "⭐ " + courseReviewDTO.getAvgRating() : "리뷰 없음";
-
-             System.out.printf("%-5d | %-20s | %-10d | %-10s\n",
-                     courseReviewDTO.getCourseId(),
-                     courseReviewDTO.getTitle(),
-                     courseReviewDTO.getPrice(),
-                     courseRating
-             );
-             System.out.println("      ▶ 소개: " + courseReviewDTO.getDescription());
-             System.out.println("-----------------------------------------------------------------");
-         }
+        for (CourseReviewDTO courseReviewDTO : courseReviewList) {
+            System.out.println(courseReviewDTO);
+        }
     }
 
 

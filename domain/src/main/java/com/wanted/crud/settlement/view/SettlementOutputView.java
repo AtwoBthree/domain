@@ -16,7 +16,6 @@ public class SettlementOutputView {
     }
 
     public void printAllSettlement(List<SettlementDTO> settlementList) {
-        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         System.out.println("👥 [ 정산 목록 ]");
 
         if (settlementList == null || settlementList.isEmpty()) {
@@ -30,5 +29,16 @@ public class SettlementOutputView {
     }
 
 
+    public void printDoneSettlement(List<SettlementDTO> settlementList) {
+        System.out.println("👥 [ 정산 목록 ]");
 
+        if (settlementList == null || settlementList.isEmpty()) {
+            System.out.println("🚨 조회된 정산 내역이 없습니다.");
+        } else {
+            for (SettlementDTO settlementDTO : settlementList) {
+                System.out.println(settlementDTO);
+            }
+        }
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    }
 }

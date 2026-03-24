@@ -90,6 +90,22 @@
         where user_no = ?
     </query>
 
+    // 관리자가 수강생 조회
+<!--    <query key="view.student.bycourseid">-->
+<!--        SELECT-->
+<!--        c.course_id,-->
+<!--        c.title,-->
+<!--        u.user_no,-->
+<!--        u.user_id,-->
+<!--        u.user_name,-->
+<!--        u.user_phone_number-->
+<!--        FROM course c-->
+<!--        JOIN enrollment e ON c.course_id = e.course_id-->
+<!--        JOIN student s ON e.student_id = s.student_id-->
+<!--        JOIN user u ON s.user_no = u.user_no-->
+<!--        WHERE u.status = true-->
+<!--        ORDER BY c.course_id;-->
+<!--    </query>-->
     <query key="view.student.bycourseid">
         SELECT
         c.course_id,
@@ -97,8 +113,8 @@
         u.user_no,
         u.user_id,
         u.user_name,
-        u.user_phone_number
-        FROM course c
+        u.user_phone_number,
+        e.progress_rate   FROM course c
         JOIN enrollment e ON c.course_id = e.course_id
         JOIN student s ON e.student_id = s.student_id
         JOIN user u ON s.user_no = u.user_no
@@ -113,25 +129,28 @@
         AND user_name LIKE ?;
     </query>
 
-    <query key = "user.findAllStudents">
+    <query key="user.findAllStudents">
         SELECT
-        user_no,
-        user_id,
-        user_password,
-        user_name,
-        user_phone_number,
-        user_price,
-        user_role,
-        created_at,
-        status
-        FROM user
-        WHERE user_role = 'student';
+        s.student_id,
+        u.user_id,
+        u.user_password,
+        u.user_name,
+        u.user_phone_number,
+        u.user_price,
+        u.user_role,
+        u.created_at,
+        u.status
+        FROM user u
+        JOIN student s ON u.user_no = s.user_no
+        WHERE u.user_role = 'student';
     </query>
 
-    <query key = "user.updateStudentInfo">
-        UPDATE user
-        SET user_name = ?, status = ?
-        WHERE user_no = ?;
+
+    <query key="user.updateStudentInfo">
+        UPDATE user u
+        JOIN student s ON u.user_no = s.user_no
+        SET u.user_name = ?, u.status = ?
+        WHERE s.student_id = ?
     </query>
 
 
@@ -163,16 +182,28 @@
         AND status = 0
     </query>
 
-    <query key = "findAllInstructor">
-        select *
-        FROM user
-        WHERE user_role = 'instructor';
+    <query key="findAllInstructor">
+        SELECT
+        i.instructor_id,
+        u.user_id,
+        u.user_password,
+        u.user_name,
+        u.user_phone_number,
+        u.user_price,
+        u.user_role,
+        u.created_at,
+        u.status
+        FROM user u
+        JOIN instructor i ON u.user_no = i.user_no
+        WHERE u.user_role = 'instructor';
     </query>
 
-    <query key = "user.updateInstructorInfo">
-        UPDATE user
-        SET user_name = ?, status = ?
-        WHERE user_no = ?;
+
+    <query key="user.updateInstructorInfo">
+        UPDATE user u
+        JOIN instructor i ON u.user_no = i.user_no
+        SET u.user_name = ?, u.status = ?
+        WHERE i.instructor_id = ?
     </query>
 
     <query key = "findInactiveInstructors">

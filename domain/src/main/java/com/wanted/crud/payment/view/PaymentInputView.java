@@ -12,7 +12,7 @@ public class PaymentInputView {
     private final PaymentOutputView outputView;
     private final Scanner sc = new Scanner(System.in);
 
-    // 🌟 추가: 통합 결제 로직을 가진 서비스
+    //통합 결제 로직을 가진 서비스
 
 
     // 생성자 수정: processService를 추가로 받습니다.
@@ -30,13 +30,8 @@ public class PaymentInputView {
 
         System.out.println("\n  🔄 [시스템] 결제 및 수강 등록 처리를 시작합니다...");
 
-        // 🌟 서비스 호출하여 결과값(String)을 받음
-        // (서비스 코드가 String을 반환하도록 수정되었다고 가정하거나,
-        // 기존 boolean 반환형에 맞춰 아래처럼 작성합니다)
-
     }
 
-    // 기존 메서드들...
     public void allPayment() {
         System.out.println(controller.selectAllUsers());
     }

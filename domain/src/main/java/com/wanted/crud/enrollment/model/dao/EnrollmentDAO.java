@@ -2,6 +2,7 @@ package com.wanted.crud.enrollment.model.dao;
 
 import com.wanted.crud.enrollment.model.dto.EnrollmentDTO;
 import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
+import com.wanted.crud.enrollment.model.dto.ForStudentEnrollmentDTO;
 import com.wanted.crud.global.utils.EnrollmentQueryUtil;
 import com.wanted.crud.global.utils.UserQueryUtil;
 import com.wanted.crud.user.model.dto.UserDTO;
@@ -143,7 +144,9 @@ public class EnrollmentDAO {
                         rs.getLong("user_no"),
                         rs.getString("user_id"),
                         rs.getString("user_name"),
-                        rs.getString("user_phone_number")
+                        rs.getString("user_phone_number"),
+                        rs.getLong("progress_rate") // 여기
+
                 );
 
                 list.add(user);
@@ -154,10 +157,10 @@ public class EnrollmentDAO {
     }
 
     // 수강생 강좌 목록 출력 (주체 : 수강생)
-    public List<EnrollmentStudentDTO> studentCoursePage(Long studentId) throws SQLException {
+    public List<ForStudentEnrollmentDTO> studentCoursePage(Long studentId) throws SQLException {
 
         String query = EnrollmentQueryUtil.getQuery("enrollment.studentcourse");
-        List<EnrollmentStudentDTO> list = new ArrayList<>();
+        List<ForStudentEnrollmentDTO> list = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
@@ -167,7 +170,7 @@ public class EnrollmentDAO {
 
             while (rs.next()) {
 
-                EnrollmentStudentDTO user = new EnrollmentStudentDTO(
+                ForStudentEnrollmentDTO user = new ForStudentEnrollmentDTO(
                         rs.getLong("course_id"),
                         rs.getString("title"),
                         rs.getLong("progress_rate")
@@ -191,7 +194,5 @@ public class EnrollmentDAO {
             return pstmt.executeUpdate();
         }
     }
-
-
 
 }

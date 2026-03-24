@@ -285,7 +285,7 @@ public class UserDAO {
 
             while (rset.next()) {
                 UserDTO user = new UserDTO(
-                        rset.getLong("user_no"),
+                        rset.getLong("student_id"),
                         rset.getString("user_id"),
                         rset.getString("user_password"),
                         rset.getString("user_name"),
@@ -304,7 +304,7 @@ public class UserDAO {
 
 
     // 관리자의 수강생 정보 수정
-    public boolean updateStudentinfo(Long userNo, String newName, boolean status) throws SQLException{
+    public boolean updateStudentinfo(Long studentId, String newName, boolean status) throws SQLException{
 
         String query = UserQueryUtil.getQuery("user.updateStudentInfo");
 
@@ -312,7 +312,7 @@ public class UserDAO {
 
             pstmt.setString(1, newName);   // 변경할 이름
             pstmt.setBoolean(2, status);  // 변경할 상태
-            pstmt.setLong(3, userNo);     // 대상 user_no
+            pstmt.setLong(3, studentId);     // 대상 user_no
 
             int result = pstmt.executeUpdate();
 
@@ -385,7 +385,7 @@ public class UserDAO {
 
             while (rset.next()) {
                 UserDTO user = new UserDTO(
-                        rset.getLong("user_no"),
+                        rset.getLong("instructor_id"),
                         rset.getString("user_id"),
                         rset.getString("user_password"),
                         rset.getString("user_name"),
@@ -403,7 +403,7 @@ public class UserDAO {
         return list;
     }
     // 관리자의 강사 정보 수정
-    public boolean updateInstructorinfo(Long userNo, String newName, boolean status) throws SQLException{
+    public boolean updateInstructorinfo(Long instructorId, String newName, boolean status) throws SQLException{
 
         String query = UserQueryUtil.getQuery("user.updateInstructorInfo");
 
@@ -411,7 +411,7 @@ public class UserDAO {
 
             pstmt.setString(1, newName);   // 변경할 이름
             pstmt.setBoolean(2, status);  // 변경할 상태
-            pstmt.setLong(3, userNo);     // 대상 user_no
+            pstmt.setLong(3, instructorId);     // 대상 user_no
 
             int result = pstmt.executeUpdate();
 

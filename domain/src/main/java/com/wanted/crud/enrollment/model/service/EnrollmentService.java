@@ -4,6 +4,7 @@ import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.enrollment.model.dao.EnrollmentDAO;
 import com.wanted.crud.enrollment.model.dto.EnrollmentDTO;
 import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
+import com.wanted.crud.enrollment.model.dto.ForStudentEnrollmentDTO;
 import com.wanted.crud.payment.model.dao.PaymentDAO;
 import com.wanted.crud.user.model.dto.UserDTO;
 
@@ -30,7 +31,7 @@ public class EnrollmentService {
     }
 
     // 수강생 강좌 목록 출력
-    public List<EnrollmentStudentDTO> studentCoursePage(Long studentId) {
+    public List<ForStudentEnrollmentDTO> studentCoursePage(Long studentId) {
         try {
             return enrollmentDAO.studentCoursePage(studentId);
         } catch (SQLException e) {

@@ -3,6 +3,7 @@ package com.wanted.crud.enrollment.controller;
 import com.wanted.crud.course.model.dto.CourseDTO;
 import com.wanted.crud.enrollment.model.dto.EnrollmentDTO;
 import com.wanted.crud.enrollment.model.dto.EnrollmentStudentDTO;
+import com.wanted.crud.enrollment.model.dto.ForStudentEnrollmentDTO;
 import com.wanted.crud.enrollment.model.service.EnrollmentService;
 import com.wanted.crud.enrollment.view.EnrollmentOutputView;
 
@@ -23,11 +24,28 @@ public class EnrollmentController {
         return service.saveEnrollment(newEnrollment);
     }
 
+    /*
     // 수강생 강좌 목록 출력
     public void studentCoursePage(Long studentId) {
         List<EnrollmentStudentDTO> list = service.studentCoursePage(studentId);
         EnrollmentOutputView.printStudentCourses(list);
+    }*/
 
+    public boolean studentCoursePage(Long studentId) {
+        List<ForStudentEnrollmentDTO> list = service.studentCoursePage(studentId);
+
+        System.out.println("\n📖 [ 나의 수강 강좌 목록 ]");
+
+        if (list.isEmpty()) {
+            System.out.println("수강 중인 강좌가 없습니다.");
+            return false;
+        }
+
+        for (ForStudentEnrollmentDTO course : list) {
+            System.out.println(course);
+        }
+
+        return true;
     }
     
     // 수강생 강좌 중복 여부
