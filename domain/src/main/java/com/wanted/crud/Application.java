@@ -34,13 +34,7 @@ public class Application {
 
 
 
-    public static CourseInputView courseInputView;
-    public static EnrollmentInputView enrollmentInputView;
-    public static SettlementInputView settlementInputView;
-    public static UserInputView userInputView;
-    public static AdminInputView adminInputView;
-    public static PaymentInputView paymentInputView;
-    public static EnrollmentController enrollmentController;
+
 
 
     public static void main(String[] args) {
@@ -80,19 +74,13 @@ public class Application {
 
 
             // 조립이 끝난 뷰를 전역 변수에 저장
-            courseInputView = courseinputView;
-            enrollmentInputView = enrollmentinputview;
-            settlementInputView = settlementinputView;
-            userInputView = userinputView;
-            paymentInputView = paymentinputview;
-            adminInputView = adminInputViewLocal;
 
             // ❌ 삭제: 프로그램 켜지자마자 강좌 조회하던 테스트 코드는 지웁니다.
             // inputView.viewMyCourse();
 
             // ★ 추가: Scanner를 생성하고 강사 메뉴를 화면에 띄웁니다!
             Scanner sc = new Scanner(System.in);
-            MainInput mainmenu = new MainInput();
+            MainInput mainmenu = new MainInput(courseinputView, enrollmentinputview, settlementinputView, userinputView, paymentinputview, adminInputViewLocal);
             mainmenu.startApp();
         } catch (SQLException e) {
             System.err.println("🚨 데이터베이스 연결 실패...");
